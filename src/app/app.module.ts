@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router'
 
@@ -6,6 +7,7 @@ import { AppComponent } from './app.component';
 import { ForumComponent } from './Views/forum/forum.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './Views/home/home.component';
+import { NavbarComponent } from './Components/navbar/navbar.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -18,9 +20,11 @@ const routes: Routes = [
     AppComponent,
     ForumComponent,
     HomeComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
+    NgbModule,
     AppRoutingModule,
     RouterModule.forRoot(routes)
   ],
