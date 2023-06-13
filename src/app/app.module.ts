@@ -8,6 +8,7 @@ import { ForumComponent } from './Views/forum/forum.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './Views/home/home.component';
 import { NavbarComponent } from './Components/navbar/navbar.component';
+import { SidebarComponent } from './Components/sidebar/sidebar.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -21,6 +22,7 @@ const routes: Routes = [
     ForumComponent,
     HomeComponent,
     NavbarComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
