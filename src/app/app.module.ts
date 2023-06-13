@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './Views/home/home.component';
 import { NavbarComponent } from './Components/navbar/navbar.component';
 import { SidebarComponent } from './Components/sidebar/sidebar.component';
+import { QuestionsListComponent } from './Components/questions-list/questions-list.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -23,6 +24,7 @@ const routes: Routes = [
     HomeComponent,
     NavbarComponent,
     SidebarComponent,
+    QuestionsListComponent,
   ],
   imports: [
     BrowserModule,
