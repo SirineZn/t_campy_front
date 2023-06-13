@@ -10,6 +10,7 @@ import { HomeComponent } from './Views/home/home.component';
 import { NavbarComponent } from './Components/navbar/navbar.component';
 import { SidebarComponent } from './Components/sidebar/sidebar.component';
 import { QuestionsListComponent } from './Components/questions-list/questions-list.component';
+import { RightSectionComponent } from './Components/right-section/right-section.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -25,6 +26,7 @@ const routes: Routes = [
     NavbarComponent,
     SidebarComponent,
     QuestionsListComponent,
+    RightSectionComponent,
   ],
   imports: [
     BrowserModule,
