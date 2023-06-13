@@ -1,4 +1,4 @@
-<div class="d-felx flex-column h-100">
+<div class="d-felx flex-column rounded mx-3 mt-5 h-100 border border-1">
   <div class="d-flex justify-content-evenly align-items-center bg-light">
     <div class="d-flex flex-row align-items-center">
       <p class="fw-bold">15 Open</p>
@@ -12,6 +12,8 @@
     </div>
   </div>
   <div>
-    <div></div>
+    <div *ngFor="let topic of topics" class="d-flex flex-column">
+      <app-chat-card [card]="topic"></app-chat-card>
+    </div>
   </div>
 </div>

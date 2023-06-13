@@ -1,0 +1,22 @@
+<div class="rounded border text-secondary d-flex flex-row align-items-center w-100 p-3">
+  <div>
+    <img class="rounded-circle " width="50" src="../../../../assets/user.jpeg" alt="user">
+  </div>
+  <div class="d-flex flex-column">
+    <div>
+      <p class="fw-bold text-dark">{{ card.title }}</p>
+    </div>
+    <div class="d-flex flex-row">
+      <div>
+        <p>{{ card.category }}</p>
+      </div>
+      <div>
+        <p>{{ card.tags[0] }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex flex-row">
+    <p class="text-success">Likes: {{ card.likes }}</p>
+    <p class="text-danger">Dislikes: {{ card.dislikes }}</p>
+  </div>
+</div>
