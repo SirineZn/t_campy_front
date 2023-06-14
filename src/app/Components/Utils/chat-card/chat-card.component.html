@@ -7,10 +7,12 @@
       <div>
         <p class="fw-bold text-dark">{{ card.title }}</p>
       </div>
+      <div>
+        Category:
+        <span class="fw-bold">{{ card.category }}</span>
+      </div>
       <div class="d-flex flex-row">
-        <div>
-          <p>{{ card.category }}</p>
-        </div>
+        Tags:
         <div *ngFor="let tag of card.tags">
           <app-topic-pill tag="{{ tag }}"></app-topic-pill>
         </div>
