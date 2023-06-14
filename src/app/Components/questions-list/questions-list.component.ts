@@ -15,9 +15,11 @@ export class QuestionsListComponent {
 
     protected openedTopics: Topic[] = [];
     protected numberOfOpenedTopics!: number;
+    protected numberOfClosedTopics!: number;
 
     ngOnInit(): void {
       this.numberOfOpenedTopics = this.countOpenedTopics();
+      this.numberOfClosedTopics = this.countClosedTopics();
     }
 
     public getNumberOfOpenedTopics(): number {
@@ -33,6 +35,17 @@ export class QuestionsListComponent {
       let i: number = 0;
       for (let topic of this.topics) {
           if (topic.isOpened()) {
+              i++;
+          }
+        }
+      return i;
+    }
+
+    public countClosedTopics(): number
+    {
+      let i: number = 0;
+      for (let topic of this.topics) {
+          if (!topic.isOpened()) {
               i++;
           }
         }
