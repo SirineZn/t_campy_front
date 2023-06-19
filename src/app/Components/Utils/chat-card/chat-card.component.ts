@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Topic } from './Topic.model';
+import { Topic } from '../../../Models/toppic/Topic.model';
 
 @Component({
   selector: 'app-chat-card',

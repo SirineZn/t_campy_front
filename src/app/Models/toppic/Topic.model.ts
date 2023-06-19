@@ -36,4 +36,12 @@ export class Topic {
   public isOpened(): boolean {
     return this.Status === 'Open';
   }
+
+  public open(): void {
+    this.Status = 'Open';
+  }
+
+  public close(): void {
+    this.Status = 'Closed';
+  }
 }

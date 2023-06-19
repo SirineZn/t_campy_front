@@ -13,11 +13,13 @@ import { QuestionsListComponent } from './Components/questions-list/questions-li
 import { RightSectionComponent } from './Components/right-section/right-section.component';
 import { ChatCardComponent } from './Components/Utils/chat-card/chat-card.component';
 import { TopicPillComponent } from './Components/Utils/topic-pill/topic-pill.component';
+import { TopicComponent } from './Views/topic/topic.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path:'', redirectTo:'/home', pathMatch:'full'},
   { path:'forum', component: ForumComponent },
+  { path:'topics/:id', component: TopicComponent },
 ];
 
 @NgModule({
@@ -31,6 +33,7 @@ const routes: Routes = [
     RightSectionComponent,
     ChatCardComponent,
     TopicPillComponent,
+    TopicComponent,
   ],
   imports: [
     BrowserModule,
