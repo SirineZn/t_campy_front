@@ -30,7 +30,7 @@ export class TopicComponent implements OnInit {
   }
 
   public editTopic() {
-    this.router.navigate(['/edit-topic', this.topic.id]);
+    this.router.navigate(['/edit-topic', this.topic.getId()]);
   }
 
   public closeTopic() {

@@ -16,7 +16,8 @@ export class TopicService {
       100,
       5,
       'Open',
-      'Camping'
+      'Camping',
+      ['Great article!', 'Thanks for sharing!']
     ),
     new Topic(
       '2',
@@ -127,15 +128,15 @@ export class TopicService {
   }
 
   public openTopic(topic: Topic) {
-    this.topics.find((t) => t.id === topic.id)?.open();
+    this.topics.find((t) => t.getId() === topic.getId())?.open();
   }
 
   public closeTopic(topic: Topic) {
-    this.topics.find((t) => t.id === topic.id)?.close();
+    this.topics.find((t) => t.getId() === topic.getId())?.close();
   }
 
   public deleteTopic(topic: Topic) {
-    this.topics = this.topics.filter((t) => t.id !== topic.id);
+    this.topics = this.topics.filter((t) => t.getId() !== topic.getId());
   }
 
   public addTopic(topic: Topic) {
@@ -143,6 +144,6 @@ export class TopicService {
   }
 
   public getTopic(id: string): Topic {
-    return this.topics.find((t) => t.id === id) as Topic;
+    return this.topics.find((t) => t.getId() === id) as Topic;
   }
 }

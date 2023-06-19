@@ -1,18 +1,24 @@
 <div class="p-5 mt-5">
   <div class="card">
     <div class="card-header">
-      <h1>{{ topic.title }}</h1>
+      <h1>{{ topic.getTitle() }}</h1>
     </div>
     <div class="card-body">
-      <p>{{ topic.description }}</p>
-      <p>{{ topic.author }}</p>
-      <p> Created on: {{ topic.date }}</p>
-      <p> Category: {{ topic.category }}</p>
-      <p> Tags: {{ topic.tags }}</p>
+      <p>{{ topic.getDescription() }}</p>
+      <p>{{ topic.getAuthor() }}</p>
+      <p> Created on: {{ topic.getDate() }}</p>
+      <p> Category: {{ topic.getCategory() }}</p>
+      <p> Tags: {{ topic.getTags() }}</p>
       <div class="d-flex">
-        <p><i class="px-1 bi bi-hand-thumbs-up text-success">{{ topic.likes }}</i></p>
-        <p><i class="px-1 bi bi-hand-thumbs-down text-danger">{{ topic.dislikes }}</i></p>
+        <p><i class="px-1 bi bi-hand-thumbs-up text-success">{{ topic.getLikes() }}</i></p>
+        <p><i class="px-1 bi bi-hand-thumbs-down text-danger">{{ topic.getDislikes() }}</i></p>
       </div>
+      <div *ngIf="topic.getComments()" >
+      <p>No comments yet</p>
+    </div>
+    <div class="" *ngFor="let comment of topic.getComments()">
+      <p>{{ comment }}</p>
+    </div>
     </div>
   </div>
 </div>

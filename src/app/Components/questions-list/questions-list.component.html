@@ -10,7 +10,7 @@
   </div>
   <div>
     <div *ngFor="let topic of topics" class="d-flex flex-column">
-      <a class="text-decoration-none" [routerLink]="['/topics', topic.id]">
+      <a class="text-decoration-none" [routerLink]="['/topics', topic.getId()]">
         <app-chat-card [card]="topic"></app-chat-card>
       </a>
     </div>
