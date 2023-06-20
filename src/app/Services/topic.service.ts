@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Topic } from '../Models/toppic/Topic.model';
+import { Topic } from '../Models/topic/Topic.model';
+import { Comment } from '../Models/comment/comment.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,24 @@ export class TopicService {
       5,
       'Open',
       'Camping',
-      ['Great article!', 'Thanks for sharing!']
+      [
+        new Comment(
+          0,
+          'Great Topic',
+          0,
+          1,
+          new Date(2023, 6, 1),
+          new Date(2023, 6, 1)
+        ),
+        new Comment(
+          1,
+          'Thanks for sharing!',
+          1,
+          1,
+          new Date(2023, 6, 1),
+          new Date(2023, 6, 1)
+        ),
+      ]
     ),
     new Topic(
       '2',
@@ -153,11 +171,11 @@ export class TopicService {
     return this.topics.find((t) => t.getId() === id) as Topic;
   }
 
-  public getComments(topic: Topic): string[] {
+  public getComments(topic: Topic): Comment[] {
     return topic.getComments();
   }
 
-  public addComment(topic: Topic, comment: string) {
+  public addComment(topic: Topic, comment: Comment) {
     topic.addComment(comment);
   }
 
@@ -181,5 +199,17 @@ export class TopicService {
 
   public getClosedTopics(): Topic[] {
     return this.topics.filter((topic) => !topic.isOpened());
+  }
+
+  public like(topic: Topic) {
+    topic.like();
+  }
+
+  public dislike(topic: Topic) {
+    topic.dislike();
+  }
+
+  public getCommentByAuthorId(topic: Topic, id: number): Comment {
+    return topic.getCommentByAuthorId(id);
   }
 }

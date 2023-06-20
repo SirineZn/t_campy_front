@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Topic } from 'src/app/Models/toppic/Topic.model';
+import { Comment } from 'src/app/Models/comment/comment.model';
+import { Topic } from 'src/app/Models/topic/Topic.model';
 import { TopicService } from 'src/app/Services/topic.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class TopicComponent implements OnInit {
   id!: number;
   sub!: any;
 
-  public comment!: string;
+  public commentMsg!: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -61,7 +62,27 @@ export class TopicComponent implements OnInit {
   }
 
   public addComment(comment: string) {
-    this.topicService.addComment(this.topic, comment);
-    this.comment = '';
+    comment = comment.trim();
+    if (!comment) {
+      return;
+    }
+    let newComment = new Comment(
+      this.topic.getComments().length,
+      comment,
+      1,
+      1,
+      new Date(),
+      new Date()
+    );
+    this.topicService.addComment(this.topic, newComment);
+    this.commentMsg = '';
+  }
+
+  public getCommentAuthorById(id: number) {
+    return 'Author';
+  }
+
+  public getCommentAuthorId(id: number) {
+    return id;
   }
 }

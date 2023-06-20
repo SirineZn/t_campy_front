@@ -1,7 +1,7 @@
 export class Comment {
   protected id!: number;
   protected comment!: string;
-  protected user_id!: number;
+  protected author_id!: number;
   protected post_id!: number;
   protected created_at!: Date;
   protected updated_at!: Date;
@@ -9,14 +9,14 @@ export class Comment {
   constructor(
     id: number = 0,
     comment: string,
-    user_id: number,
+    author_id: number,
     post_id: number,
     created_at: Date,
     updated_at: Date
   ) {
     this.id = id;
     this.comment = comment;
-    this.user_id = user_id;
+    this.author_id = author_id;
     this.post_id = post_id;
     this.created_at = created_at;
     this.updated_at = updated_at;
@@ -31,7 +31,7 @@ export class Comment {
   }
 
   public getUserId(): number {
-    return this.user_id;
+    return this.author_id;
   }
 
   public getPostId(): number {
@@ -54,8 +54,8 @@ export class Comment {
     this.comment = comment;
   }
 
-  public setUserId(user_id: number): void {
-    this.user_id = user_id;
+  public setUserId(author_id: number): void {
+    this.author_id = author_id;
   }
 
   public setPostId(post_id: number): void {

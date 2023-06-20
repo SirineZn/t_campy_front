@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Topic } from '../../Models/toppic/Topic.model';
+import { Topic } from '../../Models/topic/Topic.model';
 import { TopicService } from 'src/app/Services/topic.service';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 

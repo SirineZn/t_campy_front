@@ -65,7 +65,7 @@
               src="../../../assets/user.jpeg"
               alt="user"
             />
-            <p class="mx-2">Author</p>
+            <p class="mx-2">{{ comment.getCommentAuthorById(comment.getAuthorId() }}</p>
           </div>
           <p class="text-secondary lh-1">comment date</p>
         </div>
@@ -80,9 +80,9 @@
           class="form-control"
           type="text"
           placeholder="Write a comment"
-          [(ngModel)]="comment"
+          [(ngModel)]="commentMsg"
         />
-        <button class="btn btn-primary mx-2" (click)="addComment(comment)">
+        <button class="btn btn-primary mx-2" (click)="addComment(commentMsg)">
           <i class="bi bi-send"></i>
         </button>
       </div>

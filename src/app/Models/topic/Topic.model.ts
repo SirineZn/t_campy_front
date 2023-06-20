@@ -1,4 +1,8 @@
+import { Comment } from '../comment/comment.model';
 export class Topic {
+  getCommentAuthorId(id: number): number {
+    throw new Error('Method not implemented.');
+  }
   protected id: string;
   protected title: string;
   protected description: string;
@@ -9,7 +13,7 @@ export class Topic {
   protected dislikes: number;
   protected Status: string;
   protected category: string;
-  protected comments!: string[];
+  protected comments!: Comment[];
 
   constructor(
     id: string,
@@ -22,7 +26,7 @@ export class Topic {
     dislikes: number,
     Status: string,
     category: string,
-    comments: string[]
+    comments: Comment[]
   ) {
     this.id = id;
     this.title = title;
@@ -73,11 +77,11 @@ export class Topic {
     this.dislikes++;
   }
 
-  public addComment(comment: string): void {
+  public addComment(comment: Comment): void {
     this.comments.push(comment);
   }
 
-  public getComments(): string[] {
+  public getComments(): Comment[] {
     return this.comments;
   }
 
@@ -136,5 +140,9 @@ export class Topic {
 
   public unDislike(): void {
     this.dislikes--;
+  }
+
+  public getCommentByAuthorId(id: number): Comment {
+    return this.comments.find((c) => c.getUserId() === id) as Comment;
   }
 }
