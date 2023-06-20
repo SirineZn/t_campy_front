@@ -3,6 +3,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router'
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { AppComponent } from './app.component';
 import { ForumComponent } from './Views/forum/forum.component';
@@ -44,6 +45,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
     MatExpansionModule,
+    MatButtonToggleModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

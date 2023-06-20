@@ -178,4 +178,8 @@ export class TopicService {
   public unDislike(topic: Topic) {
     topic.unDislike();
   }
+
+  public getClosedTopics(): Topic[] {
+    return this.topics.filter((topic) => !topic.isOpened());
+  }
 }
