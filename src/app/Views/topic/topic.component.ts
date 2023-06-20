@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { Topic } from 'src/app/Models/toppic/Topic.model';
 import { TopicService } from 'src/app/Services/topic.service';
 
@@ -14,6 +13,8 @@ export class TopicComponent implements OnInit {
   public topic!: Topic;
   id!: number;
   sub!: any;
+
+  public comment!: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -57,5 +58,10 @@ export class TopicComponent implements OnInit {
 
   public getTopicId() {
     return this.topic.getId();
+  }
+
+  public addComment(comment: string) {
+    this.topicService.addComment(this.topic, comment);
+    this.comment = '';
   }
 }

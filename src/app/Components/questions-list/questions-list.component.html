@@ -25,17 +25,24 @@
   <div>
     <mat-expansion-panel *ngFor="let topic of topics" class="card">
       <mat-expansion-panel-header class="p-3">
-        <mat-panel-title class="fw-bold"> {{ topic.getTitle() }} </mat-panel-title>
+        <mat-panel-title class="fw-bold">
+          {{ topic.getTitle() }}
+        </mat-panel-title>
         <mat-panel-description class="text-secondary">
           {{ topic.getDescription() }}
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <a
-        class="text-decoration-none"
-        [routerLink]="['/topics', topic.getId()]"
-      >
+      <a class="text-decoration-none" [routerLink]="['/topics', topic.getId()]">
         <app-chat-card [card]="topic"></app-chat-card>
       </a>
+      <mat-action-row class="card-footer">
+        <button mat-raised-button class="btn btn-custom-blue-filled mx-1 fw-bold w-50">
+          Feedback
+        </button>
+        <button mat-raised-button class="btn btn-custom-blue-filled mx-1 fw-bold w-50">
+          Complaints
+        </button>
+      </mat-action-row>
     </mat-expansion-panel>
   </div>
 </div>

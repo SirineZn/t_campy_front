@@ -4,6 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router'
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatIconModule } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { ForumComponent } from './Views/forum/forum.component';
@@ -46,6 +48,8 @@ const routes: Routes = [
     BrowserAnimationsModule,
     MatExpansionModule,
     MatButtonToggleModule,
+    MatIconModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
