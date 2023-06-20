@@ -22,15 +22,16 @@ export class QuestionsListComponent {
     this.numberOfOpenedTopics = this.topicService.countOpenedTopics();
     this.numberOfClosedTopics = this.topicService.countClosedTopics();
     this.openedTopics = this.topicService.getOpenedTopics();
+    this.closedTopics = this.topicService.getClosedTopics();
     this.topics = this.topicService.getTopics();
   }
 
   filterByStatus($event: MatButtonToggleChange) {
     this.Status = $event.value;
-    if (this.Status === 'opened') {
-      this.openedTopics = this.topicService.getOpenedTopics();
-    } else if (this.Status === 'closed') {
-      this.closedTopics = this.topicService.getClosedTopics();
+    if (this.Status === 'Open') {
+      this.topics = this.topicService.getOpenedTopics();
+    } else if (this.Status === 'Closed') {
+      this.topics = this.topicService.getClosedTopics();
     } else {
       this.topics = this.topicService.getTopics();
     }
