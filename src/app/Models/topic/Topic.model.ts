@@ -145,4 +145,8 @@ export class Topic {
   public getCommentByAuthorId(id: number): Comment {
     return this.comments.find((c) => c.getUserId() === id) as Comment;
   }
+
+  public deleteComment(comment: Comment) {
+    this.comments = this.comments.filter((c) => c.getId() !== comment.getId());
+  }
 }

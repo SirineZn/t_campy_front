@@ -69,4 +69,8 @@ export class Comment {
   public setUpdatedAt(updated_at: Date): void {
     this.updated_at = updated_at;
   }
+
+  public updateDate(): void {
+    this.updated_at = new Date();
+  }
 }

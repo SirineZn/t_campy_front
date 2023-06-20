@@ -212,4 +212,8 @@ export class TopicService {
   public getCommentByAuthorId(topic: Topic, id: number): Comment {
     return topic.getCommentByAuthorId(id);
   }
+
+  public deleteComment(topic: Topic, comment: Comment) {
+    topic.deleteComment(comment);
+  }
 }

@@ -15,7 +15,7 @@ export class TopicComponent implements OnInit {
   id!: number;
   sub!: any;
 
-  public commentMsg!: string;
+  public comment!: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -70,19 +70,15 @@ export class TopicComponent implements OnInit {
       this.topic.getComments().length,
       comment,
       1,
-      1,
+      Number(this.topic.getId()),
       new Date(),
       new Date()
     );
     this.topicService.addComment(this.topic, newComment);
-    this.commentMsg = '';
+    this.comment = '';
   }
 
-  public getCommentAuthorById(id: number) {
-    return 'Author';
-  }
-
-  public getCommentAuthorId(id: number) {
-    return id;
+  public deleteComment(comment: Comment) {
+    this.topicService.deleteComment(this.topic, comment);
   }
 }
