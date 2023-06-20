@@ -2,6 +2,21 @@
   <div class="card">
     <div class="d-flex card-header align-items-center justify-content-between">
       <div class="d-flex align-items-center">
+        <h1 class="mx-1">{{ topic.getTitle() }}</h1>
+      </div>
+      <div class="d-flex align-items-center">
+        <div
+          class="d-flex flex-column justify-content-center align-items-center"
+        >
+          <img
+            class="rounded-circle"
+            width="60"
+            height="60"
+            src="../../../assets/user.jpeg"
+            alt="user"
+          />
+          <p>{{ topic.getAuthor() }}</p>
+        </div>
         <div class="d-flex flex-column mx-2">
           <button class="btn btn-outline-success my-1" (click)="topic.like()">
             <i class="px-1 bi bi-hand-thumbs-up">{{ topic.getLikes() }}</i>
@@ -10,33 +25,20 @@
             <i class="px-1 bi bi-hand-thumbs-down">{{ topic.getDislikes() }}</i>
           </button>
         </div>
-        <h1 class="mx-1">{{ topic.getTitle() }}</h1>
-      </div>
-      <div>
-        <img
-          class="rounded-circle"
-          width="50"
-          src="../../../assets/user.jpeg"
-          alt="user"
-        />
       </div>
     </div>
     <div class="card-body">
-      <p>
-        <span class="fw-bold">Author:</span>
-        {{ topic.getAuthor() }}
-      </p>
-      <p>{{ topic.getDescription() }}</p>
-      <p>
+      <p class="p-2">{{ topic.getDescription() }}</p>
+      <p class="text-secondary lh-1">
         <span class="fw-bold">Created on:</span>
         {{ topic.getDate() }}
       </p>
-      <p>
+      <p class="text-secondary lh-1">
         <span class="fw-bold">Category: </span>
         {{ topic.getCategory() }}
       </p>
       <div class="d-flex">
-        <p>Tags:</p>
+        <p class="text-secondary lh-1">Tags:</p>
         <div *ngFor="let tag of topic.getTags()">
           <app-topic-pill tag="{{ tag }}"></app-topic-pill>
         </div>
@@ -56,7 +58,6 @@
       >
         <p>{{ comment }}</p>
       </div>
-      <!-- comment input -->
       <div class="d-flex align-items-center flex-row justify-content-between">
         <input
           class="form-control"
@@ -64,7 +65,9 @@
           placeholder="Write a comment"
           [(ngModel)]="comment"
         />
-        <button class="btn btn-primary mx-2" (click)="addComment(comment)"><i class="bi bi-send"></i></button>
+        <button class="btn btn-primary mx-2" (click)="addComment(comment)">
+          <i class="bi bi-send"></i>
+        </button>
       </div>
     </div>
   </div>
