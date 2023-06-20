@@ -1,5 +1,7 @@
 <div class="d-felx flex-column rounded mx-3 mt-5 h-100 border border-1" id="QL">
-  <div class="d-flex justify-content-between align-items-center bg-light text-secondary">
+  <div
+    class="d-flex justify-content-between align-items-center bg-light text-secondary"
+  >
     <div class="d-flex flex-row px-2 align-items-center">
       <p class="">{{ numberOfOpenedTopics }} Open</p>
       <p class="">{{ numberOfClosedTopics }} Closed</p>
@@ -9,10 +11,19 @@
     </div>
   </div>
   <div>
-    <div *ngFor="let topic of topics" class="d-flex flex-column">
-      <a class="text-decoration-none" [routerLink]="['/topics', topic.getId()]">
+    <mat-expansion-panel *ngFor="let topic of topics" class="card">
+      <mat-expansion-panel-header class="p-3">
+        <mat-panel-title class="fw-bold"> {{ topic.getTitle() }} </mat-panel-title>
+        <mat-panel-description class="text-secondary">
+          {{ topic.getDescription() }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <a
+        class="text-decoration-none"
+        [routerLink]="['/topics', topic.getId()]"
+      >
         <app-chat-card [card]="topic"></app-chat-card>
       </a>
-    </div>
+    </mat-expansion-panel>
   </div>
 </div>

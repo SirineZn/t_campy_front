@@ -1,24 +1,47 @@
 <div class="p-5 mt-5">
   <div class="card">
-    <div class="card-header">
+    <div class="d-flex card-header align-items-center">
+      <div class="d-flex flex-column mx-2">
+        <button
+          class="btn btn-outline-success my-1"
+          (click)="topic.like()"
+        >
+          <i class="px-1 bi bi-hand-thumbs-up">{{
+            topic.getLikes()
+          }}</i>
+        </button>
+        <button
+          class="btn btn-outline-danger my-1"
+          (click)="topic.dislike()"
+        >
+          <i class="px-1 bi bi-hand-thumbs-down">{{
+            topic.getDislikes()
+          }}</i>
+        </button>
+      </div>
       <h1>{{ topic.getTitle() }}</h1>
     </div>
     <div class="card-body">
       <p>{{ topic.getDescription() }}</p>
-      <p>{{ topic.getAuthor() }}</p>
-      <p> Created on: {{ topic.getDate() }}</p>
-      <p> Category: {{ topic.getCategory() }}</p>
-      <p> Tags: {{ topic.getTags() }}</p>
-      <div class="d-flex">
-        <p><i class="px-1 bi bi-hand-thumbs-up text-success">{{ topic.getLikes() }}</i></p>
-        <p><i class="px-1 bi bi-hand-thumbs-down text-danger">{{ topic.getDislikes() }}</i></p>
+      <p>
+        <span class="fw-bold">Author:</span>
+        {{ topic.getAuthor() }}
+      </p>
+      <p>Created on: {{ topic.getDate() }}</p>
+      <p>Category: {{ topic.getCategory() }}</p>
+      <p>Tags: {{ topic.getTags() }}</p>
+    </div>
+    <div  class="card-footer">
+      <div class="d-flex align-items-center flex-row justify-content-between">
+        <p class="h5 fw-bold">Comments:</p>
+        <p>{{ topic.getComments().length }}</p>
       </div>
-      <div *ngIf="topic.getComments()" >
-      <p>No comments yet</p>
-    </div>
-    <div class="" *ngFor="let comment of topic.getComments()">
-      <p>{{ comment }}</p>
-    </div>
+      <div class="card-body" *ngIf="topic.getComments().length == 0">
+        <p>No comments yet</p>
+      </div>
+      <div class="d-flex flex-row card-body" *ngFor="let comment of getComments()">
+        <p class="">{{ comment }}</p>
+      </div>
     </div>
   </div>
 </div>

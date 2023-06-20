@@ -29,7 +29,8 @@ export class TopicService {
       75,
       10,
       'Closed',
-      'Camping'
+      'Camping',
+      []
     ),
     new Topic(
       '3',
@@ -41,7 +42,8 @@ export class TopicService {
       120,
       8,
       'Open',
-      'Camping'
+      'Camping',
+      []
     ),
     new Topic(
       '4',
@@ -53,7 +55,8 @@ export class TopicService {
       90,
       3,
       'Open',
-      'Camping'
+      'Camping',
+      []
     ),
     new Topic(
       '5',
@@ -65,7 +68,8 @@ export class TopicService {
       65,
       12,
       'Open',
-      'Camping'
+      'Camping',
+      []
     ),
     new Topic(
       '6',
@@ -77,7 +81,8 @@ export class TopicService {
       110,
       7,
       'Closed',
-      'Camping'
+      'Camping',
+      []
     ),
     new Topic(
       '7',
@@ -89,7 +94,8 @@ export class TopicService {
       80,
       9,
       'Open',
-      'Camping'
+      'Camping',
+      []
     ),
   ];
 
@@ -145,5 +151,31 @@ export class TopicService {
 
   public getTopic(id: string): Topic {
     return this.topics.find((t) => t.getId() === id) as Topic;
+  }
+
+  public getComments(topic: Topic): string[] {
+    return topic.getComments();
+  }
+
+  public addComment(topic: Topic, comment: string) {
+    topic.addComment(comment);
+  }
+
+  public getTopicsByCategory(category: string): Topic[] {
+    return this.topics.filter((t) => t.getCategory() === category);
+  }
+
+  public getCategories(): string[] {
+    return this.topics
+      .map((t) => t.getCategory())
+      .filter((v, i, a) => a.indexOf(v) === i);
+  }
+
+  public unLike(topic: Topic) {
+    topic.unLike();
+  }
+
+  public unDislike(topic: Topic) {
+    topic.unDislike();
   }
 }

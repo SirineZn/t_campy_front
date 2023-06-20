@@ -22,7 +22,7 @@ export class Topic {
     dislikes: number,
     Status: string,
     category: string,
-    comments: string[] = []
+    comments: string[]
   ) {
     this.id = id;
     this.title = title;
@@ -34,6 +34,7 @@ export class Topic {
     this.dislikes = dislikes;
     this.Status = Status;
     this.category = category;
+    this.comments = comments;
   }
 
   public static fromJson(json: any): Topic {
@@ -47,7 +48,8 @@ export class Topic {
       json.likes,
       json.dislikes,
       json.Status,
-      json.category
+      json.category,
+      json.comments
     );
   }
 
@@ -126,5 +128,13 @@ export class Topic {
       description: this.description,
       date: this.date,
     };
+  }
+
+  public unLike(): void {
+    this.likes--;
+  }
+
+  public unDislike(): void {
+    this.dislikes--;
   }
 }

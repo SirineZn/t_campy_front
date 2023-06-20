@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router'
+import { MatExpansionModule } from '@angular/material/expansion';
 
 import { AppComponent } from './app.component';
 import { ForumComponent } from './Views/forum/forum.component';
@@ -14,12 +15,13 @@ import { RightSectionComponent } from './Components/right-section/right-section.
 import { ChatCardComponent } from './Components/Utils/chat-card/chat-card.component';
 import { TopicPillComponent } from './Components/Utils/topic-pill/topic-pill.component';
 import { TopicComponent } from './Views/topic/topic.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
-  { path:'', redirectTo:'/home', pathMatch:'full'},
-  { path:'forum', component: ForumComponent },
-  { path:'topics/:id', component: TopicComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'forum', component: ForumComponent },
+  { path: 'topics/:id', component: TopicComponent },
 ];
 
 @NgModule({
@@ -39,9 +41,11 @@ const routes: Routes = [
     BrowserModule,
     NgbModule,
     AppRoutingModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    BrowserAnimationsModule,
+    MatExpansionModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
