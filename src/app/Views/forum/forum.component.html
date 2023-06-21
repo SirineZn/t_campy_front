@@ -1,4 +1,10 @@
 <div class="d-flex flex-row w-100 mt-4 align-items-center">
-  <app-sidebar></app-sidebar>
-  <app-questions-list></app-questions-list>
+  <mat-drawer-container>
+    <mat-drawer mode="side" opened>
+      <app-sidebar></app-sidebar>
+    </mat-drawer>
+    <mat-drawer-content>
+      <app-questions-list></app-questions-list>
+    </mat-drawer-content>
+  </mat-drawer-container>
 </div>

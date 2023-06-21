@@ -6,6 +6,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { AppComponent } from './app.component';
 import { ForumComponent } from './Views/forum/forum.component';
@@ -50,6 +51,7 @@ const routes: Routes = [
     MatButtonToggleModule,
     MatIconModule,
     FormsModule,
+    MatSidenavModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
