@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/Services/auth.service';
 import { UserService } from 'src/app/Services/user.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { UserService } from 'src/app/Services/user.service';
 })
 export class AdminComponent {
   constructor(
-    // private authService: AuthService,
+    private authService: AuthService,
     private router: Router,
     private userService: UserService
   ) {
@@ -22,8 +23,8 @@ export class AdminComponent {
 
   ngOnInit() {}
 
-  // public logout(): void {
-  //   this.authService.logout();
-  //   this.router.navigate(['/']);
-  // }
+  public logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/']);
+  }
 }

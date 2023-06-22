@@ -15,7 +15,7 @@
       <button class="btn btn-light text-start m-1"># Offer</button>
     </div>
   </div>
-  <div>
+  <div *ngIf="isAdmin()">
     <button class="btn btn-custom-blue-filled w-100 mx-1 my-4">
       + Add a Topic
     </button>

@@ -1,28 +1,13 @@
 import { Injectable } from '@angular/core';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  constructor() {}
-
-  getUser() {
-    return 'user';
-  }
-
-  public isLoggedIn(): boolean {
-    return true;
-  }
-
-  public isLoggedOut(): boolean {
-    return false;
-  }
+  constructor(private authService: AuthService) {}
 
   public isAdmin(): boolean {
-    return true;
-  }
-
-  public isUser(): boolean {
-    return true;
+    return this.authService.isAdmin();
   }
 }

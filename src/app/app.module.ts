@@ -21,6 +21,9 @@ import { TopicPillComponent } from './Components/Utils/topic-pill/topic-pill.com
 import { TopicComponent } from './Views/topic/topic.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdminComponent } from './Views/admin/admin.component';
+import { LoginComponent } from './Views/Auth/login/login.component';
+import { RegisterComponent } from './Views/Auth/register/register.component';
+import { ErrorComponent } from './Views/error/error.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -28,6 +31,9 @@ const routes: Routes = [
   { path: 'forum', component: ForumComponent },
   { path: 'topics/:id', component: TopicComponent },
   { path: 'admin', component: AdminComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: '**', component: ErrorComponent },
 ];
 
 @NgModule({
@@ -43,6 +49,9 @@ const routes: Routes = [
     TopicPillComponent,
     TopicComponent,
     AdminComponent,
+    LoginComponent,
+    RegisterComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,
