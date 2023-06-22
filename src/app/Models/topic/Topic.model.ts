@@ -1,8 +1,5 @@
 import { Comment } from '../comment/comment.model';
 export class Topic {
-  getCommentAuthorId(id: number): number {
-    throw new Error('Method not implemented.');
-  }
   protected id: string;
   protected title: string;
   protected description: string;
@@ -148,5 +145,9 @@ export class Topic {
 
   public deleteComment(comment: Comment) {
     this.comments = this.comments.filter((c) => c.getId() !== comment.getId());
+  }
+
+  getCommentAuthorId(id: number): number {
+    return this.comments.find((c) => c.getUserId() === id)?.getId() as number;
   }
 }

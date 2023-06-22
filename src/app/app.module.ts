@@ -20,6 +20,7 @@ import { ChatCardComponent } from './Components/Utils/chat-card/chat-card.compon
 import { TopicPillComponent } from './Components/Utils/topic-pill/topic-pill.component';
 import { TopicComponent } from './Views/topic/topic.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AdminComponent } from './Views/admin/admin.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -40,6 +41,7 @@ const routes: Routes = [
     ChatCardComponent,
     TopicPillComponent,
     TopicComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
