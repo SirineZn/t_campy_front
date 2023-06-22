@@ -27,6 +27,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'forum', component: ForumComponent },
   { path: 'topics/:id', component: TopicComponent },
+  { path: 'admin', component: AdminComponent },
 ];
 
 @NgModule({
