@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/Services/user.service';
 
 @Component({
   selector: 'app-admin',
@@ -6,7 +8,22 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin.component.scss'],
 })
 export class AdminComponent {
-  constructor() {}
+  constructor(
+    // private authService: AuthService,
+    private router: Router,
+    private userService: UserService
+  ) {
+    if (this.userService.isAdmin()) {
+      this.router.navigate(['admin']);
+    } else {
+      this.router.navigate(['/']);
+    }
+  }
 
   ngOnInit() {}
+
+  // public logout(): void {
+  //   this.authService.logout();
+  //   this.router.navigate(['/']);
+  // }
 }
