@@ -38,21 +38,21 @@ export class AuthService {
     return localStorage.getItem('Admin') === 'true';
   }
 
+  public setAdmin(): void {
+    localStorage.setItem('Admin', 'true');
+  }
+
+  public login(username: string, password: string): void {
+    if (username === 'admin' && password === 'admin') {
+      this.setToken('token');
+      this.setUserId('1');
+      this.setAdmin();
+    }
+  }
+
   public logout(): void {
     this.removeToken();
     this.removeUserId();
-  }
-
-  public login(token: string, userId: string, isAdmin: boolean): void {
-    this.setToken(token);
-    this.setUserId(userId);
-    localStorage.setItem('isAdmin', isAdmin.toString());
-  }
-
-  public register(token: string, userId: string, isAdmin: boolean): void {
-    this.setToken(token);
-    this.setUserId(userId);
-    localStorage.setItem('isAdmin', isAdmin.toString());
   }
 
   public isLogged(): boolean {

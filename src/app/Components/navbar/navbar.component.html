@@ -26,5 +26,12 @@
         >Register</a
       >
     </div>
+    <div *ngIf="isLogged" class="d-flex mx-2">
+      <button
+        class="p-1 btn btn-custom-blue fw-bold custom-blue mx-1"
+        (click)="logout()"
+        >logout</button
+      >
+    </div>
   </div>
 </nav>
