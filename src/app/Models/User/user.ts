@@ -3,22 +3,25 @@ export class User {
   name: string;
   email: string;
   password: string;
-  role: string;
-  token: string;
+  age: number;
+  admin: boolean;
+  group: string;
   constructor(
     id: number,
     name: string,
     email: string,
     password: string,
-    role: string,
-    token: string
+    age: number,
+    admin: boolean,
+    group: string
   ) {
     this.id = id;
     this.name = name;
     this.email = email;
     this.password = password;
-    this.role = role;
-    this.token = token;
+    this.age = age;
+    this.admin = admin;
+    this.group = group;
   }
 
   public static fromJson(json: any): User {
@@ -27,29 +30,18 @@ export class User {
       json.name,
       json.email,
       json.password,
+      json.age,
       json.role,
-      json.token
+      json.group
     );
   }
 
-  public isAdmin(): boolean {
-    return this.role === 'admin';
-  }
-
-  public isUser(): boolean {
-    return this.role === 'user';
-  }
-
-  public isGuest(): boolean {
-    return this.role === 'guest';
-  }
-
   public isLogged(): boolean {
-    return this.token !== '';
+    return this.group !== '';
   }
 
   public isNotLogged(): boolean {
-    return this.token === '';
+    return this.group === '';
   }
 
   public isSameUser(user: User): boolean {
@@ -100,20 +92,24 @@ export class User {
     this.password = password;
   }
 
-  public getRole(): string {
-    return this.role;
+  public getAge(): number {
+    return this.age;
   }
 
-  public setRole(role: string): void {
-    this.role = role;
+  public setAge(age: number): void {
+    this.age = age;
   }
 
-  public getToken(): string {
-    return this.token;
+  public makeAdmin(): void {
+    this.admin = true;
   }
 
-  public setToken(token: string): void {
-    this.token = token;
+  public getGroup(): string {
+    return this.group;
+  }
+
+  public setgroup(group: string): void {
+    this.group = group;
   }
 
   public toJson(): any {
@@ -122,8 +118,8 @@ export class User {
       name: this.name,
       email: this.email,
       password: this.password,
-      role: this.role,
-      token: this.token,
+      admin: this.admin,
+      group: this.group,
     };
   }
 

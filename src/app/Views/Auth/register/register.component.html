@@ -18,19 +18,26 @@
     <div class="input-group mb-2">
       <input
         class="form-control"
+        aria-label="Username"
+        type="email"
+        placeholder="email"
+      />
+    </div>
+    <div class="input-group mb-2">
+      <input
+        class="form-control"
         aria-label="password"
-        type="text"
+        type="password"
         placeholder="password"
       />
     </div>
     <div class="w-100">
-      <button class="btn btn-custom-blue-filled w-100">login</button>
+      <button class="btn btn-custom-blue-filled w-100">register</button>
     </div>
     <div class="w-100 text-center mt-3">
-      <a class="text-decoration-none" href="#">Forgot password?</a>
-    </div>
-    <div class="w-100 text-center mt-3">
-      <a class="text-decoration-none" routerLink="register">Create an account</a>
+      <a class="text-decoration-none" routerLink="/login"
+        >Log into your account</a
+      >
     </div>
   </div>
 </div>
