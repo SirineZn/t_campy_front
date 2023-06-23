@@ -22,6 +22,7 @@ export class TopicService {
         new Comment(
           0,
           'Great Topic',
+          'positive',
           0,
           1,
           new Date(2023, 6, 1),
@@ -30,6 +31,7 @@ export class TopicService {
         new Comment(
           1,
           'Thanks for sharing!',
+          'positive',
           1,
           1,
           new Date(2023, 6, 1),

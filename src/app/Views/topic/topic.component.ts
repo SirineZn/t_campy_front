@@ -76,6 +76,7 @@ export class TopicComponent implements OnInit {
     let newComment = new Comment(
       this.topic.getComments().length,
       comment,
+      'neutral',
       1,
       Number(this.topic.getId()),
       new Date(),

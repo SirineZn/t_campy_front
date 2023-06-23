@@ -1,6 +1,7 @@
 export class Comment {
   protected id!: number;
   protected comment!: string;
+  protected sentiment!: string;
   protected author_id!: number;
   protected post_id!: number;
   protected created_at!: Date;
@@ -9,6 +10,7 @@ export class Comment {
   constructor(
     id: number = 0,
     comment: string,
+    sentiment: string = 'neutral',
     author_id: number,
     post_id: number,
     created_at: Date,
@@ -16,6 +18,7 @@ export class Comment {
   ) {
     this.id = id;
     this.comment = comment;
+    this.sentiment = sentiment;
     this.author_id = author_id;
     this.post_id = post_id;
     this.created_at = created_at;
