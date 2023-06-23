@@ -47,6 +47,22 @@ export class AuthService {
       this.setToken('token');
       this.setUserId('1');
       this.setAdmin();
+    } else {
+      this.setToken('token');
+      this.setUserId('2');
+    }
+  }
+
+  public register(username: string, password: string, age: number): void {
+    if (username === 'admin' && password === 'admin') {
+      this.setToken('token');
+      this.setUserId('1');
+      this.setAdmin();
+      this.login(username, password);
+    } else {
+      this.setToken('token');
+      this.setUserId('2');
+      this.login(username, password);
     }
   }
 

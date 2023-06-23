@@ -12,6 +12,7 @@
       <a class="p-1 fw-bold text-dark nav-link" routerLink="/">Home</a>
       <a class="p-1 fw-bold text-dark nav-link" routerLink="forum">Forums</a>
       <a class="p-1 fw-bold text-dark nav-link" routerLink="">About</a>
+      <a *ngIf="isAdmin()" class="p-1 fw-bold custom-blue nav-link" routerLink="/dashboard">Dashboard</a>
     </div>
     <!-- The Authentication block: TODO -->
     <div *ngIf="!isLogged" class="d-flex mx-2">

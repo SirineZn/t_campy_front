@@ -21,6 +21,10 @@ export class NavbarComponent {
     this.router.navigate(['/']);
   }
 
+  isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
+
   get isLogged(): boolean {
     return this.authService.isLogged();
   }
