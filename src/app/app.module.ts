@@ -7,6 +7,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { AppComponent } from './app.component';
 import { ForumComponent } from './Views/forum/forum.component';
@@ -24,6 +25,7 @@ import { AdminComponent } from './Views/admin/admin.component';
 import { LoginComponent } from './Views/Auth/login/login.component';
 import { RegisterComponent } from './Views/Auth/register/register.component';
 import { ErrorComponent } from './Views/error/error.component';
+import { PopupComponent } from './Components/popup/popup.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -52,6 +54,7 @@ const routes: Routes = [
     LoginComponent,
     RegisterComponent,
     ErrorComponent,
+    PopupComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,6 +67,7 @@ const routes: Routes = [
     MatIconModule,
     FormsModule,
     MatSidenavModule,
+    MatMenuModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -3,7 +3,7 @@ export class Topic {
   protected id: string;
   protected title: string;
   protected description: string;
-  protected date: string;
+  protected date: Date;
   protected author: string;
   protected tags: string[];
   protected likes: number;
@@ -28,7 +28,7 @@ export class Topic {
     this.id = id;
     this.title = title;
     this.description = description;
-    this.date = date.toUTCString();
+    this.date = date;
     this.author = author;
     this.tags = tags;
     this.likes = likes;
@@ -95,7 +95,7 @@ export class Topic {
   }
 
   public getDate(): string {
-    return this.date;
+    return this.date.toUTCString();
   }
 
   public getAuthor(): string {
@@ -149,5 +149,9 @@ export class Topic {
 
   getCommentAuthorId(id: number): number {
     return this.comments.find((c) => c.getUserId() === id)?.getId() as number;
+  }
+
+  public getCreationDate(): Date {
+    return new Date(this.date);
   }
 }

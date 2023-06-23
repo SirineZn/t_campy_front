@@ -216,4 +216,20 @@ export class TopicService {
   public deleteComment(topic: Topic, comment: Comment) {
     topic.deleteComment(comment);
   }
+
+  public getRecentTopics(): Topic[] {
+    return this.topics.sort((a, b) => {
+      return b.getCreationDate().getTime() - a.getCreationDate().getTime();
+    });
+  }
+
+  public getPopularTopics(): Topic[] {
+    return this.topics.sort((a, b) => {
+      return b.getLikes() - a.getLikes();
+    });
+  }
+
+  public getUnansweredTopics(): Topic[] {
+    return this.topics.filter((topic) => topic.getComments().length === 0);
+  }
 }

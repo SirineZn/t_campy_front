@@ -26,12 +26,14 @@ export class QuestionsListComponent {
     this.topics = this.topicService.getTopics();
   }
 
-  filterByStatus($event: MatButtonToggleChange) {
+  sort($event: any) {
     this.Status = $event.value;
-    if (this.Status === 'Open') {
-      this.topics = this.topicService.getOpenedTopics();
-    } else if (this.Status === 'Closed') {
-      this.topics = this.topicService.getClosedTopics();
+    if (this.Status === 'recent') {
+      this.topics = this.topicService.getRecentTopics();
+    } else if (this.Status === 'popular') {
+      this.topics = this.topicService.getPopularTopics();
+    } else if (this.Status === 'unanswered') {
+      this.topics = this.topicService.getUnansweredTopics();
     } else {
       this.topics = this.topicService.getTopics();
     }

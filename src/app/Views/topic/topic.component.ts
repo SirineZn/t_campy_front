@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Comment } from 'src/app/Models/comment/comment.model';
 import { Topic } from 'src/app/Models/topic/Topic.model';
@@ -15,6 +15,8 @@ export class TopicComponent implements OnInit {
   id!: number;
   sub!: any;
 
+  @ViewChild('popup') popup!: ElementRef;
+
   public comment!: string;
 
   constructor(
@@ -28,6 +30,11 @@ export class TopicComponent implements OnInit {
       this.topic = this.topicService.getTopic(params['id']);
     });
   }
+
+  // openPopup() {
+  //   const modal: any = this.popup.nativeElement;
+  //   $(modal).modal('show');
+  // }
 
   public deleteTopic() {
     this.topicService.deleteTopic(this.topic);
