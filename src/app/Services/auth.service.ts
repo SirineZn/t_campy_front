@@ -66,12 +66,21 @@ export class AuthService {
     }
   }
 
+  public removeAdmin(): void {
+    localStorage.removeItem('Admin');
+  }
+
   public logout(): void {
     this.removeToken();
     this.removeUserId();
+    if (this.isAdmin()) this.removeAdmin();
   }
 
   public isLogged(): boolean {
     return !!localStorage.getItem('token');
+  }
+
+  public getUser(): string {
+    return localStorage.getItem('userId')!;
   }
 }

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Topic } from '../Models/topic/Topic.model';
 import { Comment } from '../Models/comment/comment.model';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -119,7 +121,7 @@ export class TopicService {
     ),
   ];
 
-  constructor() {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   public getNumberOfOpenedTopics(): number {
     return this.countOpenedTopics();

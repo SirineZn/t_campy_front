@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/Services/auth.service';
+import { TopicService } from 'src/app/Services/topic.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -8,16 +9,19 @@ import { AuthService } from 'src/app/Services/auth.service';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    topicService: TopicService
+  ) {}
 
   ngOnInit() {}
 
-  public logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/']);
-  }
-
   public isAdmin(): boolean {
     return this.authService.isAdmin();
+  }
+
+  public openAddTopicModal(): void {
+    document.getElementById('add-topic-modal')!.style.display = 'block';
   }
 }

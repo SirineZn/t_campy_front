@@ -5,9 +5,10 @@ import { RouterModule, Routes } from '@angular/router'
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AppComponent } from './app.component';
 import { ForumComponent } from './Views/forum/forum.component';
@@ -26,17 +27,8 @@ import { LoginComponent } from './Views/Auth/login/login.component';
 import { RegisterComponent } from './Views/Auth/register/register.component';
 import { ErrorComponent } from './Views/error/error.component';
 import { PopupComponent } from './Components/popup/popup.component';
-
-const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'forum', component: ForumComponent },
-  { path: 'topics/:id', component: TopicComponent },
-  { path: 'admin', component: AdminComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: '**', component: ErrorComponent },
-];
+import { ModalComponent } from './Components/modal/modal.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -55,12 +47,12 @@ const routes: Routes = [
     RegisterComponent,
     ErrorComponent,
     PopupComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,
     NgbModule,
     AppRoutingModule,
-    RouterModule.forRoot(routes),
     BrowserAnimationsModule,
     MatExpansionModule,
     MatButtonToggleModule,
@@ -68,6 +60,9 @@ const routes: Routes = [
     FormsModule,
     MatSidenavModule,
     MatMenuModule,
+    MatSnackBarModule,
+    HttpClientModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
