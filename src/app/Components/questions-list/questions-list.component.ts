@@ -13,7 +13,7 @@ export class QuestionsListComponent {
   protected numberOfOpenedTopics!: number;
   protected numberOfClosedTopics!: number;
   protected closedTopics: Topic[] = [];
-  protected topics: Topic[] = [];
+  protected topics: Promise<Topic>[] = [];
   Status: any;
 
   constructor(private topicService: TopicService) {}
@@ -23,7 +23,7 @@ export class QuestionsListComponent {
     this.numberOfClosedTopics = this.topicService.countClosedTopics();
     this.openedTopics = this.topicService.getOpenedTopics();
     this.closedTopics = this.topicService.getClosedTopics();
-    this.topics = this.topicService.getTopics();
+    this.topics = this.topicService.fetchTopicsFromServer();
   }
 
   sort($event: any) {
@@ -35,7 +35,7 @@ export class QuestionsListComponent {
     } else if (this.Status === 'unanswered') {
       this.topics = this.topicService.getUnansweredTopics();
     } else {
-      this.topics = this.topicService.getTopics();
+      this.topics = this.topicService.fetchTopicsFromServer();
     }
   }
 }

@@ -49,7 +49,6 @@ export class ModalComponent {
       []
     );
     this.topicService.addTopicToServer(this.topic);
-    this.topicService.addTopic(this.topic);
     this.snackBar.open('Topic added', 'Close', {
       duration: 3000,
     });
