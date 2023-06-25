@@ -28,7 +28,7 @@ export class ModalComponent {
 
   ngOnInit() {}
 
-  public addTopic(): void {
+  public addTopicToServer(): void {
     if (!this.topicTitle || !this.description || !this.category) {
       this.snackBar.open('Please fill all the fields', 'Close', {
         duration: 3000,
@@ -48,6 +48,7 @@ export class ModalComponent {
       this.category,
       []
     );
+    this.topicService.addTopicToServer(this.topic);
     this.topicService.addTopic(this.topic);
     this.snackBar.open('Topic added', 'Close', {
       duration: 3000,

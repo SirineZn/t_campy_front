@@ -3,6 +3,7 @@ import { Topic } from '../Models/topic/Topic.model';
 import { Comment } from '../Models/comment/comment.model';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
+import { async } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -122,6 +123,28 @@ export class TopicService {
   ];
 
   constructor(private http: HttpClient, private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.fetchTopicsFromServer();
+  }
+
+  public async fetchTopicsFromServer(): Promise<void> {
+    await this.http
+      .get<Topic[]>(
+        'http://localhost:8089/TunisieCamp/forum/retrieve-all-forums'
+      )
+      .subscribe((topics) => {
+        this.topics = topics;
+      });
+  }
+
+  public async addTopicToServer(topic: Topic): Promise<void> {
+    await this.http
+      .post<Topic>('http://localhost:8089/TunisieCamp/forum/add-forum', topic)
+      .subscribe((topic) => {
+        this.topics.push(topic);
+      });
+  }
 
   public getNumberOfOpenedTopics(): number {
     return this.countOpenedTopics();
