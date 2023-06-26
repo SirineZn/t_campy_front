@@ -36,6 +36,32 @@ export class TopicService {
     }
   }
 
+  public async fetchTopicFromServer(id: number): Promise<Topic> {
+    try {
+      return this.http.get<Topic>(
+        'http://localhost:8089/TunisieCamp/forum/retrieve-forum/' + id
+      ) as unknown as Promise<Topic>;
+    } catch (error) {
+      console.log(error);
+      this.snackbar.open('Error while fetching topic', 'Close', {
+        duration: 3000,
+      });
+      return new Topic(
+        '0',
+        'Error',
+        'Error',
+        new Date(),
+        this.authService.getUser(),
+        [],
+        0,
+        0,
+        'Open',
+        'Error',
+        []
+      );
+    }
+  }
+
   public async addTopicToServer(topic: Topic): Promise<void> {
     try {
       this.http
