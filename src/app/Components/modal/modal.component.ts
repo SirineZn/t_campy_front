@@ -28,6 +28,30 @@ export class ModalComponent {
 
   ngOnInit() {}
 
+  public addTopicToServer(): void {
+    if (!this.topicTitle || !this.description || !this.category) {
+      this.snackBar.open('Please fill all the fields', 'Close', {
+        duration: 3000,
+      });
+      return;
+    }
+    this.topic = new Topic(
+      (this.topicService.getTopics().length + 1).toString(),
+      this.topicTitle,
+      this.description,
+      new Date(),
+      this.authService.getUser(),
+      [],
+      0,
+      0,
+      'Open',
+      this.category,
+      []
+    );
+    this.topicService.addTopicToServer(this.topic);
+    this.router.navigate(['/forum']);
+  }
+
   public addTopic(): void {
     if (!this.topicTitle || !this.description || !this.category) {
       this.snackBar.open('Please fill all the fields', 'Close', {

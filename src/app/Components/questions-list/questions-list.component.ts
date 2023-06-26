@@ -23,7 +23,7 @@ export class QuestionsListComponent {
     this.numberOfClosedTopics = this.topicService.countClosedTopics();
     this.openedTopics = this.topicService.getOpenedTopics();
     this.closedTopics = this.topicService.getClosedTopics();
-    this.topics = this.topicService.getTopics();
+    this.topics = this.topicService.getTopicsFromServer();
   }
 
   sort($event: any) {
