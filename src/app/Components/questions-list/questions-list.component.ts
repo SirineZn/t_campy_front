@@ -10,32 +10,50 @@ import { MatButtonToggleChange } from '@angular/material/button-toggle';
 })
 export class QuestionsListComponent {
   protected openedTopics: Topic[] = [];
-  protected numberOfOpenedTopics!: number;
-  protected numberOfClosedTopics!: number;
+  protected numberOfOpenedTopics: number = 0;
+  protected numberOfClosedTopics: number = 0;
   protected closedTopics: Topic[] = [];
   protected topics: Topic[] = [];
-  Status: any;
+  Status: any = 'all';
 
   constructor(private topicService: TopicService) {}
 
   ngOnInit(): void {
-    this.numberOfOpenedTopics = this.topicService.countOpenedTopics();
-    this.numberOfClosedTopics = this.topicService.countClosedTopics();
-    this.openedTopics = this.topicService.getOpenedTopics();
-    this.closedTopics = this.topicService.getClosedTopics();
-    this.topics = this.topicService.getTopicsFromServer();
+    this.topicService.countOpenedTopics().then((number) => {
+      this.numberOfOpenedTopics = number;
+    });
+    this.topicService.countClosedTopics().then((number) => {
+      this.numberOfClosedTopics = number;
+    });
+    this.topicService.getOpenedTopics().then((topics) => {
+      this.openedTopics = topics;
+    });
+    this.topicService.getClosedTopics().then((topics) => {
+      this.closedTopics = topics;
+    });
+    this.topicService.fetchTopicsFromServer().then((topics) => {
+      this.topics = topics as Topic[];
+    });
   }
 
   sort($event: any) {
     this.Status = $event.value;
     if (this.Status === 'recent') {
-      this.topics = this.topicService.getRecentTopics();
+      this.topicService.getRecentTopics().then((topics) => {
+        return topics as Topic[];
+      });
     } else if (this.Status === 'popular') {
-      this.topics = this.topicService.getPopularTopics();
+      this.topicService.getPopularTopics().then((topics) => {
+        return topics as Topic[];
+      });
     } else if (this.Status === 'unanswered') {
-      this.topics = this.topicService.getUnansweredTopics();
+      this.topicService.getUnansweredTopics().then((topics) => {
+        return topics as Topic[];
+      });
     } else {
-      this.topics = this.topicService.getTopics();
+      this.topicService.fetchTopicsFromServer().then((topics) => {
+        return topics as Topic[];
+      });
     }
   }
 }

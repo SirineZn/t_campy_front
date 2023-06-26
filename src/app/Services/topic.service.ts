@@ -3,157 +3,119 @@ import { Topic } from '../Models/topic/Topic.model';
 import { Comment } from '../Models/comment/comment.model';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TopicService {
-  private baseUrl: string = 'http://localhost:8089/TunisieCamp/forums';
+  public topics!: Promise<Topic[]>;
 
-  public topics: Topic[] = [];
-  // public topics: Topic[] = [
-  //   new Topic(
-  //     '1',
-  //     'Essential Camping Gear Checklist',
-  //     'A comprehensive checklist of essential gear for camping trips',
-  //     new Date(2023, 6, 1),
-  //     'John Doe',
-  //     ['camping', 'outdoors', 'gear'],
-  //     100,
-  //     5,
-  //     'Open',
-  //     'Camping',
-  //     [
-  //       new Comment(
-  //         0,
-  //         'Great Topic',
-  //         'positive',
-  //         0,
-  //         1,
-  //         new Date(2023, 6, 1),
-  //         new Date(2023, 6, 1)
-  //       ),
-  //       new Comment(
-  //         1,
-  //         'Thanks for sharing!',
-  //         'positive',
-  //         1,
-  //         1,
-  //         new Date(2023, 6, 1),
-  //         new Date(2023, 6, 1)
-  //       ),
-  //     ]
-  //   ),
-  //   new Topic(
-  //     '2',
-  //     'Top Camping Destinations in the World',
-  //     'Discover the most breathtaking camping destinations around the globe',
-  //     new Date(2023, 6, 15),
-  //     'Jane Smith',
-  //     ['camping', 'travel', 'nature'],
-  //     75,
-  //     10,
-  //     'Closed',
-  //     'Camping',
-  //     []
-  //   ),
-  //   new Topic(
-  //     '3',
-  //     'Camping Recipes: Delicious Meals under the Stars',
-  //     'Learn how to prepare delicious and easy-to-make meals while camping',
-  //     new Date(2023, 7, 10),
-  //     'Sam Wilson',
-  //     ['camping', 'cooking', 'recipes'],
-  //     120,
-  //     8,
-  //     'Open',
-  //     'Camping',
-  //     []
-  //   ),
-  //   new Topic(
-  //     '4',
-  //     'Family-Friendly Camping Activities',
-  //     'Engaging activities for a fun-filled camping experience with your family',
-  //     new Date(2023, 8, 5),
-  //     'Emily Johnson',
-  //     ['camping', 'family', 'activities'],
-  //     90,
-  //     3,
-  //     'Open',
-  //     'Camping',
-  //     []
-  //   ),
-  //   new Topic(
-  //     '5',
-  //     'Wildlife Spotting: Camping Adventures',
-  //     'Discover fascinating wildlife during your camping adventures',
-  //     new Date(2023, 8, 20),
-  //     'Michael Thompson',
-  //     ['camping', 'wildlife', 'nature'],
-  //     65,
-  //     12,
-  //     'Open',
-  //     'Camping',
-  //     []
-  //   ),
-  //   new Topic(
-  //     '6',
-  //     'Camping Hacks: Tips and Tricks',
-  //     'Learn handy camping hacks to make your outdoor experience more enjoyable',
-  //     new Date(2023, 9, 12),
-  //     'Sarah Davis',
-  //     ['camping', 'tips', 'hacks'],
-  //     110,
-  //     7,
-  //     'Closed',
-  //     'Camping',
-  //     []
-  //   ),
-  //   new Topic(
-  //     '7',
-  //     'Solo Camping: Embracing Solitude in Nature',
-  //     'Experience the beauty of solo camping and reconnect with yourself',
-  //     new Date(2023, 9, 28),
-  //     'Matthew Turner',
-  //     ['camping', 'solo', 'nature'],
-  //     80,
-  //     9,
-  //     'Open',
-  //     'Camping',
-  //     []
-  //   ),
-  // ];
-
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private snackbar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
-    this.topics = this.getTopicsFromServer();
+    this.fetchTopicsFromServer();
   }
 
-  public getTopicsFromServer(): Topic[] {
+  public async fetchTopicsFromServer(): Promise<Topic[]> {
+    try {
+      this.topics = this.http.get<Topic[]>(
+        'http://localhost:8089/TunisieCamp/forum/retrieve-all-forums'
+      ) as unknown as Promise<Topic[]>;
+      return this.topics;
+    } catch (error) {
+      console.log(error);
+      this.snackbar.open('Error while fetching topics', 'Close', {
+        duration: 3000,
+      });
+      return [];
+    }
+  }
+
+  public async fetchTopicFromServer(id: number): Promise<Topic> {
+    try {
+      return this.http.get<Topic>(
+        'http://localhost:8089/TunisieCamp/forum/retrieve-forum/' + id
+      ) as unknown as Promise<Topic>;
+    } catch (error) {
+      console.log(error);
+      this.snackbar.open('Error while fetching topic', 'Close', {
+        duration: 3000,
+      });
+      return new Topic(
+        '0',
+        'Error',
+        'Error',
+        new Date(),
+        this.authService.getUser(),
+        [],
+        0,
+        0,
+        'Open',
+        'Error',
+        []
+      );
+    }
+  }
+
+  public async addTopicToServer(topic: Topic): Promise<void> {
     try {
       this.http
-        .get(this.baseUrl + 'retrieve-all-forums')
-        .subscribe((data: any) => {
-          this.topics = data;
+        .post<Topic>('http://localhost:8089/TunisieCamp/forum/add-forum', topic)
+        .subscribe(async (topic: any) => {
+          (await this.topics).push(topic);
         });
     } catch (error) {
-      console.error(error);
+      console.log(error);
+      this.snackbar.open('Error while adding topic', 'Close', {
+        duration: 3000,
+      });
     }
-    return this.topics;
   }
 
-  public getNumberOfOpenedTopics(): number {
-    return this.countOpenedTopics();
+  public async updateTopicOnServer(topic: Topic): Promise<void> {
+    try {
+      this.http
+        .put<Topic>(
+          'http://localhost:8089/TunisieCamp/forum/update-forum/' +
+            topic.getId(),
+          topic
+        )
+        .subscribe(async (topic: any) => {
+          (await this.topics)
+            .find((t) => t.getId() === topic.getId())!
+            .getTitle();
+          (await this.topics)
+            .find((t) => t.getId() === topic.getId())!
+            .getDescription();
+          (await this.topics)
+            .find((t) => t.getId() === topic.getId())!
+            .getCategory();
+          (await this.topics)
+            .find((t) => t.getId() === topic.getId())!
+            .getLikes();
+          (await this.topics)
+            .find((t) => t.getId() === topic.getId())!
+            .getDislikes();
+          (await this.topics)
+            .find((t) => t.getId() === topic.getId())!
+            .getComments();
+        });
+    } catch (error) {
+      console.log(error);
+      this.snackbar.open('Error while updating topic', 'Close', {
+        duration: 3000,
+      });
+    }
   }
 
-  public getTopics(): Topic[] {
-    return this.topics;
-  }
-
-  public countOpenedTopics(): number {
+  public async countOpenedTopics(): Promise<number> {
     let i: number = 0;
-    for (let topic of this.topics) {
+    for (let topic of await this.topics) {
       if (topic.isOpened()) {
         i++;
       }
@@ -161,9 +123,9 @@ export class TopicService {
     return i;
   }
 
-  public countClosedTopics(): number {
+  public async countClosedTopics(): Promise<number> {
     let i: number = 0;
-    for (let topic of this.topics) {
+    for (let topic of await this.topics) {
       if (!topic.isOpened()) {
         i++;
       }
@@ -171,97 +133,123 @@ export class TopicService {
     return i;
   }
 
-  public getOpenedTopics(): Topic[] {
-    return this.topics.filter((topic) => topic.isOpened());
+  public async getOpenedTopics(): Promise<Topic[]> {
+    return (await this.topics).filter((topic) => topic.isOpened());
   }
 
-  public openTopic(topic: Topic) {
-    this.topics.find((t) => t.getId() === topic.getId())?.open();
+  public async openTopic(topic: Topic) {
+    (await this.topics).find((t) => t.getId() === topic.getId())?.open();
   }
 
-  public closeTopic(topic: Topic) {
-    this.topics.find((t) => t.getId() === topic.getId())?.close();
+  public async closeTopic(topic: Topic) {
+    (await this.topics).find((t) => t.getId() === topic.getId())?.close();
   }
 
-  public deleteTopic(topic: Topic) {
-    this.topics = this.topics.filter((t) => t.getId() !== topic.getId());
+  public async deleteTopic(topic: Topic) {
+    try {
+      this.http
+        .delete<Topic>(
+          'http://localhost:8089/TunisieCamp/forum/delete-forum/' +
+            topic.getId()
+        )
+        .subscribe(async (topic: any) => {
+          (await this.topics).splice(
+            (await this.topics).findIndex((t) => t.getId() === topic.getId()),
+            1
+          );
+        });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  public addTopic(topic: Topic) {
-    this.topics.push(topic);
+  public async getTopicById(id: string): Promise<Topic> {
+    return (await this.topics).find((t) => t.getId() === id)!;
   }
 
-  public addTopicToServer(topic: Topic) {
-    this.http
-      .post(this.baseUrl + 'add-forum', topic.toJson())
-      .subscribe((data: any) => {
-        this.topics.push(data);
-      });
-  }
-
-  public getTopic(id: string): Topic {
-    return this.topics.find((t) => t.getId() === id) as Topic;
-  }
-
-  public getComments(topic: Topic): Comment[] {
+  public async getComments(topic: Topic): Promise<Comment[]> {
     return topic.getComments();
   }
 
-  public addComment(topic: Topic, comment: Comment) {
-    topic.addComment(comment);
+  public async addComment(topic: Topic, comment: Comment) {
+    this.http
+      .post<Topic>(
+        'http://localhost:8089/TunisieCamp/forum/assign-Feedback-To-Forum/' +
+          topic.getId(),
+        comment
+      )
+      .subscribe(async (topic: any) => {
+        (await this.topics)
+          .find((t) => t.getId() === topic.getId())
+          ?.addComment(comment);
+      });
   }
 
-  public getTopicsByCategory(category: string): Topic[] {
-    return this.topics.filter((t) => t.getCategory() === category);
+  public async getTopicsByCategory(category: string): Promise<Topic[]> {
+    return (await this.topics).filter((t) => t.getCategory() === category);
   }
 
-  public getCategories(): string[] {
-    return this.topics
-      .map((t) => t.getCategory())
-      .filter((v, i, a) => a.indexOf(v) === i);
+  public async getCategories(): Promise<string[]> {
+    return (await this.topics).map((t) => t.getCategory());
   }
 
-  public unLike(topic: Topic) {
+  public async unLike(topic: Topic) {
     topic.unLike();
   }
 
-  public unDislike(topic: Topic) {
+  public async unDislike(topic: Topic) {
     topic.unDislike();
   }
 
-  public getClosedTopics(): Topic[] {
-    return this.topics.filter((topic) => !topic.isOpened());
+  public async getClosedTopics(): Promise<Topic[]> {
+    return (await this.topics).filter((topic) => !topic.isOpened());
   }
 
-  public like(topic: Topic) {
+  public async like(topic: Topic) {
     topic.like();
   }
 
-  public dislike(topic: Topic) {
+  public async dislike(topic: Topic) {
     topic.dislike();
   }
 
-  public getCommentByAuthorId(topic: Topic, id: number): Comment {
-    return topic.getCommentByAuthorId(id);
+  public async getCommentByAuthorId(
+    topic: Topic,
+    id: number
+  ): Promise<Comment> {
+    return topic.getComments().find((c) => c.getAuthorId() === id)!;
   }
 
-  public deleteComment(topic: Topic, comment: Comment) {
-    topic.deleteComment(comment);
+  public async deleteComment(topic: Topic, comment: Comment) {
+    this.http
+      .delete<Topic>(
+        'http://localhost:8089/TunisieCamp/Feedback/delete-Feedback/' +
+          topic.getId() +
+          '/' +
+          comment.getId()
+      )
+      .subscribe(async (topic: any) => {
+        (await this.topics)
+          .find((t) => t.getId() === topic.getId())
+          ?.deleteComment(comment);
+      });
   }
 
-  public getRecentTopics(): Topic[] {
-    return this.topics.sort((a, b) => {
+  public async getRecentTopics(): Promise<Topic[]> {
+    return (await this.topics).sort((a, b) => {
       return b.getCreationDate().getTime() - a.getCreationDate().getTime();
     });
   }
 
-  public getPopularTopics(): Topic[] {
-    return this.topics.sort((a, b) => {
+  public async getPopularTopics(): Promise<Topic[]> {
+    return (await this.topics).sort((a, b) => {
       return b.getLikes() - a.getLikes();
     });
   }
 
-  public getUnansweredTopics(): Topic[] {
-    return this.topics.filter((topic) => topic.getComments().length === 0);
+  public async getUnansweredTopics(): Promise<Topic[]> {
+    return (await this.topics).filter(
+      (topic) => topic.getComments().length === 0
+    );
   }
 }

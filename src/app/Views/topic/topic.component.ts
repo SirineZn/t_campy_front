@@ -26,15 +26,13 @@ export class TopicComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.sub = this.activatedRoute.params.subscribe((params) => {
-      this.topic = this.topicService.getTopic(params['id']);
+    this.sub = this.activatedRoute.params.subscribe((params: Params) => {
+      this.id = params['id'];
+      this.topicService.fetchTopicFromServer(this.id).then((topic) => {
+        this.topic = topic;
+      });
     });
   }
-
-  // openPopup() {
-  //   const modal: any = this.popup.nativeElement;
-  //   $(modal).modal('show');
-  // }
 
   public deleteTopic() {
     this.topicService.deleteTopic(this.topic);

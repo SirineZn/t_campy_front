@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Topic } from 'src/app/Models/topic/Topic.model';
 import { AuthService } from 'src/app/Services/auth.service';
 import { TopicService } from 'src/app/Services/topic.service';
 
@@ -12,7 +13,7 @@ export class SidebarComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    topicService: TopicService
+    private topicService: TopicService
   ) {}
 
   ngOnInit() {}

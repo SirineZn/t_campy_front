@@ -36,7 +36,9 @@ export class ModalComponent {
       return;
     }
     this.topic = new Topic(
-      (this.topicService.getTopics().length + 1).toString(),
+      this.topicService.fetchTopicsFromServer().then((topics) => {
+        return topics.length + 1;
+      }) as unknown as string,
       this.topicTitle,
       this.description,
       new Date(),
@@ -48,34 +50,17 @@ export class ModalComponent {
       this.category,
       []
     );
-    this.topicService.addTopicToServer(this.topic);
-    this.router.navigate(['/forum']);
-  }
-
-  public addTopic(): void {
-    if (!this.topicTitle || !this.description || !this.category) {
-      this.snackBar.open('Please fill all the fields', 'Close', {
+    try {
+      this.topicService.addTopicToServer(this.topic); // add topic to server
+      this.snackBar.open('Topic added', 'Close', {
         duration: 3000,
       });
-      return;
+    } catch (error) {
+      console.log(error);
+      this.snackBar.open('Error while adding topic', 'Close', {
+        duration: 3000,
+      });
     }
-    this.topic = new Topic(
-      (this.topicService.getTopics().length + 1).toString(),
-      this.topicTitle,
-      this.description,
-      new Date(),
-      this.authService.getUser(),
-      [],
-      0,
-      0,
-      'Open',
-      this.category,
-      []
-    );
-    this.topicService.addTopic(this.topic);
-    this.snackBar.open('Topic added', 'Close', {
-      duration: 3000,
-    });
     this.router.navigate(['/forum']);
   }
 }

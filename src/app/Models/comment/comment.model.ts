@@ -76,4 +76,8 @@ export class Comment {
   public updateDate(): void {
     this.updated_at = new Date();
   }
+
+  public getAuthorId(): number {
+    return this.author_id;
+  }
 }

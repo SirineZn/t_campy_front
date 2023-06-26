@@ -1,6 +1,9 @@
-#QL {
+// Variables
+$margin-left: 260px;
 
-  width: 65vw;
+#QL {
+  height: 100vh;
+  margin-left: $margin-left;
   p {
     margin: 5px;
   }

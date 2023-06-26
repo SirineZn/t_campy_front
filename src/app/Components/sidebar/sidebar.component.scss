@@ -1,3 +1,16 @@
+$margin-top: 60px;
+$width: 250px;
+
+// make the sidebar fixed and add some styles and animations to it and make it responsive
 .side {
-  margin-top: 100px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: $width;
+  background: #fff;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+  z-index: 999;
+  margin-top: $margin-top;
 }
