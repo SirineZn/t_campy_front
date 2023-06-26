@@ -3,6 +3,7 @@ import { Topic } from '../Models/topic/Topic.model';
 import { Comment } from '../Models/comment/comment.model';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -10,68 +11,80 @@ import { AuthService } from './auth.service';
 export class TopicService {
   public topics!: Promise<Topic[]>;
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private snackbar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.fetchTopicsFromServer();
   }
 
   public async fetchTopicsFromServer(): Promise<Topic[]> {
-    this.topics = this.http.get<Topic[]>(
-      'http://localhost:8089/TunisieCamp/forum/retrieve-all-forums'
-    ) as unknown as Promise<Topic[]>;
-    return this.topics;
+    try {
+      this.topics = this.http.get<Topic[]>(
+        'http://localhost:8089/TunisieCamp/forum/retrieve-all-forums'
+      ) as unknown as Promise<Topic[]>;
+      return this.topics;
+    } catch (error) {
+      console.log(error);
+      this.snackbar.open('Error while fetching topics', 'Close', {
+        duration: 3000,
+      });
+      return [];
+    }
   }
 
   public async addTopicToServer(topic: Topic): Promise<void> {
-    this.http
-      .post<Topic>('http://localhost:8089/TunisieCamp/forum/add-forum', topic)
-      .subscribe(async (topic: any) => {
-        (await this.topics).push(topic);
+    try {
+      this.http
+        .post<Topic>('http://localhost:8089/TunisieCamp/forum/add-forum', topic)
+        .subscribe(async (topic: any) => {
+          (await this.topics).push(topic);
+        });
+    } catch (error) {
+      console.log(error);
+      this.snackbar.open('Error while adding topic', 'Close', {
+        duration: 3000,
       });
+    }
   }
 
   public async updateTopicOnServer(topic: Topic): Promise<void> {
-    this.http
-      .put<Topic>(
-        'http://localhost:8089/TunisieCamp/forum/update-forum/' + topic.getId(),
-        topic
-      )
-      .subscribe(async (topic: any) => {
-        (await this.topics)
-          .find((t) => t.getId() === topic.getId())!
-          .getTitle();
-        (await this.topics)
-          .find((t) => t.getId() === topic.getId())!
-          .getDescription();
-        (await this.topics)
-          .find((t) => t.getId() === topic.getId())!
-          .setCreatedAt(topic.getCreatedAt());
-        (await this.topics)
-          .find((t) => t.getId() === topic.getId())!
-          .setUpdatedAt(topic.getUpdatedAt());
-        (await this.topics)
-          .find((t) => t.getId() === topic.getId())!
-          .setCreatedBy(topic.getCreatedBy());
-        (await this.topics)
-          .find((t) => t.getId() === topic.getId())!
-          .setUpdatedBy(topic.getUpdatedBy());
-        (await this.topics)
-          .find((t) => t.getId() === topic.getId())!
-          .setClosed(topic.isClosed());
-        (await this.topics)
-          .find((t) => t.getId() === topic.getId())!
-          .getCategory();
-        (await this.topics)
-          .find((t) => t.getId() === topic.getId())!
-          .getLikes();
-        (await this.topics)
-          .find((t) => t.getId() === topic.getId())!
-          .getDislikes();
-        (await this.topics)
-          .find((t) => t.getId() === topic.getId())!
-          .getComments();
+    try {
+      this.http
+        .put<Topic>(
+          'http://localhost:8089/TunisieCamp/forum/update-forum/' +
+            topic.getId(),
+          topic
+        )
+        .subscribe(async (topic: any) => {
+          (await this.topics)
+            .find((t) => t.getId() === topic.getId())!
+            .getTitle();
+          (await this.topics)
+            .find((t) => t.getId() === topic.getId())!
+            .getDescription();
+          (await this.topics)
+            .find((t) => t.getId() === topic.getId())!
+            .getCategory();
+          (await this.topics)
+            .find((t) => t.getId() === topic.getId())!
+            .getLikes();
+          (await this.topics)
+            .find((t) => t.getId() === topic.getId())!
+            .getDislikes();
+          (await this.topics)
+            .find((t) => t.getId() === topic.getId())!
+            .getComments();
+        });
+    } catch (error) {
+      console.log(error);
+      this.snackbar.open('Error while updating topic', 'Close', {
+        duration: 3000,
       });
+    }
   }
 
   public async countOpenedTopics(): Promise<number> {
@@ -107,16 +120,21 @@ export class TopicService {
   }
 
   public async deleteTopic(topic: Topic) {
-    this.http
-      .delete<Topic>(
-        'http://localhost:8089/TunisieCamp/forum/delete-forum/' + topic.getId()
-      )
-      .subscribe(async (topic: any) => {
-        (await this.topics).splice(
-          (await this.topics).findIndex((t) => t.getId() === topic.getId()),
-          1
-        );
-      });
+    try {
+      this.http
+        .delete<Topic>(
+          'http://localhost:8089/TunisieCamp/forum/delete-forum/' +
+            topic.getId()
+        )
+        .subscribe(async (topic: any) => {
+          (await this.topics).splice(
+            (await this.topics).findIndex((t) => t.getId() === topic.getId()),
+            1
+          );
+        });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   public async getTopicById(id: string): Promise<Topic> {

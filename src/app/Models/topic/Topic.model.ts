@@ -147,11 +147,24 @@ export class Topic {
     this.comments = this.comments.filter((c) => c.getId() !== comment.getId());
   }
 
-  getCommentAuthorId(id: number): number {
+  public updateComment(comment: Comment) {
+    this.comments = this.comments.map((c) => {
+      if (c.getId() === comment.getId()) {
+        return comment;
+      }
+      return c;
+    });
+  }
+
+  public getCommentAuthorId(id: number): number {
     return this.comments.find((c) => c.getUserId() === id)?.getId() as number;
   }
 
   public getCreationDate(): Date {
     return new Date(this.date);
+  }
+
+  public setCreationDate(date: Date) {
+    this.date = date;
   }
 }
