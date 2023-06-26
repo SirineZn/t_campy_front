@@ -29,7 +29,7 @@
       </mat-button-toggle-group>
     </div>
   </div>
-  <div>
+  <div *ngIf="topics.length != 0">
     <mat-expansion-panel *ngFor="let topic of topics" class="card">
       <mat-expansion-panel-header class="p-3">
         <mat-panel-title class="fw-bold">
@@ -56,5 +56,12 @@
         </button>
       </mat-action-row>
     </mat-expansion-panel>
+  </div>
+  <div *ngIf="topics.length == 0">
+    <div class="d-flex flex-column justify-content-center align-items-center">
+      <img src="../../../assets/undraw_void.svg" alt="void">
+      <h1 class="text-secondary">No topics found</h1>
+      <p class="text-secondary">Try to change the filter</p>
+    </div>
   </div>
 </div>
