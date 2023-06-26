@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class TopicService {
-  public topics!: Promise<Topic>[];
+  public topics!: Promise<Topic[]>;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -16,32 +16,67 @@ export class TopicService {
     this.fetchTopicsFromServer();
   }
 
-  public async fetchTopicsFromServer(): Promise<Topic>[] {
-    await this.http
-      .get<Topic[]>(
-        'http://localhost:8089/TunisieCamp/forum/retrieve-all-forums'
-      )
-      .subscribe((topics: any) => {
-        this.topics = topics;
-      });
+  public async fetchTopicsFromServer(): Promise<Topic[]> {
+    this.topics = this.http.get<Topic[]>(
+      'http://localhost:8089/TunisieCamp/forum/retrieve-all-forums'
+    ) as unknown as Promise<Topic[]>;
     return this.topics;
   }
 
   public async addTopicToServer(topic: Topic): Promise<void> {
     this.http
       .post<Topic>('http://localhost:8089/TunisieCamp/forum/add-forum', topic)
-      .subscribe((topic: any) => {
-        this.topics.push(topic);
+      .subscribe(async (topic: any) => {
+        (await this.topics).push(topic);
       });
   }
 
-  public getNumberOfOpenedTopics(): number {
-    return this.countOpenedTopics();
+  public async updateTopicOnServer(topic: Topic): Promise<void> {
+    this.http
+      .put<Topic>(
+        'http://localhost:8089/TunisieCamp/forum/update-forum/' + topic.getId(),
+        topic
+      )
+      .subscribe(async (topic: any) => {
+        (await this.topics)
+          .find((t) => t.getId() === topic.getId())!
+          .getTitle();
+        (await this.topics)
+          .find((t) => t.getId() === topic.getId())!
+          .getDescription();
+        (await this.topics)
+          .find((t) => t.getId() === topic.getId())!
+          .setCreatedAt(topic.getCreatedAt());
+        (await this.topics)
+          .find((t) => t.getId() === topic.getId())!
+          .setUpdatedAt(topic.getUpdatedAt());
+        (await this.topics)
+          .find((t) => t.getId() === topic.getId())!
+          .setCreatedBy(topic.getCreatedBy());
+        (await this.topics)
+          .find((t) => t.getId() === topic.getId())!
+          .setUpdatedBy(topic.getUpdatedBy());
+        (await this.topics)
+          .find((t) => t.getId() === topic.getId())!
+          .setClosed(topic.isClosed());
+        (await this.topics)
+          .find((t) => t.getId() === topic.getId())!
+          .getCategory();
+        (await this.topics)
+          .find((t) => t.getId() === topic.getId())!
+          .getLikes();
+        (await this.topics)
+          .find((t) => t.getId() === topic.getId())!
+          .getDislikes();
+        (await this.topics)
+          .find((t) => t.getId() === topic.getId())!
+          .getComments();
+      });
   }
 
-  public countOpenedTopics(): number {
+  public async countOpenedTopics(): Promise<number> {
     let i: number = 0;
-    for (let topic of this.topics) {
+    for (let topic of await this.topics) {
       if (topic.isOpened()) {
         i++;
       }
@@ -49,9 +84,9 @@ export class TopicService {
     return i;
   }
 
-  public countClosedTopics(): number {
+  public async countClosedTopics(): Promise<number> {
     let i: number = 0;
-    for (let topic of this.topics) {
+    for (let topic of await this.topics) {
       if (!topic.isOpened()) {
         i++;
       }
@@ -59,85 +94,118 @@ export class TopicService {
     return i;
   }
 
-  public getOpenedTopics(): Topic[] {
-    return this.topics.filter((topic) => topic.isOpened());
+  public async getOpenedTopics(): Promise<Topic[]> {
+    return (await this.topics).filter((topic) => topic.isOpened());
   }
 
-  public openTopic(topic: Topic) {
-    this.topics.find((t) => t.getId() === topic.getId())?.open();
+  public async openTopic(topic: Topic) {
+    (await this.topics).find((t) => t.getId() === topic.getId())?.open();
   }
 
-  public closeTopic(topic: Topic) {
-    this.topics.find((t) => t.getId() === topic.getId())?.close();
+  public async closeTopic(topic: Topic) {
+    (await this.topics).find((t) => t.getId() === topic.getId())?.close();
   }
 
-  public deleteTopic(topic: Topic) {
-    this.topics = this.topics.filter((t) => t.getId() !== topic.getId());
+  public async deleteTopic(topic: Topic) {
+    this.http
+      .delete<Topic>(
+        'http://localhost:8089/TunisieCamp/forum/delete-forum/' + topic.getId()
+      )
+      .subscribe(async (topic: any) => {
+        (await this.topics).splice(
+          (await this.topics).findIndex((t) => t.getId() === topic.getId()),
+          1
+        );
+      });
   }
 
-  public getTopic(id: string): Topic {
-    return this.topics.find((t) => t.getId() === id) as Topic;
+  public async getTopicById(id: string): Promise<Topic> {
+    return (await this.topics).find((t) => t.getId() === id)!;
   }
 
-  public getComments(topic: Topic): Comment[] {
+  public async getComments(topic: Topic): Promise<Comment[]> {
     return topic.getComments();
   }
 
-  public addComment(topic: Topic, comment: Comment) {
-    topic.addComment(comment);
+  public async addComment(topic: Topic, comment: Comment) {
+    this.http
+      .post<Topic>(
+        'http://localhost:8089/TunisieCamp/forum/assign-Feedback-To-Forum/' +
+          topic.getId(),
+        comment
+      )
+      .subscribe(async (topic: any) => {
+        (await this.topics)
+          .find((t) => t.getId() === topic.getId())
+          ?.addComment(comment);
+      });
   }
 
-  public getTopicsByCategory(category: string): Topic[] {
-    return this.topics.filter((t) => t.getCategory() === category);
+  public async getTopicsByCategory(category: string): Promise<Topic[]> {
+    return (await this.topics).filter((t) => t.getCategory() === category);
   }
 
-  public getCategories(): string[] {
-    return this.topics
-      .map((t) => t.getCategory())
-      .filter((v, i, a) => a.indexOf(v) === i);
+  public async getCategories(): Promise<string[]> {
+    return (await this.topics).map((t) => t.getCategory());
   }
 
-  public unLike(topic: Topic) {
+  public async unLike(topic: Topic) {
     topic.unLike();
   }
 
-  public unDislike(topic: Topic) {
+  public async unDislike(topic: Topic) {
     topic.unDislike();
   }
 
-  public getClosedTopics(): Topic[] {
-    return this.topics.filter((topic) => !topic.isOpened());
+  public async getClosedTopics(): Promise<Topic[]> {
+    return (await this.topics).filter((topic) => !topic.isOpened());
   }
 
-  public like(topic: Topic) {
+  public async like(topic: Topic) {
     topic.like();
   }
 
-  public dislike(topic: Topic) {
+  public async dislike(topic: Topic) {
     topic.dislike();
   }
 
-  public getCommentByAuthorId(topic: Topic, id: number): Comment {
-    return topic.getCommentByAuthorId(id);
+  public async getCommentByAuthorId(
+    topic: Topic,
+    id: number
+  ): Promise<Comment> {
+    return topic.getComments().find((c) => c.getAuthorId() === id)!;
   }
 
-  public deleteComment(topic: Topic, comment: Comment) {
-    topic.deleteComment(comment);
+  public async deleteComment(topic: Topic, comment: Comment) {
+    this.http
+      .delete<Topic>(
+        'http://localhost:8089/TunisieCamp/Feedback/delete-Feedback/' +
+          topic.getId() +
+          '/' +
+          comment.getId()
+      )
+      .subscribe(async (topic: any) => {
+        (await this.topics)
+          .find((t) => t.getId() === topic.getId())
+          ?.deleteComment(comment);
+      });
   }
 
-  public getRecentTopics(): Topic[] {
-    return this.topics.sort((a, b) => {
+  public async getRecentTopics(): Promise<Topic[]> {
+    return (await this.topics).sort((a, b) => {
       return b.getCreationDate().getTime() - a.getCreationDate().getTime();
     });
   }
 
-  public getPopularTopics(): Topic[] {
-    return this.topics.sort((a, b) => {
+  public async getPopularTopics(): Promise<Topic[]> {
+    return (await this.topics).sort((a, b) => {
       return b.getLikes() - a.getLikes();
     });
   }
 
-  public getUnansweredTopics(): Topic[] {
-    return this.topics.filter((topic) => topic.getComments().length === 0);
+  public async getUnansweredTopics(): Promise<Topic[]> {
+    return (await this.topics).filter(
+      (topic) => topic.getComments().length === 0
+    );
   }
 }
