@@ -38,7 +38,7 @@ export class Topic {
     this.comments = comments;
   }
 
-  public static fromJson(json: any): Topic {
+  public fromJson(json: any): Topic {
     return new Topic(
       json.id,
       json.title,
@@ -54,6 +54,21 @@ export class Topic {
     );
   }
 
+  public toJson(): any {
+    return {
+      id: this.id,
+      title: this.title,
+      description: this.description,
+      date: this.date,
+      author: this.author,
+      tags: this.tags,
+      likes: this.likes,
+      dislikes: this.dislikes,
+      Status: this.Status,
+      category: this.category,
+      comments: this.comments,
+    };
+  }
   public isOpened(): boolean {
     return this.Status === 'Open';
   }
@@ -122,13 +137,8 @@ export class Topic {
     return this.category;
   }
 
-  public toJson(): any {
-    return {
-      id: this.id,
-      title: this.title,
-      description: this.description,
-      date: this.date,
-    };
+  public getCommentsNumber(): number {
+    return this.comments.length;
   }
 
   public unLike(): void {
