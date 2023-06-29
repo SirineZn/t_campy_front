@@ -1,84 +1,65 @@
 import { Injectable } from '@angular/core';
 import { Complaint } from '../Models/Complaint/complaint';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from './auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ComplaintService {
-  constructor() {}
+  public complaints!: Promise<Complaint[]>;
 
-  public getComplaintsFromServer() {
-    return fetch(
-      'http://localhost:8089/TunisieCamp/Complaint/retrieve-all-Complaints'
-    )
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        return data.map((complaint: any) => {
-          return new Complaint(
-            complaint.id,
-            complaint.object,
-            complaint.message,
-            complaint.date,
-            complaint.reponse,
-            complaint.user_id,
-            complaint.admin_id
-          );
-        }
-        );
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private snackbar: MatSnackBar
+  ) {}
+
+  ngOnInit(): void {
+    this.fetchComplaintsFromServer();
+  }
+
+  public async fetchComplaintsFromServer() {
+    await this.http
+      .get<Complaint[]>(
+        'http://localhost:8089/TunisieCamp/Complaint/retrieve-all-Complaints'
+      )
+      .subscribe((data) => {
+        this.complaints = Promise.resolve(data);
       });
   }
 
-  public addComplaintToServer(complaint: Complaint) {
-    return fetch('http://localhost:8089/TunisieCamp/Complaint/add-Complaint', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(complaint.toJSON()),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        return data;
+  public async addComplaintToServer(complaint: Complaint) {
+    await this.http
+      .post(
+        'http://localhost:8089/TunisieCamp/Complaint/add-Complaint',
+        complaint.toJSON()
+      )
+      .subscribe((data) => {
+        this.fetchComplaintsFromServer();
       });
   }
 
-  public updateComplaintToServer(complaint: Complaint) {
-    return fetch(
-      'http://localhost:8089/TunisieCamp/Complaint/update-Complaint/' +
-        complaint.id,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(complaint.toJSON()),
-      }
-    )
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        return data;
+  public async deleteComplaintFromServer(id: number) {
+    await this.http
+      .delete(
+        'http://localhost:8089/TunisieCamp/Complaint/delete-Complaint/' + id
+      )
+      .subscribe((data) => {
+        this.fetchComplaintsFromServer();
       });
   }
 
-  public deleteComplaintFromServer(complaint: Complaint) {
-    return fetch(
-      'http://localhost:8089/TunisieCamp/Complaint/remove-Complaint/' +
-        complaint.id,
-      {
-        method: 'DELETE',
-      }
-    )
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        return data;
+  public async updateComplaintFromServer(complaint: Complaint) {
+    await this.http
+      .put(
+        'http://localhost:8089/TunisieCamp/Complaint/update-Complaint/' +
+          complaint.id,
+        complaint.toJSON()
+      )
+      .subscribe((data) => {
+        this.fetchComplaintsFromServer();
       });
   }
 }
