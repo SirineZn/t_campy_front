@@ -20,46 +20,74 @@ export class ComplaintService {
     this.fetchComplaintsFromServer();
   }
 
-  public async fetchComplaintsFromServer() {
-    await this.http
-      .get<Complaint[]>(
-        'http://localhost:8089/TunisieCamp/Complaint/retrieve-all-Complaints'
-      )
-      .subscribe((data) => {
-        this.complaints = Promise.resolve(data);
+  public fetchComplaintsFromServer(): void {
+    try {
+      this.http
+        .get<Complaint[]>(
+          'http://localhost:8089/TunisieCamp/Complaint/retrieve-all-Complaints'
+        )
+        .subscribe((data) => {
+          this.complaints = Promise.resolve(data);
+        });
+    } catch (error) {
+      console.log(error);
+      this.snackbar.open('Error while fetching complaints', 'Close', {
+        duration: 3000,
       });
+    }
   }
 
   public async addComplaintToServer(complaint: Complaint) {
-    await this.http
-      .post(
-        'http://localhost:8089/TunisieCamp/Complaint/add-Complaint',
-        complaint.toJSON()
-      )
-      .subscribe((data) => {
-        this.fetchComplaintsFromServer();
+    try {
+      this.http
+        .post(
+          'http://localhost:8089/TunisieCamp/Complaint/add-Complaint',
+          complaint.toJSON()
+        )
+        .subscribe((data) => {
+          this.fetchComplaintsFromServer();
+        });
+    } catch (error) {
+      console.log(error);
+      this.snackbar.open('Error while adding complaint', 'Close', {
+        duration: 3000,
       });
+    }
   }
 
   public async deleteComplaintFromServer(id: number) {
-    await this.http
-      .delete(
-        'http://localhost:8089/TunisieCamp/Complaint/delete-Complaint/' + id
-      )
-      .subscribe((data) => {
-        this.fetchComplaintsFromServer();
+    try {
+      this.http
+        .delete(
+          'http://localhost:8089/TunisieCamp/Complaint/delete-Complaint/' + id
+        )
+        .subscribe((data) => {
+          this.fetchComplaintsFromServer();
+        });
+    } catch (error) {
+      console.log(error);
+      this.snackbar.open('Error while deleting complaint', 'Close', {
+        duration: 3000,
       });
+    }
   }
 
   public async updateComplaintFromServer(complaint: Complaint) {
-    await this.http
-      .put(
-        'http://localhost:8089/TunisieCamp/Complaint/update-Complaint/' +
-          complaint.id,
-        complaint.toJSON()
-      )
-      .subscribe((data) => {
-        this.fetchComplaintsFromServer();
+    try {
+      this.http
+        .put(
+          'http://localhost:8089/TunisieCamp/Complaint/update-Complaint/' +
+            complaint.id,
+          complaint.toJSON()
+        )
+        .subscribe((data) => {
+          this.fetchComplaintsFromServer();
+        });
+    } catch (error) {
+      console.log(error);
+      this.snackbar.open('Error while updating complaint', 'Close', {
+        duration: 3000,
       });
+    }
   }
 }
