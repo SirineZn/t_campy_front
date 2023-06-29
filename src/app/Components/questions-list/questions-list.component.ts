@@ -14,7 +14,7 @@ export class QuestionsListComponent {
   protected numberOfClosedTopics: number = 0;
   protected closedTopics: Topic[] = [];
   protected topics: Topic[] = [];
-  Status: any = 'all';
+  Status: string = 'all';
 
   constructor(private topicService: TopicService) {}
 

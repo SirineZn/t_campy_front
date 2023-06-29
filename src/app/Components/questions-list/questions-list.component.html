@@ -57,9 +57,9 @@
       </mat-action-row>
     </mat-expansion-panel>
   </div>
-  <div *ngIf="topics.length == 0">
+  <div *ngIf="topics.length == 0 || topics.length == null">
     <div class="d-flex flex-column justify-content-center align-items-center">
-      <img src="../../../assets/undraw_void.svg" alt="void">
+      <img src="../../../assets/Empty.png" alt="empty">
       <h1 class="text-secondary">No topics found</h1>
       <p class="text-secondary">Try to change the filter</p>
     </div>
