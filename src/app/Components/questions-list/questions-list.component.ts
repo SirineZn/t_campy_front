@@ -31,9 +31,10 @@ export class QuestionsListComponent {
     this.topicService.getClosedTopics().then((topics) => {
       this.closedTopics = topics;
     });
-    this.topicService.fetchTopicsFromServer().then((topics) => {
-      this.topics = topics as Topic[];
-    });
+    // this.topicService.fetchTopicsFromServer().then((topics) => {
+    //   this.topics = topics as Topic[];
+    // });
+    this.topics = this.topicService.getTopics();
   }
 
   sort($event: any) {

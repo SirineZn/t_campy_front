@@ -1,14 +1,14 @@
 <div
   class="modal fade"
-  id="exampleModal"
+  id="topicModal"
   tabindex="-1"
-  aria-labelledby="exampleModalLabel"
+  aria-labelledby="topicModalLabel"
   aria-hidden="true"
 >
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ title }}</h1>
+        <h1 class="modal-title fs-5" id="topicModalLabel">Add Topic</h1>
         <button
           type="button"
           class="btn-close"
@@ -19,7 +19,7 @@
       <div class="modal-body">
         <div class="input-group mb-2">
           <input
-            [(ngModel)]="topicTitle"
+            [(ngModel)]="title"
             class="form-control"
             aria-label="title"
             type="text"
@@ -56,6 +56,60 @@
           (click)="addTopicToServer()"
         >
           Add Topic
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="complaintModal"
+  tabindex="-1"
+  aria-labelledby="complaintModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="complaintModalLabel">Add Complaint</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group mb-2">
+          <input
+            [(ngModel)]="title"
+            class="form-control"
+            aria-label="title"
+            type="text"
+            placeholder="Object"
+          />
+        </div>
+        <div class="input-group mb-2">
+          <textarea
+            [(ngModel)]="description"
+            class="form-control"
+            aria-label="description"
+            type="text"
+            placeholder="Message"
+          ></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          (click)="addComplaint()"
+        >
+          Add Complaint
         </button>
       </div>
     </div>

@@ -9,6 +9,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ComplaintService {
   public complaints!: Promise<Complaint[]>;
+  public StaticComplaints: Complaint[] = [
+    new Complaint(1, 'object', 'message', new Date(), 'reponse', 1, 1),
+  ];
 
   constructor(
     private http: HttpClient,
@@ -18,6 +21,14 @@ export class ComplaintService {
 
   ngOnInit(): void {
     this.fetchComplaintsFromServer();
+  }
+
+  public getComplaints(): Complaint[] {
+    return this.StaticComplaints;
+  }
+
+  public addComplaint(complaint: Complaint): void {
+    this.StaticComplaints.push(complaint);
   }
 
   public fetchComplaintsFromServer(): void {

@@ -34,15 +34,16 @@ export class TopicComponent implements OnInit {
     });
   }
 
-  public deleteTopic() {
-    this.topicService.deleteTopic(this.topic);
+  public deleteTopicFromServer() {
+    this.topicService.deleteTopicFromServer(this.topic);
+    // this.topicService.deleteTopic(this.topic);
   }
 
-  public editTopic() {
+  public editTopicInServer() {
     this.router.navigate(['/edit-topic', this.topic.getId()]);
   }
 
-  public closeTopic() {
+  public closeTopicInServer() {
     this.topicService.closeTopic(this.topic);
   }
 
@@ -80,7 +81,8 @@ export class TopicComponent implements OnInit {
       new Date(),
       new Date()
     );
-    this.topicService.addComment(this.topic, newComment);
+    this.topicService.addCommentToServer(this.topic, newComment);
+    // this.topicService.addComment(this.topic, newComment);
     this.comment = '';
   }
 

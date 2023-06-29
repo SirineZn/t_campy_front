@@ -10,6 +10,21 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class TopicService {
   public topics!: Promise<Topic[]>;
+  public StaticTopics: Topic[] = [
+    new Topic(
+      '1',
+      'How to use this forum?',
+      "I am new to this forum and I don't know how to use it. Can someone help me?",
+      new Date(),
+      this.authService.getUser(),
+      [],
+      0,
+      0,
+      'Open',
+      'Help',
+      []
+    ),
+  ];
 
   constructor(
     private http: HttpClient,
@@ -18,7 +33,8 @@ export class TopicService {
   ) {}
 
   ngOnInit(): void {
-    this.fetchTopicsFromServer();
+    // this.fetchTopicsFromServer();
+    this.getTopics();
   }
 
   public async fetchTopicsFromServer(): Promise<Topic[]> {
@@ -60,6 +76,10 @@ export class TopicService {
         []
       );
     }
+  }
+
+  public getTopics(): Topic[] {
+    return this.StaticTopics;
   }
 
   public async addTopicToServer(topic: Topic): Promise<void> {
@@ -115,7 +135,7 @@ export class TopicService {
 
   public async countOpenedTopics(): Promise<number> {
     let i: number = 0;
-    for (let topic of await this.topics) {
+    for (let topic of await this.StaticTopics) {
       if (topic.isOpened()) {
         i++;
       }
@@ -125,7 +145,7 @@ export class TopicService {
 
   public async countClosedTopics(): Promise<number> {
     let i: number = 0;
-    for (let topic of await this.topics) {
+    for (let topic of await this.StaticTopics) {
       if (!topic.isOpened()) {
         i++;
       }
@@ -145,7 +165,7 @@ export class TopicService {
     (await this.topics).find((t) => t.getId() === topic.getId())?.close();
   }
 
-  public async deleteTopic(topic: Topic) {
+  public async deleteTopicFromServer(topic: Topic) {
     try {
       this.http
         .delete<Topic>(
@@ -171,7 +191,7 @@ export class TopicService {
     return topic.getComments();
   }
 
-  public async addComment(topic: Topic, comment: Comment) {
+  public async addCommentToServer(topic: Topic, comment: Comment) {
     this.http
       .post<Topic>(
         'http://localhost:8089/TunisieCamp/forum/assign-Feedback-To-Forum/' +
