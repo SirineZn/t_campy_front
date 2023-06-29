@@ -15,7 +15,7 @@ export class ComplaintService {
         return response.json();
       })
       .then((data) => {
-        return data.map((complaint: Complaint) => {
+        return data.map((complaint: any) => {
           return new Complaint(
             complaint.id,
             complaint.object,
@@ -25,7 +25,8 @@ export class ComplaintService {
             complaint.user_id,
             complaint.admin_id
           );
-        });
+        }
+        );
       });
   }
 
@@ -37,6 +38,42 @@ export class ComplaintService {
       },
       body: JSON.stringify(complaint.toJSON()),
     })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        return data;
+      });
+  }
+
+  public updateComplaintToServer(complaint: Complaint) {
+    return fetch(
+      'http://localhost:8089/TunisieCamp/Complaint/update-Complaint/' +
+        complaint.id,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(complaint.toJSON()),
+      }
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        return data;
+      });
+  }
+
+  public deleteComplaintFromServer(complaint: Complaint) {
+    return fetch(
+      'http://localhost:8089/TunisieCamp/Complaint/remove-Complaint/' +
+        complaint.id,
+      {
+        method: 'DELETE',
+      }
+    )
       .then((response) => {
         return response.json();
       })
