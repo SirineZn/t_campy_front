@@ -78,6 +78,10 @@ export class TopicService {
     }
   }
 
+  public getTopic(id: number): Topic {
+    return this.StaticTopics.find((t) => t.getId() === id.toString())!;
+  }
+
   public getTopics(): Topic[] {
     return this.StaticTopics;
   }
@@ -203,6 +207,20 @@ export class TopicService {
           .find((t) => t.getId() === topic.getId())
           ?.addComment(comment);
       });
+  }
+
+  public addComment(topic: Topic, comment: Comment) {
+    topic.addComment(comment);
+  }
+
+  public async updateCommentOnServer(topic: Topic, comment: Comment) {
+    this.http.put<Topic>(
+      'http://localhost:8089/TunisieCamp/Feedback/update-Feedback/' +
+        topic.getId() +
+        '/' +
+        comment.getId(),
+      comment
+    );
   }
 
   public async getTopicsByCategory(category: string): Promise<Topic[]> {

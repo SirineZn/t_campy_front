@@ -28,9 +28,10 @@ export class TopicComponent implements OnInit {
   ngOnInit(): void {
     this.sub = this.activatedRoute.params.subscribe((params: Params) => {
       this.id = params['id'];
-      this.topicService.fetchTopicFromServer(this.id).then((topic) => {
-        this.topic = topic;
-      });
+      // this.topicService.fetchTopicFromServer(this.id).then((topic) => {
+      //   this.topic = topic;
+      // });
+      this.topic = this.topicService.getTopic(this.id);
     });
   }
 
@@ -81,8 +82,8 @@ export class TopicComponent implements OnInit {
       new Date(),
       new Date()
     );
-    this.topicService.addCommentToServer(this.topic, newComment);
-    // this.topicService.addComment(this.topic, newComment);
+    // this.topicService.addCommentToServer(this.topic, newComment);
+    this.topicService.addComment(this.topic, newComment);
     this.comment = '';
   }
 
