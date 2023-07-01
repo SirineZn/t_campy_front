@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from 'src/app/Models/User/user';
 import { AuthService } from 'src/app/Services/auth.service';
 import { UserService } from 'src/app/Services/user.service';
 
@@ -9,6 +10,9 @@ import { UserService } from 'src/app/Services/user.service';
   styleUrls: ['./admin.component.scss'],
 })
 export class AdminComponent {
+  currentUser = this.authService.getUser();
+  user!: User;
+
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -19,6 +23,8 @@ export class AdminComponent {
     } else {
       this.router.navigate(['/']);
     }
+
+    this.user = this.authService.getUser();
   }
 
   ngOnInit() {}

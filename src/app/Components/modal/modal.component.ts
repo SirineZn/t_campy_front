@@ -44,7 +44,7 @@ export class ModalComponent {
       this.title,
       this.description,
       new Date(),
-      this.authService.getUser(),
+      this.authService.getUsername(),
       [],
       0,
       0,

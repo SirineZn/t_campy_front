@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { User } from '../Models/User/user';
 
 @Injectable({
   providedIn: 'root',
@@ -80,7 +81,55 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
-  public getUser(): string {
-    return localStorage.getItem('userId')!;
+  public getUsername(): string {
+    return localStorage.getItem('userName')!;
+  }
+
+  public setUsername(username: string): void {
+    localStorage.setItem('userName', username);
+  }
+
+  public removeUsername(): void {
+    localStorage.removeItem('userName');
+  }
+
+  public getPassword(): string {
+    return localStorage.getItem('password')!;
+  }
+
+  public setPassword(password: string): void {
+    localStorage.setItem('password', password);
+  }
+
+  public getEmail(): string {
+    return localStorage.getItem('email')!;
+  }
+
+  public setEmail(email: string): void {
+    localStorage.setItem('email', email);
+  }
+
+  public getAge(): number {
+    return Number(localStorage.getItem('age'));
+  }
+
+  public setAge(age: number): void {
+    localStorage.setItem('age', age.toString());
+  }
+
+  public removeAge(): void {
+    localStorage.removeItem('age');
+  }
+
+  public getUser(): User {
+    return new User(
+      Number(this.getUserId()),
+      this.getUsername(),
+      this.getEmail(),
+      this.getPassword(),
+      this.getAge(),
+      this.isAdmin(),
+      ''
+    );
   }
 }

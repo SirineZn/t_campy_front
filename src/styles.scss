@@ -28,5 +28,26 @@
   }
 }
 
+.btn-custom-blue-filled:disabled {
+  background-color: #2e77ae;
+  color: white;
+  &:hover {
+    background-color: #2e77ae;
+    color: white;
+  }
+}
+
+.bg-custom-blue-light {
+  background-color: rgba(30, 144, 255, 0.5);
+}
+
+.bg-custom-blue {
+  background-color: #2e77ae;
+}
+
+.bg-custom-blue-dark {
+  background-color: #25618e;
+}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

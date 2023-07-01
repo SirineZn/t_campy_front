@@ -1,14 +1,30 @@
 <div class="d-flex flex-row mt-5 pt-4 align-items-center">
   <mat-drawer-container>
-    <mat-drawer mode="side" opened>
-      <div class="">
-        <h1>Admin</h1>
-        <p>Admin page</p>
+    <mat-drawer mode="side" opened class="bg-white shadow rounded m-1 p-2">
+      <div class="d-flex flex-column">
+        <a href="admin" class="my-1 btn btn-custom-blue fw-bold fs-5"><i class="bi bi-speedometer"></i> Dashboard</a>
+        <a href="admin" class="my-1 btn btn-custom-blue fw-bold fs-5"><i class="bi bi-bar-chart"></i> Charts</a>
+        <a href="admin" class="my-1 btn btn-custom-blue fw-bold fs-5"><i class="bi bi-people"></i> Users</a>
+        <a href="admin" class="my-1 btn btn-custom-blue fw-bold fs-5"><i class="bi bi-gear"></i> Settings</a>
+        <a href="admin" class="my-1 btn btn-custom-blue fw-bold fs-5"><i class="bi bi-question-circle"></i> Help</a>
       </div>
     </mat-drawer>
-    <mat-drawer-content>
-      <div class="p-5 bg-custom-blue">
-        Content
+    <mat-drawer-content class="ml-5 p-5 shadow rounded bg-white">
+      <div class="">
+        <h1 class="fw-bold fs-1">Admin Dashboard</h1>
+        <p class="fs-5">Welcome to the admin dashboard. Here you can manage the site.</p>
+      </div>
+      <div>
+        <div class="d-flex flex-row justify-content-between">
+          <div class="d-flex flex-column bg-white card card-body m-2">
+            <h2 class="fw-bold fs-2">Users</h2>
+            <p class="fs-5">Manage users</p>
+          </div>
+          <div class="d-flex flex-column bg-white card card-body m-2">
+            <h2 class="fw-bold fs-2">Questions</h2>
+            <p class="fs-5">Manage questions</p>
+          </div>
+        </div>
       </div>
     </mat-drawer-content>
   </mat-drawer-container>
