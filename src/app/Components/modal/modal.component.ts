@@ -88,6 +88,8 @@ export class ModalComponent {
       this.snackBar.open('Complaint added', 'Close', {
         duration: 3000,
       });
+      this.title = '';
+      this.description = '';
     } catch (error) {
       console.log(error);
       this.snackBar.open('Error while adding complaint', 'Close', {
