@@ -63,6 +63,8 @@ export class ModalComponent {
         duration: 3000,
       });
     }
+    this.title = '';
+    this.description = '';
     this.router.navigate(['/forum']);
   }
 
@@ -96,5 +98,7 @@ export class ModalComponent {
         duration: 3000,
       });
     }
+    this.title = '';
+    this.description = '';
   }
 }
