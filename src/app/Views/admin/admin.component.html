@@ -1,4 +1,16 @@
-<div>
-  <h1>Admin</h1>
-  <p>Admin page</p>
+<div class="d-flex flex-row mt-5 pt-4 align-items-center">
+  <mat-drawer-container>
+    <mat-drawer mode="side" opened>
+      <div class="">
+        <h1>Admin</h1>
+        <p>Admin page</p>
+      </div>
+    </mat-drawer>
+    <mat-drawer-content>
+      <div class="p-5 bg-custom-blue">
+        Content
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+  <app-modal></app-modal>
 </div>
