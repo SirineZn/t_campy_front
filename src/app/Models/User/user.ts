@@ -60,19 +60,19 @@ export class User {
     return this.name.split(' ')[0];
   }
 
-  public getID(): number {
+  public getId(): number {
     return this.id;
   }
 
-  public setID(id: number): void {
+  public setId(id: number): void {
     this.id = id;
   }
 
-  public getName(): string {
+  public getUsername(): string {
     return this.name;
   }
 
-  public setName(name: string): void {
+  public setUsername(name: string): void {
     this.name = name;
   }
 
@@ -108,8 +108,12 @@ export class User {
     return this.group;
   }
 
-  public setgroup(group: string): void {
+  public setGroup(group: string): void {
     this.group = group;
+  }
+
+  public isAdmin(): boolean {
+    return this.admin;
   }
 
   public toJson(): any {

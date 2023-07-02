@@ -23,11 +23,12 @@ export class AdminComponent {
     } else {
       this.router.navigate(['/']);
     }
-
-    this.user = this.authService.getUser();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.user = this.authService.getUser();
+    console.log(this.user.getUsername());
+  }
 
   public logout(): void {
     this.authService.logout();

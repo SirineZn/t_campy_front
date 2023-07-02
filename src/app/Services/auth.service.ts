@@ -5,6 +5,8 @@ import { User } from '../Models/User/user';
   providedIn: 'root',
 })
 export class AuthService {
+  public user!: User;
+
   constructor() {}
 
   public isAuthenticated(): boolean {
@@ -23,8 +25,8 @@ export class AuthService {
     localStorage.removeItem('token');
   }
 
-  public getUserId(): string {
-    return localStorage.getItem('userId')!;
+  public getUserId(): number {
+    return Number(localStorage.getItem('userId')!);
   }
 
   public setUserId(userId: string): void {
@@ -52,6 +54,9 @@ export class AuthService {
       this.setToken('token');
       this.setUserId('2');
     }
+    this.setUsername(username);
+    this.setPassword(password);
+    this.setCurrentUser();
   }
 
   public register(username: string, password: string, age: number): void {
@@ -59,12 +64,14 @@ export class AuthService {
       this.setToken('token');
       this.setUserId('1');
       this.setAdmin();
-      this.login(username, password);
     } else {
       this.setToken('token');
       this.setUserId('2');
-      this.login(username, password);
     }
+    this.setUsername(username);
+    this.setPassword(password);
+    this.setAge(age);
+    this.login(username, password);
   }
 
   public removeAdmin(): void {
@@ -122,8 +129,12 @@ export class AuthService {
   }
 
   public getUser(): User {
-    return new User(
-      Number(this.getUserId()),
+    return this.user;
+  }
+
+  public setCurrentUser(): void {
+    this.user = new User(
+      this.getUserId(),
       this.getUsername(),
       this.getEmail(),
       this.getPassword(),
