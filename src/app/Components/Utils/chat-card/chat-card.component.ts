@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { Topic } from '../../../Models/topic/Topic.model';
+import { Forum } from '../../../Models/forum/forum.model';
 
 @Component({
   selector: 'app-chat-card',
   templateUrl: './chat-card.component.html',
-  styleUrls: ['./chat-card.component.scss']
+  styleUrls: ['./chat-card.component.scss'],
 })
 export class ChatCardComponent {
   @Input()
-  public card!: Topic;
+  public forum!: Forum;
 }

@@ -1,8 +1,8 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Comment } from 'src/app/Models/comment/comment.model';
-import { Topic } from 'src/app/Models/topic/Topic.model';
-import { TopicService } from 'src/app/Services/topic.service';
+import { Forum } from 'src/app/Models/forum/forum.model';
+import { ForumService } from 'src/app/Services/forum.service';
 
 @Component({
   selector: 'app-topic',
@@ -11,7 +11,7 @@ import { TopicService } from 'src/app/Services/topic.service';
 })
 export class TopicComponent implements OnInit {
   @Input()
-  public topic!: Topic;
+  public forum!: Forum;
   id!: number;
   sub!: any;
 
@@ -22,30 +22,30 @@ export class TopicComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private topicService: TopicService
+    private forumService: ForumService
   ) {}
 
   ngOnInit(): void {
     this.sub = this.activatedRoute.params.subscribe((params: Params) => {
       this.id = params['id'];
-      // this.topicService.fetchTopicFromServer(this.id).then((topic) => {
-      //   this.topic = topic;
+      // this.forumService.fetchForumFromServer(this.id).then((forum) => {
+      //   this.forum = forum;
       // });
-      this.topic = this.topicService.getTopic(this.id);
+      this.forum = this.forumService.getForum(this.id);
     });
   }
 
-  public deleteTopicFromServer() {
-    this.topicService.deleteTopicFromServer(this.topic);
-    // this.topicService.deleteTopic(this.topic);
+  public deleteForumFromServer() {
+    this.forumService.deleteForumFromServer(this.forum);
+    // this.forumService.deleteForum(this.forum);
   }
 
-  public editTopicInServer() {
-    this.router.navigate(['/edit-topic', this.topic.getId()]);
+  public editForumInServer() {
+    this.router.navigate(['/edit-forum', this.forum.getId()]);
   }
 
-  public closeTopicInServer() {
-    this.topicService.closeTopic(this.topic);
+  public closeForumInServer() {
+    this.forumService.closeForum(this.forum);
   }
 
   ngOnDestroy() {
@@ -57,15 +57,15 @@ export class TopicComponent implements OnInit {
   }
 
   public getComments() {
-    return this.topic.getComments();
+    return this.forum.getComments();
   }
 
-  public getTopic() {
-    return this.topic;
+  public getForum() {
+    return this.forum;
   }
 
-  public getTopicId() {
-    return this.topic.getId();
+  public getForumId() {
+    return this.forum.getId();
   }
 
   public addComment(comment: string) {
@@ -74,20 +74,20 @@ export class TopicComponent implements OnInit {
       return;
     }
     let newComment = new Comment(
-      this.topic.getComments().length,
+      this.forum.getComments().length,
       comment,
       'neutral',
       1,
-      Number(this.topic.getId()),
+      Number(this.forum.getId()),
       new Date(),
       new Date()
     );
-    // this.topicService.addCommentToServer(this.topic, newComment);
-    this.topicService.addComment(this.topic, newComment);
+    // this.forumService.addCommentToServer(this.forum, newComment);
+    this.forumService.addComment(this.forum, newComment);
     this.comment = '';
   }
 
   public deleteComment(comment: Comment) {
-    this.topicService.deleteComment(this.topic, comment);
+    this.forumService.deleteComment(this.forum, comment);
   }
 }

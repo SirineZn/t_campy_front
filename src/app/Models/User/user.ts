@@ -130,4 +130,8 @@ export class User {
   public toString(): string {
     return JSON.stringify(this.toJson());
   }
+
+  public static empty(): User {
+    return new User(0, '', '', '', 0, false, '');
+  }
 }

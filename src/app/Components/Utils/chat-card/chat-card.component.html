@@ -5,15 +5,15 @@
     </div>
     <div class="d-flex flex-column mx-3">
       <div>
-        <p class="fw-bold text-dark">{{ card.getTitle() }}</p>
+        <p class="fw-bold text-dark">{{ forum.getTitle() }}</p>
       </div>
       <div>
         Category:
-        <span class="fw-bold">{{ card.getCategory() }}</span>
+        <span class="fw-bold">{{ forum.getCategory() }}</span>
       </div>
       <div class="d-flex flex-row">
         Tags:
-        <div *ngFor="let tag of card.getTags()">
+        <div *ngFor="let tag of forum.getTags()">
           <app-topic-pill tag="{{ tag }}"></app-topic-pill>
         </div>
       </div>
@@ -21,11 +21,11 @@
   </div>
   <div class="d-flex flex-column">
     <div>
-      <p>{{ card.getStatus() }}</p>
+      <p>{{ forum.getStatus() }}</p>
     </div>
     <div class="d-flex flex-row">
-      <p class="px-1 text-success"><i class="bi bi-hand-thumbs-up"></i> {{ card.getLikes() }}</p>
-      <p class="px-1 text-danger"><i class="bi bi-hand-thumbs-down"></i> {{ card.getDislikes() }}</p>
+      <p class="px-1 text-success"><i class="bi bi-hand-thumbs-up"></i> {{ forum.getLikes() }}</p>
+      <p class="px-1 text-danger"><i class="bi bi-hand-thumbs-down"></i> {{ forum.getDislikes() }}</p>
     </div>
   </div>
 </div>

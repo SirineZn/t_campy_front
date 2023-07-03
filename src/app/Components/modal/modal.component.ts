@@ -2,10 +2,10 @@ import { Component, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Complaint } from 'src/app/Models/Complaint/complaint';
-import { Topic } from 'src/app/Models/topic/Topic.model';
+import { Forum } from 'src/app/Models/forum/forum.model';
 import { AuthService } from 'src/app/Services/auth.service';
 import { ComplaintService } from 'src/app/Services/complaint.service';
-import { TopicService } from 'src/app/Services/topic.service';
+import { ForumService } from 'src/app/Services/forum.service';
 
 @Component({
   selector: 'app-modal',
@@ -13,7 +13,7 @@ import { TopicService } from 'src/app/Services/topic.service';
   styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent {
-  topic!: Topic;
+  forum!: Forum;
   complaint!: Complaint;
 
   title!: string;
@@ -23,22 +23,22 @@ export class ModalComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private topicService: TopicService,
+    private forumService: ForumService,
     private complaintService: ComplaintService,
     private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {}
 
-  public addTopicToServer(): void {
+  public addForumToServer(): void {
     if (!this.title || !this.description || !this.category) {
       this.snackBar.open('Please fill all the fields', 'Close', {
         duration: 3000,
       });
       return;
     }
-    this.topic = new Topic(
-      (this.topicService.getTopics().length + 1).toString(),
+    this.forum = new Forum(
+      (this.forumService.getForums().length + 1).toString(),
       this.title,
       this.description,
       new Date(),
@@ -52,13 +52,13 @@ export class ModalComponent {
       []
     );
     try {
-      this.topicService.addTopicToServer(this.topic); // add topic to server
-      this.snackBar.open('Topic added', 'Close', {
+      this.forumService.addForumToServer(this.forum); // add Forum to server
+      this.snackBar.open('Forum added', 'Close', {
         duration: 3000,
       });
     } catch (error) {
       console.log(error);
-      this.snackBar.open('Error while adding topic', 'Close', {
+      this.snackBar.open('Error while adding Forum', 'Close', {
         duration: 3000,
       });
     }

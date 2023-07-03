@@ -1,6 +1,6 @@
 import { Complaint } from '../Complaint/complaint';
 import { Comment } from '../comment/comment.model';
-export class Topic {
+export class Forum {
   private id: string;
   private title: string;
   private description: string;
@@ -42,8 +42,8 @@ export class Topic {
     this.complaints = complaints;
   }
 
-  public static fromJson(json: any): Topic {
-    return new Topic(
+  public static fromJson(json: any): Forum {
+    return new Forum(
       json.id,
       json.title,
       json.description,
@@ -59,8 +59,8 @@ export class Topic {
     );
   }
 
-  public static fromJsonArray(json: any): Topic[] {
-    return json.map(Topic.fromJson);
+  public static fromJsonArray(json: any): Forum[] {
+    return json.map(Forum.fromJson);
   }
 
   public toJson(): any {
@@ -192,7 +192,7 @@ export class Topic {
     return this.complaints;
   }
 
-  public static empty(): Topic {
-    return new Topic('', '', '', new Date(), '', [], 0, 0, '', '', [], []);
+  public static empty(): Forum {
+    return new Forum('', '', '', new Date(), '', [], 0, 0, '', '', [], []);
   }
 }

@@ -2,7 +2,7 @@
   <div class="card">
     <div class="d-flex card-header align-items-center justify-content-between">
       <div class="d-flex align-items-center">
-        <h1 class="mx-1">{{ topic.getTitle() }}</h1>
+        <h1 class="mx-1">{{ forum.getTitle() }}</h1>
       </div>
       <div class="d-flex align-items-center">
         <div
@@ -15,31 +15,31 @@
             src="../../../assets/user.jpeg"
             alt="user"
           />
-          <p>{{ topic.getAuthor() }}</p>
+          <p>{{ forum.getAuthor() }}</p>
         </div>
         <div class="d-flex flex-column mx-2">
-          <button class="btn btn-outline-success my-1" (click)="topic.like()">
-            <i class="px-1 bi bi-hand-thumbs-up">{{ topic.getLikes() }}</i>
+          <button class="btn btn-outline-success my-1" (click)="forum.like()">
+            <i class="px-1 bi bi-hand-thumbs-up">{{ forum.getLikes() }}</i>
           </button>
-          <button class="btn btn-outline-danger my-1" (click)="topic.dislike()">
-            <i class="px-1 bi bi-hand-thumbs-down">{{ topic.getDislikes() }}</i>
+          <button class="btn btn-outline-danger my-1" (click)="forum.dislike()">
+            <i class="px-1 bi bi-hand-thumbs-down">{{ forum.getDislikes() }}</i>
           </button>
         </div>
       </div>
     </div>
     <div class="card-body">
-      <p class="p-2">{{ topic.getDescription() }}</p>
+      <p class="p-2">{{ forum.getDescription() }}</p>
       <p class="text-secondary lh-1">
         <span class="fw-bold">Created on:</span>
-        {{ topic.getDate() }}
+        {{ forum.getDate() }}
       </p>
       <p class="text-secondary lh-1">
         <span class="fw-bold">Category: </span>
-        {{ topic.getCategory() }}
+        {{ forum.getCategory() }}
       </p>
       <div class="d-flex">
         <p class="text-secondary lh-1">Tags:</p>
-        <div *ngFor="let tag of topic.getTags()">
+        <div *ngFor="let tag of forum.getTags()">
           <app-topic-pill tag="{{ tag }}"></app-topic-pill>
         </div>
       </div>
@@ -47,9 +47,9 @@
     <div class="card-footer">
       <div class="d-flex align-items-center flex-row justify-content-between">
         <p class="h5 fw-bold">Comments:</p>
-        <p>{{ topic.getComments().length }}</p>
+        <p>{{ forum.getComments().length }}</p>
       </div>
-      <div class="card-body" *ngIf="topic.getComments().length == 0">
+      <div class="card-body" *ngIf="forum.getComments().length == 0">
         <p>No comments yet</p>
       </div>
       <div

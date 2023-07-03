@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Topic } from '../../Models/topic/Topic.model';
-import { TopicService } from 'src/app/Services/topic.service';
+import { Forum } from '../../Models/forum/forum.model';
+import { ForumService } from 'src/app/Services/forum.service';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 
 @Component({
@@ -9,81 +9,81 @@ import { MatButtonToggleChange } from '@angular/material/button-toggle';
   styleUrls: ['./questions-list.component.scss'],
 })
 export class QuestionsListComponent {
-  openedTopics: Topic[] = [];
-  numberOfOpenedTopics: number = 0;
-  numberOfClosedTopics: number = 0;
-  closedTopics: Topic[] = [];
-  topics!: Topic[];
+  openedForums: Forum[] = [];
+  numberOfOpenedForums: number = 0;
+  numberOfClosedForums: number = 0;
+  closedForums: Forum[] = [];
+  forums!: Forum[];
   Status: string = 'all';
 
-  constructor(private topicService: TopicService) {}
+  constructor(private forumService: ForumService) {}
 
   ngOnInit(): void {
-    this.topicService.countOpenedTopics().then((number) => {
-      this.numberOfOpenedTopics = number;
+    this.forumService.countOpenedForums().then((number) => {
+      this.numberOfOpenedForums = number;
     });
-    this.topicService.countClosedTopics().then((number) => {
-      this.numberOfClosedTopics = number;
+    this.forumService.countClosedForums().then((number) => {
+      this.numberOfClosedForums = number;
     });
-    this.topicService.getOpenedTopics().then((topics) => {
-      this.openedTopics = topics;
+    this.forumService.getOpenedForums().then((Forums) => {
+      this.openedForums = Forums;
     });
-    this.topicService.getClosedTopics().then((topics) => {
-      this.closedTopics = topics;
+    this.forumService.getClosedForums().then((Forums) => {
+      this.closedForums = Forums;
     });
-    this.topics = this.topicService.fetchTopicsFromServer();
-    console.log('Topics: ', this.topics);
-    // this.topics = this.topicService.getTopics();
+    this.forums = this.forumService.fetchForumsFromServer();
+    console.log('Forums: ', this.forums);
+    // this.Forums = this.forumService.getForums();
   }
 
   sort($event: any) {
     this.Status = $event.value;
     if (this.Status === 'recent') {
-      this.topicService.getRecentTopics().then((topics) => {
-        return topics as Topic[];
+      this.forumService.getRecentForums().then((Forums) => {
+        return Forums as Forum[];
       });
     } else if (this.Status === 'popular') {
-      this.topicService.getPopularTopics().then((topics) => {
-        return topics as Topic[];
+      this.forumService.getPopularForums().then((Forums) => {
+        return Forums as Forum[];
       });
     } else if (this.Status === 'unanswered') {
-      this.topicService.getUnansweredTopics().then((topics) => {
-        return topics as Topic[];
+      this.forumService.getUnansweredForums().then((Forums) => {
+        return Forums as Forum[];
       });
     } else {
-      this.topicService.fetchTopicsFromServer();
+      this.forumService.fetchForumsFromServer();
     }
   }
 
-  get openedTopicsList(): Topic[] {
-    return this.openedTopics;
+  get openedForumsList(): Forum[] {
+    return this.openedForums;
   }
 
-  get closedTopicsList(): Topic[] {
-    return this.closedTopics;
+  get closedForumsList(): Forum[] {
+    return this.closedForums;
   }
 
-  get numberOfOpenedTopicsList(): number {
-    return this.numberOfOpenedTopics;
+  get numberOfOpenedForumsList(): number {
+    return this.numberOfOpenedForums;
   }
 
-  get numberOfClosedTopicsList(): number {
-    return this.numberOfClosedTopics;
+  get numberOfClosedForumsList(): number {
+    return this.numberOfClosedForums;
   }
 
-  get topicsLength(): number {
-    return this.topics.length;
+  get ForumsLength(): number {
+    return this.forums.length;
   }
 
-  get topicsList(): Topic[] {
-    return this.topics;
+  get ForumsList(): Forum[] {
+    return this.forums;
   }
 
-  public getTopics(): Topic[] {
-    return this.topics;
+  public getForums(): Forum[] {
+    return this.forums;
   }
 
-  public getTopic(id: string): Topic {
-    return this.topicService.getTopic(Number(id));
+  public getForum(id: string): Forum {
+    return this.forumService.getForum(Number(id));
   }
 }
