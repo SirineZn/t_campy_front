@@ -9,11 +9,11 @@ import { MatButtonToggleChange } from '@angular/material/button-toggle';
   styleUrls: ['./questions-list.component.scss'],
 })
 export class QuestionsListComponent {
-  protected openedTopics: Topic[] = [];
-  protected numberOfOpenedTopics: number = 0;
-  protected numberOfClosedTopics: number = 0;
-  protected closedTopics: Topic[] = [];
-  protected topics: Topic[] = [];
+  openedTopics: Topic[] = [];
+  numberOfOpenedTopics: number = 0;
+  numberOfClosedTopics: number = 0;
+  closedTopics: Topic[] = [];
+  topics!: Topic[];
   Status: string = 'all';
 
   constructor(private topicService: TopicService) {}
@@ -31,10 +31,9 @@ export class QuestionsListComponent {
     this.topicService.getClosedTopics().then((topics) => {
       this.closedTopics = topics;
     });
-    // this.topicService.fetchTopicsFromServer().then((topics) => {
-    //   this.topics = topics as Topic[];
-    // });
-    this.topics = this.topicService.getTopics();
+    this.topics = this.topicService.fetchTopicsFromServer();
+    console.log('Topics: ', this.topics);
+    // this.topics = this.topicService.getTopics();
   }
 
   sort($event: any) {
@@ -52,9 +51,39 @@ export class QuestionsListComponent {
         return topics as Topic[];
       });
     } else {
-      this.topicService.fetchTopicsFromServer().then((topics) => {
-        return topics as Topic[];
-      });
+      this.topicService.fetchTopicsFromServer();
     }
+  }
+
+  get openedTopicsList(): Topic[] {
+    return this.openedTopics;
+  }
+
+  get closedTopicsList(): Topic[] {
+    return this.closedTopics;
+  }
+
+  get numberOfOpenedTopicsList(): number {
+    return this.numberOfOpenedTopics;
+  }
+
+  get numberOfClosedTopicsList(): number {
+    return this.numberOfClosedTopics;
+  }
+
+  get topicsLength(): number {
+    return this.topics.length;
+  }
+
+  get topicsList(): Topic[] {
+    return this.topics;
+  }
+
+  public getTopics(): Topic[] {
+    return this.topics;
+  }
+
+  public getTopic(id: string): Topic {
+    return this.topicService.getTopic(Number(id));
   }
 }

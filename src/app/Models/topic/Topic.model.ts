@@ -1,16 +1,18 @@
+import { Complaint } from '../Complaint/complaint';
 import { Comment } from '../comment/comment.model';
 export class Topic {
-  protected id: string;
-  protected title: string;
-  protected description: string;
-  protected date: Date;
-  protected author: string;
-  protected tags: string[];
-  protected likes: number;
-  protected dislikes: number;
-  protected Status: string;
-  protected category: string;
-  protected comments!: Comment[];
+  private id: string;
+  private title: string;
+  private description: string;
+  private date: Date;
+  private author: string;
+  private tags: string[];
+  private likes: number;
+  private dislikes: number;
+  private Status: string;
+  private category: string;
+  private comments!: Comment[];
+  private complaints!: Complaint[];
 
   constructor(
     id: string,
@@ -23,7 +25,8 @@ export class Topic {
     dislikes: number,
     Status: string,
     category: string,
-    comments: Comment[]
+    comments: Comment[],
+    complaints: Complaint[]
   ) {
     this.id = id;
     this.title = title;
@@ -36,9 +39,10 @@ export class Topic {
     this.Status = Status;
     this.category = category;
     this.comments = comments;
+    this.complaints = complaints;
   }
 
-  public fromJson(json: any): Topic {
+  public static fromJson(json: any): Topic {
     return new Topic(
       json.id,
       json.title,
@@ -50,8 +54,13 @@ export class Topic {
       json.dislikes,
       json.Status,
       json.category,
-      json.comments
+      json.comments,
+      json.complaints
     );
+  }
+
+  public static fromJsonArray(json: any): Topic[] {
+    return json.map(Topic.fromJson);
   }
 
   public toJson(): any {
@@ -67,6 +76,7 @@ export class Topic {
       Status: this.Status,
       category: this.category,
       comments: this.comments,
+      complaints: this.complaints,
     };
   }
   public isOpened(): boolean {
@@ -176,5 +186,13 @@ export class Topic {
 
   public setCreationDate(date: Date) {
     this.date = date;
+  }
+
+  public getComplaints(): Complaint[] {
+    return this.complaints;
+  }
+
+  public static empty(): Topic {
+    return new Topic('', '', '', new Date(), '', [], 0, 0, '', '', [], []);
   }
 }

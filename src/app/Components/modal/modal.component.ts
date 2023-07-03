@@ -38,9 +38,7 @@ export class ModalComponent {
       return;
     }
     this.topic = new Topic(
-      this.topicService.fetchTopicsFromServer().then((topics) => {
-        return topics.length + 1;
-      }) as unknown as string,
+      (this.topicService.getTopics().length + 1).toString(),
       this.title,
       this.description,
       new Date(),
@@ -50,6 +48,7 @@ export class ModalComponent {
       0,
       'Open',
       this.category,
+      [],
       []
     );
     try {
@@ -85,8 +84,8 @@ export class ModalComponent {
       0
     );
     try {
-      // this.complaintService.addComplaintToServer(this.complaint); // add complaint to server
-      this.complaintService.addComplaint(this.complaint); // add complaint not to server
+      this.complaintService.addComplaintToServer(this.complaint); // add complaint to server
+      // this.complaintService.addComplaint(this.complaint); // add complaint not to server
       this.snackBar.open('Complaint added', 'Close', {
         duration: 3000,
       });

@@ -9,7 +9,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   providedIn: 'root',
 })
 export class TopicService {
-  public topics!: Promise<Topic[]>;
+  public topics!: Topic[];
+  topic!: Topic;
   public StaticTopics: Topic[] = [
     new Topic(
       '1',
@@ -22,6 +23,7 @@ export class TopicService {
       0,
       'Open',
       'Help',
+      [],
       []
     ),
   ];
@@ -33,23 +35,17 @@ export class TopicService {
   ) {}
 
   ngOnInit(): void {
-    // this.fetchTopicsFromServer();
-    this.getTopics();
+    this.fetchTopicsFromServer();
+    // this.getTopics();
   }
 
-  public async fetchTopicsFromServer(): Promise<Topic[]> {
-    try {
-      this.topics = this.http.get<Topic[]>(
-        'http://localhost:8089/TunisieCamp/forum/retrieve-all-forums'
-      ) as unknown as Promise<Topic[]>;
-      return this.topics;
-    } catch (error) {
-      console.log(error);
-      this.snackbar.open('Error while fetching topics', 'Close', {
-        duration: 3000,
+  public fetchTopicsFromServer(): Topic[] {
+    this.http
+      .get<Topic[]>('http://localhost:8089/forum/retrieve-all-forums')
+      .subscribe((topics) => {
+        this.topics = Topic.fromJsonArray(topics);
       });
-      return [];
-    }
+    return this.topics;
   }
 
   public async fetchTopicFromServer(id: number): Promise<Topic> {
@@ -62,19 +58,7 @@ export class TopicService {
       this.snackbar.open('Error while fetching topic', 'Close', {
         duration: 3000,
       });
-      return new Topic(
-        '0',
-        'Error',
-        'Error',
-        new Date(),
-        this.authService.getUsername(),
-        [],
-        0,
-        0,
-        'Open',
-        'Error',
-        []
-      );
+      return Topic.empty();
     }
   }
 
@@ -83,13 +67,16 @@ export class TopicService {
   }
 
   public getTopics(): Topic[] {
-    return this.StaticTopics;
+    return this.topics;
   }
 
   public async addTopicToServer(topic: Topic): Promise<void> {
     try {
       this.http
-        .post<Topic>('http://localhost:8089/TunisieCamp/forum/add-forum', topic)
+        .post<Topic>(
+          'http://localhost:8089/TunisieCamp/forum/add-forum',
+          topic.toJson()
+        )
         .subscribe(async (topic: any) => {
           (await this.topics).push(topic);
         });
@@ -107,7 +94,7 @@ export class TopicService {
         .put<Topic>(
           'http://localhost:8089/TunisieCamp/forum/update-forum/' +
             topic.getId(),
-          topic
+          topic.toJson()
         )
         .subscribe(async (topic: any) => {
           (await this.topics)
@@ -139,7 +126,7 @@ export class TopicService {
 
   public async countOpenedTopics(): Promise<number> {
     let i: number = 0;
-    for (let topic of await this.StaticTopics) {
+    for (let topic of await this.topics) {
       if (topic.isOpened()) {
         i++;
       }
