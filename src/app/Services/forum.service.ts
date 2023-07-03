@@ -35,17 +35,25 @@ export class ForumService {
   ) {}
 
   ngOnInit(): void {
-    this.fetchForumsFromServer();
+    this.fetchForumsFromServer().then((forums) => (this.forums = forums));
     // this.getForums();
   }
 
-  public fetchForumsFromServer(): Forum[] {
-    this.http
-      .get<Forum[]>('http://localhost:8089/forum/retrieve-all-forums')
-      .subscribe((Forums) => {
-        this.forums = Forum.fromJsonArray(Forums);
+  public async fetchForumsFromServer(): Promise<Forum[]> {
+    try {
+      await this.http
+        .get<Forum[]>('http://localhost:8089/forum/retrieve-all-forums')
+        .subscribe((forums: any) => {
+          this.forums = Forum.fromJsonArray(forums);
+        });
+      return this.forums;
+    } catch (error) {
+      console.log(error);
+      this.snackbar.open('Error while fetching Forums', 'Close', {
+        duration: 3000,
       });
-    return this.forums;
+      return [];
+    }
   }
 
   public async fetchForumFromServer(id: number): Promise<Forum> {
@@ -70,12 +78,12 @@ export class ForumService {
     return this.forums;
   }
 
-  public async addForumToServer(Forum: Forum): Promise<void> {
+  public async addForumToServer(forum: Forum): Promise<void> {
     try {
       this.http
-        .post<Forum>('http://localhost:8089/forum/add-forum', Forum.toJson())
-        .subscribe(async (Forum: any) => {
-          (await this.forums).push(Forum);
+        .post<Forum>('http://localhost:8089/forum/add-forum', forum.toJson())
+        .subscribe(async (forum: any) => {
+          (await this.forums).push(forum);
         });
     } catch (error) {
       console.log(error);

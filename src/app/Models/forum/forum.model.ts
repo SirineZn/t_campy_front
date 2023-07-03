@@ -60,7 +60,7 @@ export class Forum {
   }
 
   public static fromJsonArray(json: any): Forum[] {
-    return json.map(Forum.fromJson);
+    return json.map(Forum.fromJson(json));
   }
 
   public toJson(): any {
@@ -79,6 +79,7 @@ export class Forum {
       complaints: this.complaints,
     };
   }
+
   public isOpened(): boolean {
     return this.Status === 'Open';
   }

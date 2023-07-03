@@ -31,8 +31,9 @@ export class QuestionsListComponent {
     this.forumService.getClosedForums().then((Forums) => {
       this.closedForums = Forums;
     });
-    this.forums = this.forumService.fetchForumsFromServer();
-    console.log('Forums: ', this.forums);
+    this.forumService.fetchForumsFromServer().then((Forums) => {
+      this.forums = Forums;
+    });
     // this.Forums = this.forumService.getForums();
   }
 
