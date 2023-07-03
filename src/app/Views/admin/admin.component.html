@@ -2,48 +2,61 @@
   <mat-drawer-container>
     <mat-drawer mode="side" opened class="bg-white shadow rounded mr-1 p-2">
       <div class="d-flex flex-column">
-        <a href="admin" class="my-1 btn btn-custom-blue fw-bold fs-5 px-5 py-2"
+        <a
+          routerLink="/admin"
+          class="my-1 btn btn-custom-blue fw-bold fs-5 px-5 py-2"
           ><i class="bi bi-speedometer"></i> Dashboard</a
         >
-        <a href="admin" class="my-1 btn btn-custom-blue fw-bold fs-5 px-5 py-2"
+        <a
+          routerLink="/admin"
+          class="my-1 btn btn-custom-blue fw-bold fs-5 px-5 py-2"
           ><i class="bi bi-bar-chart"></i> Charts</a
         >
-        <a href="admin" class="my-1 btn btn-custom-blue fw-bold fs-5 px-5 py-2"
-          ><i class="bi bi-people"></i> Users</a
+        <a
+          routerLink="/admin"
+          class="my-1 btn btn-custom-blue fw-bold fs-5 px-5 py-2"
+          ><i class="bi bi-flag"></i> Complaints</a
         >
-        <a href="admin" class="my-1 btn btn-custom-blue fw-bold fs-5 px-5 py-2"
+        <a
+          routerLink="/admin"
+          class="my-1 btn btn-custom-blue fw-bold fs-5 px-5 py-2"
           ><i class="bi bi-gear"></i> Settings</a
         >
-        <a href="admin" class="my-1 btn btn-custom-blue fw-bold fs-5 px-5 py-2"
+        <a
+          routerLink="/admin"
+          class="my-1 btn btn-custom-blue fw-bold fs-5 px-5 py-2"
           ><i class="bi bi-question-circle"></i> Help</a
         >
       </div>
     </mat-drawer>
     <mat-drawer-content class="ml-5 p-5 shadow rounded bg-white">
-      <div class="">
-        <!--<h1 class="fw-bold fs-1">Welcome {{ user.getUsername() }}</h1>-->
-        <h1 class="fw-bold fs-1">Welcome</h1>
-        <p class="fs-5">
-          Welcome to the admin dashboard. Here you can manage the site.
-        </p>
-      </div>
-      <div class="d-flex flex-column">
-        <div class="d-flex flex-row justify-content-around">
-          <div class="d-flex flex-column bg-white w-75 card card-body m-2 big-card">
-            <h2 class="fw-bold fs-2 card-title">Big Card</h2>
-            <div class="card-body">
-
-              <p class="fs-5">Manage posts</p>
+      <div *ngIf="route == '/admin'">
+        <div class="">
+          <!--<h1 class="fw-bold fs-1">Welcome {{ user.getUsername() }}</h1>-->
+          <h1 class="fw-bold fs-1">Welcome</h1>
+          <p class="fs-5">
+            Welcome to the admin dashboard. Here you can manage the site.
+          </p>
+        </div>
+        <div class="d-flex flex-column">
+          <div class="d-flex flex-row justify-content-around">
+            <div
+              class="d-flex flex-column bg-white w-75 card card-body m-2 big-card"
+            >
+              <h2 class="fw-bold fs-2 card-title">Big Card</h2>
+              <div class="card-body">
+                <p class="fs-5">Manage posts</p>
+              </div>
             </div>
-          </div>
-          <div class="d-flex flex-column">
-            <div class="d-flex flex-column bg-white card card-body m-2">
-              <h2 class="fw-bold fs-2">Users</h2>
-              <p class="fs-5">Manage users</p>
-            </div>
-            <div class="d-flex flex-column bg-white card card-body m-2">
-              <h2 class="fw-bold fs-2">Questions</h2>
-              <p class="fs-5">Manage questions</p>
+            <div class="d-flex flex-column">
+              <div class="d-flex flex-column bg-white card card-body m-2">
+                <h2 class="fw-bold fs-2">Users</h2>
+                <p class="fs-5">Manage users</p>
+              </div>
+              <div class="d-flex flex-column bg-white card card-body m-2">
+                <h2 class="fw-bold fs-2">Questions</h2>
+                <p class="fs-5">Manage questions</p>
+              </div>
             </div>
           </div>
         </div>

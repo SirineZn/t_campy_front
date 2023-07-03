@@ -12,6 +12,7 @@ import { UserService } from 'src/app/Services/user.service';
 export class AdminComponent {
   currentUser = this.authService.getUser();
   user!: User;
+  route: string = this.router.url;
 
   constructor(
     private authService: AuthService,
@@ -28,6 +29,7 @@ export class AdminComponent {
   ngOnInit() {
     this.user = this.authService.getUser();
     console.log(this.user.getUsername());
+    console.log('route', this.route);
   }
 
   public logout(): void {
