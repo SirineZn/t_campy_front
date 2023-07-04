@@ -12,8 +12,8 @@ import { ErrorComponent } from './Views/error/error.component';
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'forum', component: ForumComponent },
-  { path: 'topics/:id', component: TopicComponent },
+  { path: 'forums', component: ForumComponent },
+  { path: 'forums/:id', component: TopicComponent },
   { path: 'admin', component: AdminComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },

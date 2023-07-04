@@ -14,7 +14,12 @@ export class Localisation {
   }
 
   public static fromJson(json: any): Localisation {
-    return new Localisation(json.id, json.name, json.address, json.campings);
+    return new Localisation(
+      json.id,
+      json.name,
+      json.address,
+      Camping.fromJsonArray(json.campings)
+    );
   }
 
   public static fromJsonArray(jsonLocalisation: any[]): Localisation[] {
@@ -30,7 +35,7 @@ export class Localisation {
       id: this.id,
       name: this.name,
       address: this.address,
-      campings: this.campings,
+      campings: this.campings.map((camping) => camping.toJson()),
     };
   }
 

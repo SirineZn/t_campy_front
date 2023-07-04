@@ -56,8 +56,8 @@ export class TopicComponent implements OnInit {
     this.router.navigate(['topics']);
   }
 
-  public getComments() {
-    return this.forum.getComments();
+  public getFeedbacks() {
+    return this.forum.getFeedbacks();
   }
 
   public getForum() {
@@ -74,7 +74,7 @@ export class TopicComponent implements OnInit {
       return;
     }
     let newComment = new Comment(
-      this.forum.getComments().length,
+      this.forum.getFeedbacks().length,
       comment,
       'neutral',
       1,

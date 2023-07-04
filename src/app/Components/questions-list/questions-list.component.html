@@ -3,7 +3,7 @@
     class="d-flex justify-content-between align-items-center card-header text-secondary"
   >
     <div class="d-flex flex-row px-2 align-items-center">
-      <p class="">{{ numberOfOpenedForums }} Open topics</p>
+      <p class="">{{ ForumsLength }} Open topics</p>
     </div>
     <div class="d-flex flex-row px-2 align-items-center">
       <p class="mx-2">Sort by:</p>
@@ -43,7 +43,7 @@
       <app-chat-card [forum]="forum"></app-chat-card>
       <mat-action-row class="card-footer">
         <a
-          [routerLink]="['/topics', forum.getId()]"
+          [routerLink]="['/forums', forum.getId()]"
           mat-raised-button
           class="btn btn-custom-blue-filled mx-1 fw-bold w-75"
         >

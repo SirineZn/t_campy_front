@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Camping } from 'src/app/Models/Camping/camping';
 import { Complaint } from 'src/app/Models/Complaint/complaint';
 import { Forum } from 'src/app/Models/forum/forum.model';
 import { AuthService } from 'src/app/Services/auth.service';
@@ -49,7 +50,8 @@ export class ModalComponent {
       'Open',
       this.category,
       [],
-      []
+      [],
+      Camping.empty()
     );
     try {
       this.forumService.addForumToServer(this.forum); // add Forum to server
@@ -64,7 +66,7 @@ export class ModalComponent {
     }
     this.title = '';
     this.description = '';
-    this.router.navigate(['/forum']);
+    this.router.navigate(['/forums']);
   }
 
   public addComplaint(): void {

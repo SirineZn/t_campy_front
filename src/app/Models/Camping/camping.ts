@@ -1,7 +1,7 @@
 import { Activity } from '../Activity/activity';
 import { Localisation } from '../Localisation/localisation';
 import { Reservation } from '../Reservation/reservation';
-import { Topic } from '../forum/forum.model';
+import { Forum } from '../forum/forum.model';
 
 export class Camping {
   private id: number;
@@ -10,7 +10,7 @@ export class Camping {
   private nombreDePlace: number;
   private categoryMaterielDemande: string;
   private localisation: Localisation;
-  private forums: Topic[];
+  private forums: Forum[];
   private reservations: Reservation[];
   private activities: Activity[];
 
@@ -21,7 +21,7 @@ export class Camping {
     nombreDePlace: number,
     categoryMaterielDemande: string,
     localisation: Localisation,
-    forums: Topic[],
+    forums: Forum[],
     reservations: Reservation[],
     activities: Activity[]
   ) {
@@ -43,10 +43,10 @@ export class Camping {
       json.description,
       json.nombreDePlace,
       json.categoryMaterielDemande,
-      json.localisation,
-      json.forums,
-      json.reservations,
-      json.activities
+      Localisation.fromJson(json.localisation),
+      Forum.fromJsonArray(json.forums),
+      Reservation.fromJsonArray(json.reservations),
+      Activity.fromJsonArray(json.activities)
     );
   }
 
@@ -65,10 +65,12 @@ export class Camping {
       description: this.description,
       nombreDePlace: this.nombreDePlace,
       categoryMaterielDemande: this.categoryMaterielDemande,
-      localisation: this.localisation,
-      forums: this.forums,
-      reservations: this.reservations,
-      activities: this.activities,
+      localisation: this.localisation.toJson(),
+      forums: this.forums.map((forum) => forum.toJson()),
+      reservations: this.reservations.map((reservation) =>
+        reservation.toJson()
+      ),
+      activities: this.activities.map((activity) => activity.toJson()),
     };
   }
 
@@ -100,7 +102,7 @@ export class Camping {
     return this.localisation;
   }
 
-  public getForums(): Topic[] {
+  public getForums(): Forum[] {
     return this.forums;
   }
 
@@ -136,7 +138,7 @@ export class Camping {
     this.localisation = localisation;
   }
 
-  public setForums(forums: Topic[]): void {
+  public setForums(forums: Forum[]): void {
     this.forums = forums;
   }
 
@@ -148,7 +150,7 @@ export class Camping {
     this.activities = activities;
   }
 
-  public addForum(topic: Topic): void {
+  public addForum(topic: Forum): void {
     this.forums.push(topic);
   }
 
@@ -160,7 +162,7 @@ export class Camping {
     this.activities.push(activity);
   }
 
-  public removeForum(topic: Topic): void {
+  public removeForum(topic: Forum): void {
     this.forums = this.forums.filter((t) => t.getId() !== topic.getId());
   }
 

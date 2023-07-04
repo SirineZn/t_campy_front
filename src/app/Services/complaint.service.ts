@@ -53,7 +53,7 @@ export class ComplaintService {
       this.http
         .post(
           'http://localhost:8089/TunisieCamp/Complaint/add-Complaint',
-          complaint.toJSON()
+          complaint.toJson()
         )
         .subscribe((data) => {
           this.fetchComplaintsFromServer();
@@ -89,7 +89,7 @@ export class ComplaintService {
         .put(
           'http://localhost:8089/TunisieCamp/Complaint/update-Complaint/' +
             complaint.id,
-          complaint.toJSON()
+          complaint.toJson()
         )
         .subscribe((data) => {
           this.fetchComplaintsFromServer();

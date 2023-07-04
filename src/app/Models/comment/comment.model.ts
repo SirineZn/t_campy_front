@@ -80,4 +80,40 @@ export class Comment {
   public getAuthorId(): number {
     return this.author_id;
   }
+
+  public static empty(): Comment {
+    return new Comment(0, '', 'neutral', 0, 0, new Date(), new Date());
+  }
+
+  public static fromJson(json: any): Comment {
+    return new Comment(
+      json.id,
+      json.comment,
+      json.sentiment,
+      json.author_id,
+      json.post_id,
+      new Date(json.created_at),
+      new Date(json.updated_at)
+    );
+  }
+
+  public static fromJsonArray(jsonComments: any[]): Comment[] {
+    let comments: Comment[] = [];
+    jsonComments.forEach((jsonComment) => {
+      comments.push(Comment.fromJson(jsonComment));
+    });
+    return comments;
+  }
+
+  public toJson(): any {
+    return {
+      id: this.id,
+      comment: this.comment,
+      sentiment: this.sentiment,
+      author_id: this.author_id,
+      post_id: this.post_id,
+      created_at: this.created_at,
+      updated_at: this.updated_at,
+    };
+  }
 }

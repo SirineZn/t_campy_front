@@ -47,14 +47,14 @@
     <div class="card-footer">
       <div class="d-flex align-items-center flex-row justify-content-between">
         <p class="h5 fw-bold">Comments:</p>
-        <p>{{ forum.getComments().length }}</p>
+        <p>{{ forum.getFeedbacks().length }}</p>
       </div>
-      <div class="card-body" *ngIf="forum.getComments().length == 0">
+      <div class="card-body" *ngIf="forum.getFeedbacks().length == 0">
         <p>No comments yet</p>
       </div>
       <div
         class="align-items-center w-100 p-3 border rounded bg-white"
-        *ngFor="let comment of getComments()"
+        *ngFor="let comment of getFeedbacks()"
       >
         <div class="d-flex align-items-center flex-row justify-content-between">
           <div class="d-flex align-items-center justify-content-center">

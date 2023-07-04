@@ -4,6 +4,7 @@ import { Comment } from '../Models/comment/comment.model';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Camping } from '../Models/Camping/camping';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,8 @@ export class ForumService {
       'Open',
       'Help',
       [],
-      []
+      [],
+      Camping.empty()
     ),
   ];
 
@@ -35,18 +37,22 @@ export class ForumService {
   ) {}
 
   ngOnInit(): void {
-    this.fetchForumsFromServer().then((forums) => (this.forums = forums));
+    this.fetchForumsFromServer().then(
+      (forums) => (this.forums = forums ? forums : [])
+    );
     // this.getForums();
   }
 
   public async fetchForumsFromServer(): Promise<Forum[]> {
     try {
-      await this.http
+      return (this.forums = await this.http
         .get<Forum[]>('http://localhost:8089/forum/retrieve-all-forums')
-        .subscribe((forums: any) => {
-          this.forums = Forum.fromJsonArray(forums);
-        });
-      return this.forums;
+        .toPromise()
+        .then((forums: any) => {
+          return forums.map((forum: any) => {
+            return Forum.fromJson(forum);
+          });
+        }));
     } catch (error) {
       console.log(error);
       this.snackbar.open('Error while fetching Forums', 'Close', {
@@ -58,9 +64,11 @@ export class ForumService {
 
   public async fetchForumFromServer(id: number): Promise<Forum> {
     try {
-      return this.http.get<Forum>(
-        'http://localhost:8089/forum/retrieve-forum/' + id
-      ) as unknown as Promise<Forum>;
+      return (
+        (this.http.get<Forum>(
+          'http://localhost:8089/forum/retrieve-forum/' + id
+        ) as unknown as Promise<Forum>) ?? Forum.empty()
+      );
     } catch (error) {
       console.log(error);
       this.snackbar.open('Error while fetching Forum', 'Close', {
@@ -71,19 +79,24 @@ export class ForumService {
   }
 
   public getForum(id: number): Forum {
-    return this.StaticForums.find((t) => t.getId() === id.toString())!;
+    return (
+      this.StaticForums.find((t) => t.getId() === id.toString())! ??
+      Forum.empty()
+    );
   }
 
   public getForums(): Forum[] {
-    return this.forums;
+    return this.forums ?? [];
   }
 
   public async addForumToServer(forum: Forum): Promise<void> {
+    console.log(forum.toJson());
     try {
-      this.http
+      await this.http
         .post<Forum>('http://localhost:8089/forum/add-forum', forum.toJson())
-        .subscribe(async (forum: any) => {
-          (await this.forums).push(forum);
+        .toPromise()
+        .then((forum: any) => {
+          this.forums.push(Forum.fromJson(forum));
         });
     } catch (error) {
       console.log(error);
@@ -118,7 +131,7 @@ export class ForumService {
             .getDislikes();
           (await this.forums)
             .find((t) => t.getId() === Forum.getId())!
-            .getComments();
+            .getFeedbacks();
         });
     } catch (error) {
       console.log(error);
@@ -149,7 +162,7 @@ export class ForumService {
   }
 
   public async getOpenedForums(): Promise<Forum[]> {
-    return (await this.forums).filter((forum) => forum.isOpened());
+    return (await this.forums).filter((forum) => forum.isOpened()) ?? [];
   }
 
   public async openForum(forum: Forum) {
@@ -178,11 +191,11 @@ export class ForumService {
   }
 
   public async getForumById(id: string): Promise<Forum> {
-    return (await this.forums).find((t) => t.getId() === id)!;
+    return (await this.forums).find((t) => t.getId() === id)! ?? Forum.empty();
   }
 
-  public async getComments(Forum: Forum): Promise<Comment[]> {
-    return Forum.getComments();
+  public async getFeedbacks(Forum: Forum): Promise<Comment[]> {
+    return Forum.getFeedbacks() ?? [];
   }
 
   public async addCommentToServer(Forum: Forum, comment: Comment) {
@@ -213,11 +226,13 @@ export class ForumService {
   }
 
   public async getForumsByCategory(category: string): Promise<Forum[]> {
-    return (await this.forums).filter((t) => t.getCategory() === category);
+    return (
+      (await this.forums).filter((t) => t.getCategory() === category) ?? []
+    );
   }
 
   public async getCategories(): Promise<string[]> {
-    return (await this.forums).map((t) => t.getCategory());
+    return (await this.forums).map((t) => t.getCategory()) ?? [];
   }
 
   public async unLike(Forum: Forum) {
@@ -229,7 +244,7 @@ export class ForumService {
   }
 
   public async getClosedForums(): Promise<Forum[]> {
-    return (await this.forums).filter((forum) => !forum.isOpened());
+    return (await this.forums).filter((forum) => !forum.isOpened()) ?? [];
   }
 
   public async like(forum: Forum) {
@@ -244,7 +259,10 @@ export class ForumService {
     forum: Forum,
     id: number
   ): Promise<Comment> {
-    return forum.getComments().find((c) => c.getAuthorId() === id)!;
+    return (
+      forum.getFeedbacks().find((c) => c.getAuthorId() === id)! ??
+      Comment.empty()
+    );
   }
 
   public async deleteComment(forum: Forum, comment: Comment) {
@@ -264,19 +282,21 @@ export class ForumService {
 
   public async getRecentForums(): Promise<Forum[]> {
     return (await this.forums).sort((a, b) => {
-      return b.getCreationDate().getTime() - a.getCreationDate().getTime();
+      return b.getCreationDate().getTime() - a.getCreationDate().getTime() ?? 0;
     });
   }
 
   public async getPopularForums(): Promise<Forum[]> {
     return (await this.forums).sort((a, b) => {
-      return b.getLikes() - a.getLikes();
+      return b.getLikes() - a.getLikes() ?? 0;
     });
   }
 
   public async getUnansweredForums(): Promise<Forum[]> {
-    return (await this.forums).filter(
-      (forum) => forum.getComments().length === 0
+    return (
+      (await this.forums).filter(
+        (forum) => forum.getFeedbacks().length === 0
+      ) ?? []
     );
   }
 }

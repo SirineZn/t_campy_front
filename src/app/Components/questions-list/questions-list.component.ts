@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { Forum } from '../../Models/forum/forum.model';
 import { ForumService } from 'src/app/Services/forum.service';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
@@ -34,34 +34,35 @@ export class QuestionsListComponent {
     this.forumService.fetchForumsFromServer().then((Forums) => {
       this.forums = Forums;
     });
-    // this.Forums = this.forumService.getForums();
   }
 
   sort($event: any) {
     this.Status = $event.value;
     if (this.Status === 'recent') {
       this.forumService.getRecentForums().then((Forums) => {
-        return Forums as Forum[];
+        return (Forums as Forum[]) ? Forums : [];
       });
     } else if (this.Status === 'popular') {
       this.forumService.getPopularForums().then((Forums) => {
-        return Forums as Forum[];
+        return (Forums as Forum[]) ? Forums : [];
       });
     } else if (this.Status === 'unanswered') {
       this.forumService.getUnansweredForums().then((Forums) => {
-        return Forums as Forum[];
+        return (Forums as Forum[]) ? Forums : [];
       });
     } else {
-      this.forumService.fetchForumsFromServer();
+      this.forumService.fetchForumsFromServer().then((Forums) => {
+        return (Forums as Forum[]) ? Forums : [];
+      });
     }
   }
 
   get openedForumsList(): Forum[] {
-    return this.openedForums;
+    return this.openedForums ? this.openedForums : [];
   }
 
   get closedForumsList(): Forum[] {
-    return this.closedForums;
+    return this.closedForums ? this.closedForums : [];
   }
 
   get numberOfOpenedForumsList(): number {
@@ -77,14 +78,6 @@ export class QuestionsListComponent {
   }
 
   get ForumsList(): Forum[] {
-    return this.forums;
-  }
-
-  public getForums(): Forum[] {
-    return this.forums;
-  }
-
-  public getForum(id: string): Forum {
-    return this.forumService.getForum(Number(id));
+    return this.forums ? this.forums : [];
   }
 }

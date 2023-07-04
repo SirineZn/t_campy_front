@@ -81,7 +81,7 @@ export class Complaint {
     this._admin_id = value;
   }
 
-  public fromJSON(rawComplaint: any): Complaint {
+  public static fromJson(rawComplaint: any): Complaint {
     return new Complaint(
       rawComplaint.id,
       rawComplaint.object,
@@ -93,7 +93,11 @@ export class Complaint {
     );
   }
 
-  public toJSON(): any {
+  public static fromJsonArray(rawComplaints: any[]): Complaint[] {
+    return rawComplaints.map(this.fromJson);
+  }
+
+  public toJson(): any {
     return {
       id: this.id,
       object: this.object,

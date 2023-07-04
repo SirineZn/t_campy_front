@@ -1,3 +1,4 @@
+import { Camping } from '../Camping/camping';
 import { Complaint } from '../Complaint/complaint';
 import { Comment } from '../comment/comment.model';
 export class Forum {
@@ -11,8 +12,9 @@ export class Forum {
   private dislikes: number;
   private Status: string;
   private category: string;
-  private comments!: Comment[];
-  private complaints!: Complaint[];
+  private feedbacks: Comment[];
+  private complaints: Complaint[];
+  private camping!: Camping;
 
   constructor(
     id: string,
@@ -25,8 +27,9 @@ export class Forum {
     dislikes: number,
     Status: string,
     category: string,
-    comments: Comment[],
-    complaints: Complaint[]
+    feedbacks: Comment[],
+    complaints: Complaint[],
+    camping: Camping
   ) {
     this.id = id;
     this.title = title;
@@ -38,8 +41,9 @@ export class Forum {
     this.dislikes = dislikes;
     this.Status = Status;
     this.category = category;
-    this.comments = comments;
+    this.feedbacks = feedbacks;
     this.complaints = complaints;
+    this.camping = camping;
   }
 
   public static fromJson(json: any): Forum {
@@ -54,13 +58,18 @@ export class Forum {
       json.dislikes,
       json.Status,
       json.category,
-      json.comments,
-      json.complaints
+      Comment.fromJsonArray(json.feedbacks),
+      Complaint.fromJsonArray(json.complaints),
+      Camping.fromJson(json.camping)
     );
   }
 
-  public static fromJsonArray(json: any): Forum[] {
-    return json.map(Forum.fromJson(json));
+  public static fromJsonArray(json: any[]): Forum[] {
+    let forums: Forum[] = [];
+    for (let forum of json) {
+      forums.push(Forum.fromJson(forum));
+    }
+    return forums;
   }
 
   public toJson(): any {
@@ -75,8 +84,8 @@ export class Forum {
       dislikes: this.dislikes,
       Status: this.Status,
       category: this.category,
-      comments: this.comments,
-      complaints: this.complaints,
+      feedbacks: this.feedbacks.map((f) => f.toJson()),
+      complaints: this.complaints.map((c) => c.toJson()),
     };
   }
 
@@ -101,11 +110,11 @@ export class Forum {
   }
 
   public addComment(comment: Comment): void {
-    this.comments.push(comment);
+    this.feedbacks.push(comment);
   }
 
-  public getComments(): Comment[] {
-    return this.comments;
+  public getFeedbacks(): Comment[] {
+    return this.feedbacks;
   }
 
   public getId(): string {
@@ -148,8 +157,8 @@ export class Forum {
     return this.category;
   }
 
-  public getCommentsNumber(): number {
-    return this.comments.length;
+  public getfeedbacksNumber(): number {
+    return this.feedbacks.length;
   }
 
   public unLike(): void {
@@ -161,15 +170,17 @@ export class Forum {
   }
 
   public getCommentByAuthorId(id: number): Comment {
-    return this.comments.find((c) => c.getUserId() === id) as Comment;
+    return this.feedbacks.find((c) => c.getUserId() === id) as Comment;
   }
 
   public deleteComment(comment: Comment) {
-    this.comments = this.comments.filter((c) => c.getId() !== comment.getId());
+    this.feedbacks = this.feedbacks.filter(
+      (c) => c.getId() !== comment.getId()
+    );
   }
 
   public updateComment(comment: Comment) {
-    this.comments = this.comments.map((c) => {
+    this.feedbacks = this.feedbacks.map((c) => {
       if (c.getId() === comment.getId()) {
         return comment;
       }
@@ -178,7 +189,7 @@ export class Forum {
   }
 
   public getCommentAuthorId(id: number): number {
-    return this.comments.find((c) => c.getUserId() === id)?.getId() as number;
+    return this.feedbacks.find((c) => c.getUserId() === id)?.getId() as number;
   }
 
   public getCreationDate(): Date {
@@ -194,6 +205,20 @@ export class Forum {
   }
 
   public static empty(): Forum {
-    return new Forum('', '', '', new Date(), '', [], 0, 0, '', '', [], []);
+    return new Forum(
+      '',
+      '',
+      '',
+      new Date(),
+      '',
+      [],
+      0,
+      0,
+      '',
+      '',
+      [],
+      [],
+      Camping.empty()
+    );
   }
 }
