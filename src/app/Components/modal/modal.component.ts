@@ -66,6 +66,7 @@ export class ModalComponent {
     }
     this.title = '';
     this.description = '';
+    this.category = '';
     this.router.navigate(['/forums']);
   }
 
