@@ -86,6 +86,9 @@ export class Comment {
   }
 
   public static fromJson(json: any): Comment {
+    if (json === null) {
+      return null as any;
+    }
     return new Comment(
       json.id,
       json.comment,
@@ -98,6 +101,9 @@ export class Comment {
   }
 
   public static fromJsonArray(jsonComments: any[]): Comment[] {
+    if (jsonComments === undefined) {
+      return [];
+    }
     let comments: Comment[] = [];
     jsonComments.forEach((jsonComment) => {
       comments.push(Comment.fromJson(jsonComment));

@@ -27,6 +27,9 @@ export class Activity {
   }
 
   public static fromJson(json: any): Activity {
+    if (json === null) {
+      return null as any;
+    }
     return new Activity(
       json.id,
       json.name,

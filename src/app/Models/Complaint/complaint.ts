@@ -82,6 +82,9 @@ export class Complaint {
   }
 
   public static fromJson(rawComplaint: any): Complaint {
+    if (rawComplaint === undefined || rawComplaint === null) {
+      return null as any;
+    }
     return new Complaint(
       rawComplaint.id,
       rawComplaint.object,
@@ -94,6 +97,9 @@ export class Complaint {
   }
 
   public static fromJsonArray(rawComplaints: any[]): Complaint[] {
+    if (rawComplaints === undefined || rawComplaints === null) {
+      return [];
+    }
     return rawComplaints.map(this.fromJson);
   }
 

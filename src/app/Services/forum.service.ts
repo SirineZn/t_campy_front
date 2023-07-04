@@ -45,7 +45,7 @@ export class ForumService {
 
   public async fetchForumsFromServer(): Promise<Forum[]> {
     try {
-      return (this.forums = await this.http
+      return (await this.http
         .get<Forum[]>('http://localhost:8089/forum/retrieve-all-forums')
         .toPromise()
         .then((forums: any) => {
@@ -54,7 +54,7 @@ export class ForumService {
           });
         }));
     } catch (error) {
-      console.log(error);
+      console.log('Error:', error);
       this.snackbar.open('Error while fetching Forums', 'Close', {
         duration: 3000,
       });
@@ -65,9 +65,9 @@ export class ForumService {
   public async fetchForumFromServer(id: number): Promise<Forum> {
     try {
       return (
-        (this.http.get<Forum>(
+        ((await this.http.get<Forum>(
           'http://localhost:8089/forum/retrieve-forum/' + id
-        ) as unknown as Promise<Forum>) ?? Forum.empty()
+        )) as unknown as Promise<Forum>) ?? Forum.empty()
       );
     } catch (error) {
       console.log(error);

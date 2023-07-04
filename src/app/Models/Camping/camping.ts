@@ -37,6 +37,9 @@ export class Camping {
   }
 
   public static fromJson(json: any): Camping {
+    if (json === null || json === undefined) {
+      return null as any;
+    }
     return new Camping(
       json.id,
       json.name,

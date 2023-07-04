@@ -25,6 +25,9 @@ export class User {
   }
 
   public static fromJson(json: any): User {
+    if (json === null) {
+      return null as any;
+    }
     return new User(
       json.id,
       json.name,

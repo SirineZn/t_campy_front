@@ -47,6 +47,9 @@ export class Forum {
   }
 
   public static fromJson(json: any): Forum {
+    if (json === null) {
+      return null as any;
+    }
     return new Forum(
       json.id,
       json.title,
@@ -206,7 +209,7 @@ export class Forum {
 
   public static empty(): Forum {
     return new Forum(
-      '',
+      '0',
       '',
       '',
       new Date(),

@@ -14,6 +14,9 @@ export class Localisation {
   }
 
   public static fromJson(json: any): Localisation {
+    if (json === null) {
+      return null as any;
+    }
     return new Localisation(
       json.id,
       json.name,

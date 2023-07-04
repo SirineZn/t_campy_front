@@ -26,6 +26,9 @@ export class Reservation {
   }
 
   public static fromJson(json: any): Reservation {
+    if (json === null) {
+      return null as any;
+    }
     return new Reservation(
       json.id,
       json.nombrePersonne,
