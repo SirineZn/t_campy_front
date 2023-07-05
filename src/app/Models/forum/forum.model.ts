@@ -7,14 +7,14 @@ export class Forum {
   private description: string;
   private date: Date;
   private author: string;
-  private tags: string[];
+  private tags: string;
   private likes: number;
   private dislikes: number;
   private Status: string;
   private category: string;
   private feedbacks: Comment[];
   private complaints: Complaint[];
-  private camping!: Camping;
+  private camping: any = {};
 
   constructor(
     id: string,
@@ -22,14 +22,13 @@ export class Forum {
     description: string,
     date: Date,
     author: string,
-    tags: string[],
+    tags: string,
     likes: number,
     dislikes: number,
     Status: string,
     category: string,
     feedbacks: Comment[],
-    complaints: Complaint[],
-    camping: Camping
+    complaints: Complaint[]
   ) {
     this.id = id;
     this.title = title;
@@ -43,7 +42,6 @@ export class Forum {
     this.category = category;
     this.feedbacks = feedbacks;
     this.complaints = complaints;
-    this.camping = camping;
   }
 
   public static fromJson(json: any): Forum {
@@ -62,8 +60,7 @@ export class Forum {
       json.Status,
       json.category,
       Comment.fromJsonArray(json.feedbacks),
-      Complaint.fromJsonArray(json.complaints),
-      Camping.fromJson(json.camping)
+      Complaint.fromJsonArray(json.complaints)
     );
   }
 
@@ -73,6 +70,10 @@ export class Forum {
       forums.push(Forum.fromJson(forum));
     }
     return forums;
+  }
+
+  arrayToString(array: any[]): String {
+    return '';
   }
 
   public toJson(): any {
@@ -89,6 +90,7 @@ export class Forum {
       category: this.category,
       feedbacks: this.feedbacks.map((f) => f.toJson()),
       complaints: this.complaints.map((c) => c.toJson()),
+      camping: this.camping,
     };
   }
 
@@ -140,7 +142,7 @@ export class Forum {
     return this.author;
   }
 
-  public getTags(): string[] {
+  public getTags(): string {
     return this.tags;
   }
 
@@ -208,20 +210,6 @@ export class Forum {
   }
 
   public static empty(): Forum {
-    return new Forum(
-      '0',
-      '',
-      '',
-      new Date(),
-      '',
-      [],
-      0,
-      0,
-      '',
-      '',
-      [],
-      [],
-      Camping.empty()
-    );
+    return new Forum('0', '', '', new Date(), '', '', 0, 0, '', '', [], []);
   }
 }

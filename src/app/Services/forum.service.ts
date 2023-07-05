@@ -19,14 +19,13 @@ export class ForumService {
       "I am new to this forum and I don't know how to use it. Can someone help me?",
       new Date(),
       this.authService.getUsername(),
-      [],
+      '',
       0,
       0,
       'Open',
       'Help',
       [],
-      [],
-      Camping.empty()
+      []
     ),
   ];
 
@@ -45,14 +44,14 @@ export class ForumService {
 
   public async fetchForumsFromServer(): Promise<Forum[]> {
     try {
-      return (await this.http
+      return await this.http
         .get<Forum[]>('http://localhost:8089/forum/retrieve-all-forums')
         .toPromise()
         .then((forums: any) => {
           return forums.map((forum: any) => {
             return Forum.fromJson(forum);
           });
-        }));
+        });
     } catch (error) {
       console.log('Error:', error);
       this.snackbar.open('Error while fetching Forums', 'Close', {

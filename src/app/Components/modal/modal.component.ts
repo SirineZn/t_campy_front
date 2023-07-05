@@ -16,6 +16,7 @@ import { ForumService } from 'src/app/Services/forum.service';
 export class ModalComponent {
   forum!: Forum;
   complaint!: Complaint;
+  forums!: Forum[];
 
   title!: string;
   description!: string;
@@ -29,7 +30,11 @@ export class ModalComponent {
     private snackBar: MatSnackBar
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.forumService
+      .fetchForumsFromServer()
+      .then((forums) => (this.forums = forums ? forums : []));
+  }
 
   public addForumToServer(): void {
     if (!this.title || !this.description || !this.category) {
@@ -39,25 +44,25 @@ export class ModalComponent {
       return;
     }
     this.forum = new Forum(
-      (this.forumService.getForums().length + 1).toString(),
+      (this.forums.length + 1).toString(),
       this.title,
       this.description,
       new Date(),
       this.authService.getUsername(),
-      [],
+      '',
       0,
       0,
       'Open',
       this.category,
       [],
-      [],
-      Camping.empty()
+      []
     );
     try {
       this.forumService.addForumToServer(this.forum); // add Forum to server
       this.snackBar.open('Forum added', 'Close', {
         duration: 3000,
       });
+      this.router.navigate(['/forums']);
     } catch (error) {
       console.log(error);
       this.snackBar.open('Error while adding Forum', 'Close', {
@@ -67,7 +72,6 @@ export class ModalComponent {
     this.title = '';
     this.description = '';
     this.category = '';
-    this.router.navigate(['/forums']);
   }
 
   public addComplaint(): void {
