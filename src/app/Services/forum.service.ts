@@ -12,22 +12,6 @@ import { Camping } from '../Models/Camping/camping';
 export class ForumService {
   public forums!: Forum[];
   Forum!: Forum;
-  public StaticForums: Forum[] = [
-    new Forum(
-      '1',
-      'How to use this forum?',
-      "I am new to this forum and I don't know how to use it. Can someone help me?",
-      new Date(),
-      this.authService.getUsername(),
-      '',
-      0,
-      0,
-      'Open',
-      'Help',
-      [],
-      []
-    ),
-  ];
 
   constructor(
     private http: HttpClient,
@@ -44,14 +28,14 @@ export class ForumService {
 
   public async fetchForumsFromServer(): Promise<Forum[]> {
     try {
-      return await this.http
+      return (this.forums = await this.http
         .get<Forum[]>('http://localhost:8089/forum/retrieve-all-forums')
         .toPromise()
         .then((forums: any) => {
           return forums.map((forum: any) => {
             return Forum.fromJson(forum);
           });
-        });
+        }));
     } catch (error) {
       console.log('Error:', error);
       this.snackbar.open('Error while fetching Forums', 'Close', {
@@ -79,8 +63,7 @@ export class ForumService {
 
   public getForum(id: number): Forum {
     return (
-      this.StaticForums.find((t) => t.getId() === id.toString())! ??
-      Forum.empty()
+      this.forums.find((t) => t.getId() === id.toString())! ?? Forum.empty()
     );
   }
 
@@ -152,7 +135,7 @@ export class ForumService {
 
   public async countClosedForums(): Promise<number> {
     let i: number = 0;
-    for (let Forum of await this.StaticForums) {
+    for (let Forum of await this.forums) {
       if (!Forum.isOpened()) {
         i++;
       }

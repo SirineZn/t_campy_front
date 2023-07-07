@@ -3,6 +3,7 @@ export class Complaint {
   private _object: string;
   private _message: string;
   private _date: Date;
+  private _dateRep: Date;
   private _reponse: string;
   private _user_id: number;
   private _admin_id: number;
@@ -12,6 +13,7 @@ export class Complaint {
     object: string,
     message: string,
     date: Date,
+    dateRep: Date,
     reponse: string,
     user_id: number,
     admin_id: number
@@ -20,6 +22,7 @@ export class Complaint {
     this._object = object;
     this._message = message;
     this._date = date;
+    this._dateRep = dateRep;
     this._reponse = reponse;
     this._user_id = user_id;
     this._admin_id = admin_id;
@@ -87,9 +90,10 @@ export class Complaint {
     }
     return new Complaint(
       rawComplaint.id,
-      rawComplaint.object,
+      rawComplaint.objet,
       rawComplaint.message,
-      rawComplaint.date,
+      new Date(rawComplaint.dateMsg),
+      new Date(rawComplaint.dateRep),
       rawComplaint.reponse,
       rawComplaint.user_id,
       rawComplaint.admin_id
@@ -100,15 +104,21 @@ export class Complaint {
     if (rawComplaints === undefined || rawComplaints === null) {
       return [];
     }
-    return rawComplaints.map(this.fromJson);
+
+    const complaints: Complaint[] = [];
+    for (const rawComplaint of rawComplaints) {
+      complaints.push(Complaint.fromJson(rawComplaint));
+    }
+    return complaints;
   }
 
   public toJson(): any {
     return {
       id: this.id,
-      object: this.object,
+      objet: this.object,
       message: this.message,
-      date: this.date,
+      dateMsg: this.date,
+      dateRep: this.date,
       reponse: this.reponse,
       user_id: this.user_id,
       admin_id: this.admin_id,

@@ -8,9 +8,18 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   providedIn: 'root',
 })
 export class ComplaintService {
-  public complaints!: Promise<Complaint[]>;
+  public complaints!: Complaint[];
   public StaticComplaints: Complaint[] = [
-    new Complaint(1, 'object', 'message', new Date(), 'reponse', 1, 1),
+    new Complaint(
+      1,
+      'object',
+      'message',
+      new Date(),
+      new Date(),
+      'reponse',
+      1,
+      1
+    ),
   ];
 
   constructor(
@@ -20,7 +29,10 @@ export class ComplaintService {
   ) {}
 
   ngOnInit(): void {
-    this.fetchComplaintsFromServer();
+    this.fetchComplaintsFromServer().then(
+      (complaints) => (this.complaints = complaints ? complaints : [])
+    );
+    // this.getComplaints();
   }
 
   public getComplaints(): Complaint[] {
@@ -31,20 +43,24 @@ export class ComplaintService {
     this.StaticComplaints.push(complaint);
   }
 
-  public fetchComplaintsFromServer(): void {
+  public async fetchComplaintsFromServer(): Promise<Complaint[]> {
     try {
-      this.http
+      return (this.complaints = await this.http
         .get<Complaint[]>(
-          'http://localhost:8089/TunisieCamp/Complaint/retrieve-all-Complaints'
+          'http://localhost:8089/Complaint/retrieve-all-Complaints'
         )
-        .subscribe((data) => {
-          this.complaints = Promise.resolve(data);
-        });
+        .toPromise()
+        .then((complaints: any) => {
+          return complaints.map((complaint: any) => {
+            return Complaint.fromJson(complaint);
+          });
+        }));
     } catch (error) {
-      console.log(error);
-      this.snackbar.open('Error while fetching complaints', 'Close', {
+      console.log('Error:', error);
+      this.snackbar.open('Error while fetching Complaints', 'Close', {
         duration: 3000,
       });
+      return [];
     }
   }
 
