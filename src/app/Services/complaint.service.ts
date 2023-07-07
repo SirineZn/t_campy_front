@@ -68,7 +68,7 @@ export class ComplaintService {
     try {
       this.http
         .post(
-          'http://localhost:8089/TunisieCamp/Complaint/add-Complaint',
+          'http://localhost:8089/Complaint/add-Complaint',
           complaint.toJson()
         )
         .subscribe((data) => {
@@ -82,14 +82,28 @@ export class ComplaintService {
     }
   }
 
+  public async replyToComplaintFromServer(complaint: Complaint) {
+    try {
+      this.http.put(
+        'http://localhost:8089/Complaint/reply-Complaint/' + complaint.id,
+        complaint.toJson()
+      );
+    } catch (error) {
+      console.log(error);
+      this.snackbar.open('Error while replying to complaint', 'Close', {
+        duration: 3000,
+      });
+    }
+  }
+
   public async deleteComplaintFromServer(id: number) {
     try {
       this.http
-        .delete(
-          'http://localhost:8089/TunisieCamp/Complaint/delete-Complaint/' + id
-        )
+        .delete('http://localhost:8089/Complaint/delete-Complaint/' + id)
         .subscribe((data) => {
-          this.fetchComplaintsFromServer();
+          this.fetchComplaintsFromServer().then((complaints) => {
+            this.complaints = complaints;
+          });
         });
     } catch (error) {
       console.log(error);
@@ -103,8 +117,7 @@ export class ComplaintService {
     try {
       this.http
         .put(
-          'http://localhost:8089/TunisieCamp/Complaint/update-Complaint/' +
-            complaint.id,
+          'http://localhost:8089/Complaint/update-Complaint/' + complaint.id,
           complaint.toJson()
         )
         .subscribe((data) => {
@@ -115,6 +128,22 @@ export class ComplaintService {
       this.snackbar.open('Error while updating complaint', 'Close', {
         duration: 3000,
       });
+    }
+  }
+
+  public async fetchComplaintFromServer(id: number): Promise<Complaint> {
+    try {
+      return (
+        ((await this.http.get<Complaint>(
+          'http://localhost:8089/Complaint/retrieve-Complaint/' + id
+        )) as unknown as Promise<Complaint>) ?? Complaint.empty()
+      );
+    } catch (error) {
+      console.log(error);
+      this.snackbar.open('Error while fetching Complaint', 'Close', {
+        duration: 3000,
+      });
+      return Complaint.empty();
     }
   }
 }

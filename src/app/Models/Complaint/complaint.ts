@@ -44,6 +44,10 @@ export class Complaint {
     return this._date;
   }
 
+  get dateRep(): Date {
+    return this._dateRep;
+  }
+
   get reponse(): string {
     return this._reponse;
   }
@@ -70,6 +74,10 @@ export class Complaint {
 
   set date(value: Date) {
     this._date = value;
+  }
+
+  set dateRep(value: Date) {
+    this._dateRep = value;
   }
 
   set reponse(value: string) {
@@ -153,5 +161,9 @@ export class Complaint {
     } else {
       return complaints;
     }
+  }
+
+  public static empty(): Complaint {
+    return new Complaint(0, '', '', new Date(), new Date(), '', 0, 0);
   }
 }

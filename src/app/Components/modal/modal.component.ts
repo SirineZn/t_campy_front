@@ -89,7 +89,7 @@ export class ModalComponent {
       new Date(),
       '',
       Number(this.authService.getUser()),
-      0
+      1
     );
     try {
       this.complaintService.addComplaintToServer(this.complaint); // add complaint to server
