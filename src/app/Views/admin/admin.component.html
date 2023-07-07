@@ -57,15 +57,14 @@
                     <h3 class="text-secondary">No Complaints found</h3>
                   </div>
                 </div>
-                <table class="table table-hover" *ngIf="complaints.length != 0">
+                <table class="table" *ngIf="complaints.length != 0">
                   <thead>
                     <tr>
-                      <th scope="col">#</th>
+                      <th scope="col">ID #</th>
                       <th scope="col">Objet</th>
                       <th scope="col">Message</th>
                       <th scope="col">Date</th>
-                      <th scope="col">View</th>
-                      <th scope="col">Delete</th>
+                      <th scope="col">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -74,11 +73,18 @@
                       <td class="fw-bold">{{ complaint.object }}</td>
                       <td>{{ complaint.message }}</td>
                       <td>{{ complaint.date }}</td>
-                      <td><button class="btn btn-primary">View</button></td>
                       <td>
+                        <button class="mx-1 btn btn-primary">View</button>
+                        <button
+                          data-bs-toggle="modal"
+                          data-bs-target="#complaintReplyModal"
+                          class="mx-1 btn btn-custom-blue-filled"
+                        >
+                          Reply
+                        </button>
                         <button
                           (click)="deleteComplaint(complaint.id)"
-                          class="btn btn-danger"
+                          class="mx-1 btn btn-danger"
                         >
                           <i class="bi bi-trash"></i>
                         </button>

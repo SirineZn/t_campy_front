@@ -21,6 +21,7 @@ export class ModalComponent {
   title!: string;
   description!: string;
   category!: string;
+  complaintReply!: string;
 
   constructor(
     private authService: AuthService,
@@ -105,5 +106,27 @@ export class ModalComponent {
     }
     this.title = '';
     this.description = '';
+  }
+
+  public replyToComplaint(complaint: Complaint): void {
+    if (!this.complaintReply) {
+      this.snackBar.open('Please fill all the fields', 'Close', {
+        duration: 3000,
+      });
+      return;
+    }
+    complaint.reponse = this.complaintReply;
+    try {
+      this.complaintService.updateComplaintFromServer(complaint); // update complaint
+      this.snackBar.open('Complaint updated', 'Close', {
+        duration: 3000,
+      });
+    } catch (error) {
+      console.log(error);
+      this.snackBar.open('Error while replying complaint', 'Close', {
+        duration: 3000,
+      });
+    }
+    this.complaintReply = '';
   }
 }

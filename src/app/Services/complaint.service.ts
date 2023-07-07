@@ -82,20 +82,6 @@ export class ComplaintService {
     }
   }
 
-  public async replyToComplaintFromServer(complaint: Complaint) {
-    try {
-      this.http.put(
-        'http://localhost:8089/Complaint/reply-Complaint/' + complaint.id,
-        complaint.toJson()
-      );
-    } catch (error) {
-      console.log(error);
-      this.snackbar.open('Error while replying to complaint', 'Close', {
-        duration: 3000,
-      });
-    }
-  }
-
   public async deleteComplaintFromServer(id: number) {
     try {
       this.http
