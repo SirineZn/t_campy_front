@@ -47,9 +47,7 @@ export class AdminComponent {
   }
 
   public switchViewTo(view: string): void {
-    if (view === 'users') {
-      this.view = 'users';
-    } else if (view === 'complaints') {
+    if (view === 'complaints') {
       this.view = 'complaints';
       this.complaintService.fetchComplaintsFromServer().then((complaints) => {
         this.complaints = complaints;
@@ -62,5 +60,11 @@ export class AdminComponent {
 
   public deleteComplaint(complaintId: number): void {
     this.complaintService.deleteComplaintFromServer(complaintId);
+    this.complaintService.fetchComplaintsFromServer().then((complaints) => {
+      this.complaints = complaints;
+      console.log('complaints', this.complaints);
+    });
+
+    this.router.navigate(['/admin']);
   }
 }
