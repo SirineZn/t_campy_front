@@ -108,4 +108,20 @@ export class TopicComponent implements OnInit {
       });
     });
   }
+
+  public like() {
+    this.forumService.likeForum(this.forum);
+  }
+
+  public dislike() {
+    this.forumService.dislikeForum(this.forum);
+  }
+
+  public unLike() {
+    this.forumService.unLikeForum(this.forum);
+  }
+
+  public unDislike() {
+    this.forumService.unDislikeForum(this.forum);
+  }
 }

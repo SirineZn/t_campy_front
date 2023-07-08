@@ -37,16 +37,10 @@
             placeholder="Description"
           ></textarea>
         </div>
-        <div class="input-group mb-2">
-          <input
-            name="forumCategory"
-            [(ngModel)]="category"
-            class="form-control"
-            aria-label="category"
-            type="text"
-            placeholder="Category"
-          />
-        </div>
+        <select class="form-select" aria-label="Default select example">
+          <option selected>-- Choose a category --</option>
+          <option *ngFor="let category of getCategories()" value="{{ category }}">{{ category }}</option>
+        </select>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">

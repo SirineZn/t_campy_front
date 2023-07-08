@@ -21,4 +21,8 @@ export class SidebarComponent {
   public isAdmin(): boolean {
     return this.authService.isAdmin();
   }
+
+  public getCategories(): string[] {
+    return this.forumService.getCategories();
+  }
 }

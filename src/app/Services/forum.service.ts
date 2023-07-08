@@ -14,6 +14,15 @@ export class ForumService {
   public forums!: Forum[];
   Forum!: Forum;
 
+  public Categories: string[] = [
+    'Camping',
+    'Product Reviews',
+    'Places to Visit',
+    'Product Comparisons',
+    'Tips and Tricks',
+    'Other',
+  ];
+
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -215,6 +224,7 @@ export class ForumService {
         duration: 3000,
       });
     }
+    this.router.navigate(['/forums']);
     this.router.navigate(['/forums/' + forum.getId()]);
   }
 
@@ -238,11 +248,11 @@ export class ForumService {
     );
   }
 
-  public async getCategories(): Promise<string[]> {
-    return (await this.forums).map((t) => t.getCategory()) ?? [];
+  public getCategories(): string[] {
+    return this.Categories;
   }
 
-  public async unLikeFromServer(Forum: Forum) {
+  public async unLikeForum(Forum: Forum) {
     Forum.unLike();
     await this.http.put<Forum>(
       'http://localhost:8089/forum/unlike-forum/' + Forum.getId(),
@@ -250,7 +260,7 @@ export class ForumService {
     );
   }
 
-  public async unDislike(Forum: Forum) {
+  public async unDislikeForum(Forum: Forum) {
     Forum.unDislike();
     await this.http.put<Forum>(
       'http://localhost:8089/forum/undislike-forum/' + Forum.getId(),
@@ -262,18 +272,18 @@ export class ForumService {
     return (await this.forums).filter((forum) => !forum.isOpened()) ?? [];
   }
 
-  public async like(forum: Forum) {
+  public async likeForum(forum: Forum) {
     forum.like();
     await this.http.put<Forum>(
-      'http://localhost:8089/forum/unlike-forum/' + forum.getId(),
+      'http://localhost:8089/forum/add-like-Forum/' + forum.getId(),
       forum.toJson()
     );
   }
 
-  public async dislike(forum: Forum) {
+  public async dislikeForum(forum: Forum) {
     forum.dislike();
     await this.http.put<Forum>(
-      'http://localhost:8089/forum/unlike-forum/' + forum.getId(),
+      'http://localhost:8089/forum/add-dislike-Forum/' + forum.getId(),
       forum.toJson()
     );
   }

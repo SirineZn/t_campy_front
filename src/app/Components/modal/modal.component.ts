@@ -119,4 +119,8 @@ export class ModalComponent {
     this.title = '';
     this.description = '';
   }
+
+  public getCategories(): string[] {
+    return this.forumService.getCategories();
+  }
 }
