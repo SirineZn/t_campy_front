@@ -184,6 +184,7 @@ export class ForumService {
     } catch (error) {
       console.log(error);
     }
+    this.router.navigate(['/forums']);
   }
 
   public async getForumById(id: string): Promise<Forum> {
@@ -194,27 +195,17 @@ export class ForumService {
     return Forum.getFeedbacks() ?? [];
   }
 
-  public async addCommentToForumOnServer(Forum: Forum, comment: Comment) {
+  public async addCommentToForumOnServer(forum: Forum, comment: Comment) {
     try {
-      await this.http
-        .post<Comment>(
-          'http://localhost:8089/Feedback/add-Feedback/' + Forum.getId(),
+      this.http
+        .post<Forum>(
+          'http://localhost:8089/Feedback/add-Feedback/' + forum.getId(),
           comment.toJson()
         )
-        .toPromise()
-        .then(async (Forum: any) => {
-          await this.http
-            .put<Comment>(
-              'http://localhost:8089/forum/assign-Feedback-To-Forum/' +
-                Forum.getId() +
-                '/' +
-                comment.getId(),
-              comment.toJson()
-            )
-            .toPromise()
-            .then((comment: any) => {
-              this.forums.push(Forum.fromJson(Forum));
-            });
+        .subscribe(async (Forum: any) => {
+          (await this.forums)
+            .find((t) => t.getId() === Forum.getId())!
+            .addComment(Comment.fromJson(Forum));
         });
     } catch (error) {
       console.log(error);
@@ -224,6 +215,7 @@ export class ForumService {
         duration: 3000,
       });
     }
+    this.router.navigate(['/forums/' + forum.getId()]);
   }
 
   public addComment(Forum: Forum, comment: Comment) {
@@ -250,12 +242,20 @@ export class ForumService {
     return (await this.forums).map((t) => t.getCategory()) ?? [];
   }
 
-  public async unLike(Forum: Forum) {
+  public async unLikeFromServer(Forum: Forum) {
     Forum.unLike();
+    await this.http.put<Forum>(
+      'http://localhost:8089/forum/unlike-forum/' + Forum.getId(),
+      Forum.toJson()
+    );
   }
 
   public async unDislike(Forum: Forum) {
     Forum.unDislike();
+    await this.http.put<Forum>(
+      'http://localhost:8089/forum/undislike-forum/' + Forum.getId(),
+      Forum.toJson()
+    );
   }
 
   public async getClosedForums(): Promise<Forum[]> {
@@ -264,10 +264,18 @@ export class ForumService {
 
   public async like(forum: Forum) {
     forum.like();
+    await this.http.put<Forum>(
+      'http://localhost:8089/forum/unlike-forum/' + forum.getId(),
+      forum.toJson()
+    );
   }
 
   public async dislike(forum: Forum) {
     forum.dislike();
+    await this.http.put<Forum>(
+      'http://localhost:8089/forum/unlike-forum/' + forum.getId(),
+      forum.toJson()
+    );
   }
 
   public async getCommentByAuthorId(
@@ -280,19 +288,35 @@ export class ForumService {
     );
   }
 
-  public async deleteComment(forum: Forum, comment: Comment) {
-    this.http
-      .delete<Forum>(
-        'http://localhost:8089/Feedback/delete-Feedback/' +
-          forum.getId() +
-          '/' +
-          comment.getId()
-      )
-      .subscribe(async (forum: any) => {
-        (await this.forums)
-          .find((t) => t.getId() === forum.getId())
-          ?.deleteComment(comment);
+  public async deleteCommentFromServer(forum: Forum, comment: Comment) {
+    try {
+      this.http
+        .delete<Forum>(
+          'http://localhost:8089/Feedback/delete-Feedback/' +
+            forum.getId() +
+            '/' +
+            comment.getId()
+        )
+        .subscribe(async (forum: any) => {
+          (await this.forums)
+            .find((t) => t.getId() === forum.getId())!
+            .getFeedbacks()
+            .splice(
+              (await this.forums)
+                .find((t) => t.getId() === forum.getId())!
+                .getFeedbacks()
+                .findIndex((t) => t.getId() === forum.getId()),
+              1
+            );
+        });
+    } catch (error) {
+      console.log(error);
+      this.snackbar.open('Error while deleting Comment', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
       });
+    }
   }
 
   public async getRecentForums(): Promise<Forum[]> {
@@ -312,6 +336,12 @@ export class ForumService {
       (await this.forums).filter(
         (forum) => forum.getFeedbacks().length === 0
       ) ?? []
+    );
+  }
+
+  public async getForumsByAuthorId(id: number): Promise<Forum[]> {
+    return (await this.forums).filter(
+      (forum) => Number(forum.getAuthor()) === id
     );
   }
 }

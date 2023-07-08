@@ -91,7 +91,7 @@ export class Comment {
     }
     return new Comment(
       json.id,
-      json.comment,
+      json.commentaire,
       json.sentiment,
       json.author_id,
       json.post_id,
@@ -114,7 +114,7 @@ export class Comment {
   public toJson(): any {
     return {
       id: this.id,
-      comment: this.comment,
+      commentaire: this.comment,
       sentiment: this.sentiment,
       author_id: this.author_id,
       post_id: this.post_id,

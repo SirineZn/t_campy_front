@@ -1,8 +1,10 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { User } from 'src/app/Models/User/user';
 import { Comment } from 'src/app/Models/comment/comment.model';
 import { Forum } from 'src/app/Models/forum/forum.model';
+import { AuthService } from 'src/app/Services/auth.service';
 import { ForumService } from 'src/app/Services/forum.service';
 
 @Component({
@@ -13,6 +15,7 @@ import { ForumService } from 'src/app/Services/forum.service';
 export class TopicComponent implements OnInit {
   @Input()
   public forum!: Forum;
+  user!: User;
   id!: number;
   sub!: any;
 
@@ -22,6 +25,8 @@ export class TopicComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private elementRef: ElementRef,
+    private authService: AuthService,
     private router: Router,
     private forumService: ForumService,
     private snackbar: MatSnackBar
@@ -35,6 +40,7 @@ export class TopicComponent implements OnInit {
       });
       // this.forum = this.forumService.getForum(this.id);
     });
+    this.user = this.authService.getUser();
   }
 
   public deleteForumFromServer() {
@@ -89,7 +95,17 @@ export class TopicComponent implements OnInit {
     this.comment = '';
   }
 
+  public fetchCommentAuthorFromId(id: number) {
+    return this.forumService.getForumsByAuthorId(id);
+  }
+
   public deleteComment(comment: Comment) {
-    this.forumService.deleteComment(this.forum, comment);
+    this.forumService.deleteCommentFromServer(this.forum, comment).then(() => {
+      this.snackbar.open('Comment deleted', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+    });
   }
 }
