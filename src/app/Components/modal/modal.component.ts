@@ -52,7 +52,7 @@ export class ModalComponent {
       this.description,
       new Date(),
       this.authService.getUsername(),
-      '',
+      'No tags yet',
       0,
       0,
       'Open',
@@ -77,7 +77,6 @@ export class ModalComponent {
     }
     this.title = '';
     this.description = '';
-    this.category = '';
     this.router.navigate(['/forums']);
   }
 
@@ -122,5 +121,10 @@ export class ModalComponent {
 
   public getCategories(): string[] {
     return this.forumService.getCategories();
+  }
+
+  public selectCategory(category: HTMLSelectElement) {
+    this.category = category.value;
+    console.log('selected', this.category);
   }
 }

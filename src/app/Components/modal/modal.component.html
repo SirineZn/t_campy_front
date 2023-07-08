@@ -37,9 +37,9 @@
             placeholder="Description"
           ></textarea>
         </div>
-        <select class="form-select" aria-label="Default select example">
+        <select class="form-select" #categories (change)="selectCategory(categories)" aria-label="Default select example">
           <option selected>-- Choose a category --</option>
-          <option [ngValue]="category" *ngFor="let category of getCategories()" value="{{ category }}">{{ category }}</option>
+          <option *ngFor="let category of getCategories()" value="{{ category }}">{{ category }}</option>
         </select>
       </div>
       <div class="modal-footer">
