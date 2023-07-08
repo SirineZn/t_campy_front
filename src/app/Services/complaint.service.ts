@@ -59,6 +59,8 @@ export class ComplaintService {
     } catch (error) {
       console.log('Error:', error);
       this.snackbar.open('Error while fetching Complaints', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
         duration: 3000,
       });
       return [];
@@ -78,6 +80,8 @@ export class ComplaintService {
     } catch (error) {
       console.log(error);
       this.snackbar.open('Error while adding complaint', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
         duration: 3000,
       });
     }
@@ -95,6 +99,8 @@ export class ComplaintService {
     } catch (error) {
       console.log(error);
       this.snackbar.open('Error while deleting complaint', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
         duration: 3000,
       });
     }
@@ -113,6 +119,8 @@ export class ComplaintService {
     } catch (error) {
       console.log(error);
       this.snackbar.open('Error while updating complaint', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
         duration: 3000,
       });
     }
@@ -128,6 +136,8 @@ export class ComplaintService {
     } catch (error) {
       console.log(error);
       this.snackbar.open('Error while fetching Complaint', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
         duration: 3000,
       });
       return Complaint.empty();

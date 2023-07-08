@@ -40,6 +40,8 @@ export class ModalComponent {
   public addForumToServer(): void {
     if (!this.title || !this.description || !this.category) {
       this.snackBar.open('Please fill all the fields', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
         duration: 3000,
       });
       return;
@@ -61,23 +63,29 @@ export class ModalComponent {
     try {
       this.forumService.addForumToServer(this.forum); // add Forum to server
       this.snackBar.open('Forum added', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
         duration: 3000,
       });
-      this.router.navigate(['/forums']);
     } catch (error) {
       console.log(error);
       this.snackBar.open('Error while adding Forum', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
         duration: 3000,
       });
     }
     this.title = '';
     this.description = '';
     this.category = '';
+    this.router.navigate(['/forums']);
   }
 
   public addComplaint(): void {
     if (!this.title || !this.description) {
       this.snackBar.open('Please fill all the fields', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
         duration: 3000,
       });
       return;
@@ -96,11 +104,15 @@ export class ModalComponent {
       this.complaintService.addComplaintToServer(this.complaint); // add complaint to server
       // this.complaintService.addComplaint(this.complaint); // add complaint not to server
       this.snackBar.open('Complaint added', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
         duration: 3000,
       });
     } catch (error) {
       console.log(error);
       this.snackBar.open('Error while adding complaint', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
         duration: 3000,
       });
     }

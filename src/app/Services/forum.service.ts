@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Camping } from '../Models/Camping/camping';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ export class ForumService {
 
   constructor(
     private http: HttpClient,
+    private router: Router,
     private authService: AuthService,
     private snackbar: MatSnackBar
   ) {}
@@ -39,6 +41,8 @@ export class ForumService {
     } catch (error) {
       console.log('Error:', error);
       this.snackbar.open('Error while fetching Forums', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
         duration: 3000,
       });
       return [];
@@ -58,6 +62,8 @@ export class ForumService {
     } catch (error) {
       console.log(error);
       this.snackbar.open('Error while fetching Forum', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
         duration: 3000,
       });
       return Forum.empty();
@@ -86,9 +92,12 @@ export class ForumService {
     } catch (error) {
       console.log(error);
       this.snackbar.open('Error while adding Forum', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
         duration: 3000,
       });
     }
+    this.router.navigate(['/forums']);
   }
 
   public async updateForumOnServer(Forum: Forum): Promise<void> {
@@ -121,6 +130,8 @@ export class ForumService {
     } catch (error) {
       console.log(error);
       this.snackbar.open('Error while updating Forum', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
         duration: 3000,
       });
     }
@@ -208,6 +219,8 @@ export class ForumService {
     } catch (error) {
       console.log(error);
       this.snackbar.open('Error while adding Comment', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
         duration: 3000,
       });
     }
