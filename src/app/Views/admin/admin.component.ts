@@ -17,6 +17,7 @@ export class AdminComponent {
   route: string = this.router.url;
   view: string = 'dashboard';
   complaints: Complaint[] = [];
+  public complaint!: Complaint;
 
   constructor(
     private authService: AuthService,
@@ -29,6 +30,7 @@ export class AdminComponent {
     } else {
       this.router.navigate(['/']);
     }
+    this.complaint = this.complaintService.complaint;
   }
 
   ngOnInit() {
@@ -66,5 +68,15 @@ export class AdminComponent {
     });
 
     this.router.navigate(['/admin']);
+  }
+
+  public async fetchComplaintFromServer(complaintId: number) {
+    await this.complaintService
+      .fetchComplaintFromServer(complaintId)
+      .then((complaint) => {
+        this.complaint = complaint;
+        console.log('complaint', this.complaint);
+      });
+    this.complaintService.complaint = await this.complaint;
   }
 }

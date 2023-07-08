@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ComplaintService {
   public complaints!: Complaint[];
+  public complaint!: Complaint;
   public StaticComplaints: Complaint[] = [
     new Complaint(
       1,

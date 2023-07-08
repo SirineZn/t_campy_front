@@ -29,6 +29,7 @@ import { ErrorComponent } from './Views/error/error.component';
 import { PopupComponent } from './Components/popup/popup.component';
 import { ModalComponent } from './Components/modal/modal.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ComplaintComponent } from './Views/complaint/complaint.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { HttpClientModule } from '@angular/common/http';
     ErrorComponent,
     PopupComponent,
     ModalComponent,
+    ComplaintComponent,
   ],
   imports: [
     BrowserModule,

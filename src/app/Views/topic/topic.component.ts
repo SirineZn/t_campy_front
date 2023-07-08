@@ -1,4 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Comment } from 'src/app/Models/comment/comment.model';
 import { Forum } from 'src/app/Models/forum/forum.model';
@@ -22,16 +23,17 @@ export class TopicComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private forumService: ForumService
+    private forumService: ForumService,
+    private snackbar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     this.sub = this.activatedRoute.params.subscribe((params: Params) => {
       this.id = params['id'];
-      // this.forumService.fetchForumFromServer(this.id).then((forum) => {
-      //   this.forum = forum;
-      // });
-      this.forum = this.forumService.getForum(this.id);
+      this.forumService.fetchForumFromServer(this.id).then((forum) => {
+        this.forum = forum;
+      });
+      // this.forum = this.forumService.getForum(this.id);
     });
   }
 
@@ -83,7 +85,7 @@ export class TopicComponent implements OnInit {
       new Date()
     );
     // this.forumService.addCommentToServer(this.forum, newComment);
-    this.forumService.addComment(this.forum, newComment);
+    this.forumService.addCommentToForumOnServer(this.forum, newComment);
     this.comment = '';
   }
 

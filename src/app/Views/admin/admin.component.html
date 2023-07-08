@@ -74,14 +74,12 @@
                       <td>{{ complaint.message }}</td>
                       <td>{{ complaint.date }}</td>
                       <td>
-                        <button class="mx-1 btn btn-primary">View</button>
-                        <button
-                          data-bs-toggle="modal"
-                          data-bs-target="#complaintReplyModal"
-                          class="mx-1 btn btn-custom-blue-filled"
+                        <a
+                          [routerLink]="['/complaint', complaint.id]"
+                          class="mx-1 btn btn-primary"
                         >
-                          Reply
-                        </button>
+                          View
+                        </a>
                         <button
                           (click)="deleteComplaint(complaint.id)"
                           class="mx-1 btn btn-danger"

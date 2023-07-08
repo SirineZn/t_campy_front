@@ -8,12 +8,14 @@ import { AdminComponent } from './Views/admin/admin.component';
 import { LoginComponent } from './Views/Auth/login/login.component';
 import { RegisterComponent } from './Views/Auth/register/register.component';
 import { ErrorComponent } from './Views/error/error.component';
+import { ComplaintComponent } from './Views/complaint/complaint.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'forums', component: ForumComponent },
   { path: 'forums/:id', component: TopicComponent },
+  { path: 'complaint/:id', component: ComplaintComponent },
   { path: 'admin', component: AdminComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },

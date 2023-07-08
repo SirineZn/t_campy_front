@@ -48,9 +48,12 @@ export class ForumService {
   public async fetchForumFromServer(id: number): Promise<Forum> {
     try {
       return (
-        ((await this.http.get<Forum>(
-          'http://localhost:8089/forum/retrieve-forum/' + id
-        )) as unknown as Promise<Forum>) ?? Forum.empty()
+        ((await this.http
+          .get<Forum>('http://localhost:8089/forum/retrieve-forum/' + id)
+          .toPromise()
+          .then((forum: any) => {
+            return Forum.fromJson(forum);
+          })) as Forum) ?? Forum.empty()
       );
     } catch (error) {
       console.log(error);
@@ -61,11 +64,11 @@ export class ForumService {
     }
   }
 
-  public getForum(id: number): Forum {
-    return (
-      this.forums.find((t) => t.getId() === id.toString())! ?? Forum.empty()
-    );
-  }
+  // public getForum(id: number): Forum {
+  //   return (
+  //     this.forums.find((t) => t.getId() === id.toString())! ?? Forum.empty()
+  //   );
+  // }
 
   public getForums(): Forum[] {
     return this.forums ?? [];
@@ -180,17 +183,34 @@ export class ForumService {
     return Forum.getFeedbacks() ?? [];
   }
 
-  public async addCommentToServer(Forum: Forum, comment: Comment) {
-    this.http
-      .post<Forum>(
-        'http://localhost:8089/forum/assign-Feedback-To-Forum/' + Forum.getId(),
-        comment
-      )
-      .subscribe(async (forum: any) => {
-        (await this.forums)
-          .find((t) => t.getId() === forum.getId())
-          ?.addComment(comment);
+  public async addCommentToForumOnServer(Forum: Forum, comment: Comment) {
+    try {
+      await this.http
+        .post<Comment>(
+          'http://localhost:8089/Feedback/add-Feedback/' + Forum.getId(),
+          comment.toJson()
+        )
+        .toPromise()
+        .then(async (Forum: any) => {
+          await this.http
+            .put<Comment>(
+              'http://localhost:8089/forum/assign-Feedback-To-Forum/' +
+                Forum.getId() +
+                '/' +
+                comment.getId(),
+              comment.toJson()
+            )
+            .toPromise()
+            .then((comment: any) => {
+              this.forums.push(Forum.fromJson(Forum));
+            });
+        });
+    } catch (error) {
+      console.log(error);
+      this.snackbar.open('Error while adding Comment', 'Close', {
+        duration: 3000,
       });
+    }
   }
 
   public addComment(Forum: Forum, comment: Comment) {
