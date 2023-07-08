@@ -25,7 +25,6 @@ export class TopicComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private elementRef: ElementRef,
     private authService: AuthService,
     private router: Router,
     private forumService: ForumService,

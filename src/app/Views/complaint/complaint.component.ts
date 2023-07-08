@@ -2,6 +2,7 @@ import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Complaint } from 'src/app/Models/Complaint/complaint';
+import { User } from 'src/app/Models/User/user';
 import { AuthService } from 'src/app/Services/auth.service';
 import { ComplaintService } from 'src/app/Services/complaint.service';
 
@@ -20,6 +21,7 @@ export class ComplaintComponent {
   @ViewChild('popup') popup!: ElementRef;
 
   public comment!: string;
+  user!: User;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -30,20 +32,20 @@ export class ComplaintComponent {
   ) {}
 
   ngOnInit(): void {
-    if (this.authService.getUser() === null) {
-      this.router.navigate(['/']);
-    } else if (!this.authService.getUser().isAdmin()) {
-      this.router.navigate(['/']);
-    }
     this.sub = this.activatedRoute.params.subscribe((params: Params) => {
       this.id = params['id'];
       this.complaintService
         .fetchComplaintFromServer(this.id)
         .then((complaint) => {
           this.complaint = complaint;
-          console.log('complaint', this.complaint);
         });
     });
+    this.user = this.authService.getUser();
+    if (!this.user.isAdmin() || this.complaint.user_id != this.user.getId()) {
+      this.router.navigate(['/']);
+    } else if (!this.complaint) {
+      this.router.navigate(['/admin']);
+    }
   }
 
   public replyToComplaint(): void {

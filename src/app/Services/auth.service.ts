@@ -129,6 +129,7 @@ export class AuthService {
   }
 
   public getUser(): User {
+    this.setCurrentUser();
     return this.user;
   }
 

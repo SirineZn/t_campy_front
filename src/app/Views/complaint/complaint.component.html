@@ -20,14 +20,10 @@
       </div>
     </div>
     <div class="card-body">
-      <p class="p-2">Description</p>
+      <p class="p-2">{{ complaint.message }}</p>
       <p class="text-secondary lh-1">
         <span class="fw-bold">Created on:</span>
-        Date
-      </p>
-      <p class="text-secondary lh-1">
-        <span class="fw-bold">Category: </span>
-        category
+        {{ complaint.date.toUTCString() }}
       </p>
     </div>
     <div class="card-footer">
@@ -54,7 +50,7 @@
           </div>
         </div>
       </div>
-      <div
+      <div *ngIf="user.isAdmin()"
         class="d-flex align-items-center flex-row justify-content-between my-1"
       >
         <input

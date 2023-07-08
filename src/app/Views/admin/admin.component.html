@@ -62,7 +62,6 @@
                     <tr>
                       <th scope="col">ID #</th>
                       <th scope="col">Objet</th>
-                      <th scope="col">Message</th>
                       <th scope="col">Date</th>
                       <th scope="col">Actions</th>
                     </tr>
@@ -71,8 +70,7 @@
                     <tr *ngFor="let complaint of complaints">
                       <th scope="row">{{ complaint.id }}</th>
                       <td class="fw-bold">{{ complaint.object }}</td>
-                      <td>{{ complaint.message }}</td>
-                      <td>{{ complaint.date }}</td>
+                      <td>{{ complaint.date.toUTCString() }}</td>
                       <td>
                         <a
                           [routerLink]="['/complaint', complaint.id]"

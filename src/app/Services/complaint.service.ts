@@ -128,11 +128,14 @@ export class ComplaintService {
 
   public async fetchComplaintFromServer(id: number): Promise<Complaint> {
     try {
-      return (
-        ((await this.http.get<Complaint>(
+      return (this.complaint = await this.http
+        .get<Complaint>(
           'http://localhost:8089/Complaint/retrieve-Complaint/' + id
-        )) as unknown as Promise<Complaint>) ?? Complaint.empty()
-      );
+        )
+        .toPromise()
+        .then((complaint: any) => {
+          return Complaint.fromJson(complaint);
+        }));
     } catch (error) {
       console.log(error);
       this.snackbar.open('Error while fetching Complaint', 'Close', {
