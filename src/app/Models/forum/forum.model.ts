@@ -72,10 +72,6 @@ export class Forum {
     return forums;
   }
 
-  arrayToString(array: any[]): String {
-    return '';
-  }
-
   public toJson(): any {
     return {
       id: this.id,
@@ -211,5 +207,9 @@ export class Forum {
 
   public static empty(): Forum {
     return new Forum('0', '', '', new Date(), '', '', 0, 0, '', '', [], []);
+  }
+
+  public tagsToArray(): string[] {
+    return this.getTags().split(',');
   }
 }

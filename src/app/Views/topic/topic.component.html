@@ -56,11 +56,14 @@
         <span class="fw-bold">Category: </span>
         {{ forum.getCategory() }}
       </p>
-      <div class="d-flex">
+      <div *ngIf="forum.tagsToArray().length != 0" class="d-flex">
         <p class="text-secondary lh-1">Tags:</p>
-        <div *ngFor="let tag of forum.getTags()">
+        <div *ngFor="let tag of forum.tagsToArray()">
           <app-topic-pill tag="{{ tag }}"></app-topic-pill>
         </div>
+      </div>
+      <div *ngIf="forum.tagsToArray().length == 0">
+        <p>Tags: No tags yet</p>
       </div>
     </div>
     <div class="card-footer">
