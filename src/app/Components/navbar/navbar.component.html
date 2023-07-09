@@ -12,7 +12,21 @@
       <a class="p-1 fw-bold text-dark nav-link" routerLink="/">Home</a>
       <a class="p-1 fw-bold text-dark nav-link" routerLink="/forums">Forums</a>
       <a class="p-1 fw-bold text-dark nav-link" routerLink="">About</a>
-      <a *ngIf="isAdmin()" class="p-1 fw-bold custom-blue nav-link" routerLink="/admin">Dashboard</a>
+      <a
+        *ngIf="isAdmin()"
+        class="p-1 fw-bold custom-blue nav-link"
+        routerLink="/admin"
+        >Dashboard</a
+      >
+      <a
+        matBadge="{{ notifCount }}"
+        matBadgeColor="warn"
+        matBadgeHidden="{{ hidden }}"
+        class="p-1 fw-bold text-dark nav-link"
+        routerLink=""
+      >
+        <i class="bi bi-bell-fill"></i>
+      </a>
     </div>
     <!-- The Authentication block: TODO -->
     <div *ngIf="!isLogged" class="d-flex mx-2">
@@ -31,8 +45,9 @@
       <button
         class="p-1 btn btn-custom-blue fw-bold custom-blue mx-1"
         (click)="logout()"
-        >logout</button
       >
+        logout
+      </button>
     </div>
   </div>
 </nav>

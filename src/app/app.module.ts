@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatBadgeModule } from '@angular/material/badge';
 
 import { AppComponent } from './app.component';
 import { ForumComponent } from './Views/forum/forum.component';
@@ -66,6 +67,7 @@ import { LoadingInterceptor } from './Interceptors/loading.interceptor';
     MatSidenavModule,
     MatMenuModule,
     MatSnackBarModule,
+    MatBadgeModule,
     HttpClientModule,
     ReactiveFormsModule,
   ],
