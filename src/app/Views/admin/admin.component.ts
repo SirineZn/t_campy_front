@@ -53,7 +53,6 @@ export class AdminComponent {
       this.view = 'complaints';
       this.complaintService.fetchComplaintsFromServer().then((complaints) => {
         this.complaints = complaints;
-        console.log('complaints', this.complaints);
       });
     } else {
       this.view = 'dashboard';

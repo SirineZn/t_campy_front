@@ -68,6 +68,5 @@ export class ComplaintComponent {
       });
     }
     this.reply = '';
-    this.router.navigate(['/admin']);
   }
 }
