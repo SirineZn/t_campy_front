@@ -28,8 +28,10 @@ import { RegisterComponent } from './Views/Auth/register/register.component';
 import { ErrorComponent } from './Views/error/error.component';
 import { PopupComponent } from './Components/popup/popup.component';
 import { ModalComponent } from './Components/modal/modal.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ComplaintComponent } from './Views/complaint/complaint.component';
+import { SpinnerComponent } from './Components/spinner/spinner.component';
+import { LoadingInterceptor } from './Interceptors/loading.interceptor';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,7 @@ import { ComplaintComponent } from './Views/complaint/complaint.component';
     PopupComponent,
     ModalComponent,
     ComplaintComponent,
+    SpinnerComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,7 +69,13 @@ import { ComplaintComponent } from './Views/complaint/complaint.component';
     HttpClientModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
