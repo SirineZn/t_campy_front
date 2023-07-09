@@ -31,10 +31,24 @@ export class NavbarComponent {
 
   constructor(private router: Router, private authService: AuthService) {
     this.routerlink = router;
+  }
+
+  ngOnInit(): void {
+    this.routerlink.events.subscribe((val) => {
+      if (this.notifications.length == 0) {
+        this.hidden = true;
+      } else {
+        this.hidden = false;
+      }
+    });
+  }
+
+  deleteNotification(id: number) {
+    this.notifications = this.notifications.filter(
+      (notification) => notification.id != id
+    );
     if (this.notifications.length == 0) {
       this.hidden = true;
-    } else {
-      this.hidden = false;
     }
   }
 

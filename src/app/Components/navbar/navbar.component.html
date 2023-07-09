@@ -18,15 +18,15 @@
         routerLink="/admin"
         >Dashboard</a
       >
-      <a
+      <button
         matBadge="{{ notifications.length }}"
         matBadgeColor="warn"
         matBadgeHidden="{{ hidden }}"
-        class="p-1 fw-bold text-dark nav-link"
-        routerLink=""
+        (click)="toggleBadgeVisibility()"
+        class="p-1 fw-bold text-dark btn"
       >
         <i class="bi bi-bell-fill"></i>
-      </a>
+      </button>
     </div>
     <!-- The Authentication block: TODO -->
     <div *ngIf="!isLogged" class="d-flex mx-2">

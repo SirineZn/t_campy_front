@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Camping } from '../Models/Camping/camping';
 import { Router } from '@angular/router';
+import { take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -94,9 +95,8 @@ export class ForumService {
     try {
       await this.http
         .post<Forum>('http://localhost:8089/forum/add-forum', forum.toJson())
-        .toPromise()
-        .then((forum: any) => {
-          this.forums.push(Forum.fromJson(forum));
+        .subscribe(async (forum: any) => {
+          (await this.forums).push(Forum.fromJson(forum));
         });
     } catch (error) {
       console.log(error);
@@ -194,7 +194,9 @@ export class ForumService {
     } catch (error) {
       console.log(error);
     }
-    this.refreshPage();
+    this.router.navigate(['/forums']).then(() => {
+      this.refreshPage();
+    });
   }
 
   public async getForumById(id: string): Promise<Forum> {
@@ -209,13 +211,17 @@ export class ForumService {
     try {
       await this.http
         .post<Forum>(
-          'http://localhost:8089/Feedback/add-Feedback/' + forum.getId(),
+          'http://localhost:8089/forum/assign-Feedback-To-Forum/' +
+            forum.getId() +
+            '/' +
+            comment.getId(),
           comment.toJson()
         )
         .subscribe(async (Forum: any) => {
           (await this.forums)
             .find((t) => t.getId() === Forum.getId())!
-            .addComment(Comment.fromJson(Forum));
+            .getFeedbacks()
+            .push(Comment.fromJson(Forum));
         });
     } catch (error) {
       console.log(error);
@@ -271,20 +277,65 @@ export class ForumService {
   }
 
   public async unLikeForum(Forum: Forum) {
-    Forum.unLike();
-    await this.http.put<Forum>(
-      'http://localhost:8089/forum/unlike-forum/' + Forum.getId(),
-      Forum.toJson()
-    );
+    try {
+      Forum.unLike();
+      await this.http
+        .put<Forum>(
+          'http://localhost:8089/forum/unlike-forum/' + Forum.getId(),
+          Forum.toJson()
+        )
+        .subscribe(async (Forum: any) => {
+          (await this.forums)
+            .find((t) => t.getId() === Forum.getId())!
+            .getLikes();
+          (await this.forums)
+            .find((t) => t.getId() === Forum.getId())!
+            .getDislikes();
+          (await this.forums)
+            .find((t) => t.getId() === Forum.getId())!
+            .getFeedbacks();
+        });
+      this.snackbar.open('Forum unliked', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+    } catch (error) {
+      this.snackbar.open('Error while unliking Forum', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+    }
     this.refreshPage();
   }
 
   public async unDislikeForum(Forum: Forum) {
-    Forum.unDislike();
-    await this.http.put<Forum>(
-      'http://localhost:8089/forum/undislike-forum/' + Forum.getId(),
-      Forum.toJson()
-    );
+    try {
+      Forum.unDislike();
+      await this.http
+        .put<Forum>(
+          'http://localhost:8089/forum/undislike-forum/' + Forum.getId(),
+          Forum.toJson()
+        )
+        .subscribe(async (Forum: any) => {
+          (await this.forums)
+            .find((t) => t.getId() === Forum.getId())!
+            .getLikes();
+          (await this.forums)
+            .find((t) => t.getId() === Forum.getId())!
+            .getDislikes();
+          (await this.forums)
+            .find((t) => t.getId() === Forum.getId())!
+            .getFeedbacks();
+        });
+    } catch (error) {
+      this.snackbar.open('Error while undisliking Forum', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+    }
     this.refreshPage();
   }
 
@@ -293,20 +344,64 @@ export class ForumService {
   }
 
   public async likeForum(forum: Forum) {
-    forum.like();
-    await this.http.put<Forum>(
-      'http://localhost:8089/forum/add-like-Forum/' + forum.getId(),
-      forum.toJson()
-    );
+    try {
+      forum.like();
+      await this.http
+        .put<Forum>(
+          'http://localhost:8089/forum/add-like-Forum/' + forum.getId(),
+          forum.toJson()
+        )
+        .subscribe(async (forum: any) => {
+          (await this.forums)
+            .find((t) => t.getId() === forum.getId())!
+            .getLikes();
+          (await this.forums)
+            .find((t) => t.getId() === forum.getId())!
+            .getDislikes();
+          (await this.forums)
+            .find((t) => t.getId() === forum.getId())!
+            .getFeedbacks();
+          this.snackbar.open('Forum liked', 'Close', {
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            duration: 3000,
+          });
+        });
+    } catch (error) {
+      this.snackbar.open('Error while liking Forum', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+    }
     this.refreshPage();
   }
 
   public async dislikeForum(forum: Forum) {
-    forum.dislike();
-    await this.http.put<Forum>(
-      'http://localhost:8089/forum/add-dislike-Forum/' + forum.getId(),
-      forum.toJson()
-    );
+    try {
+      forum.dislike();
+      await this.http
+        .put<Forum>(
+          'http://localhost:8089/forum/add-dislike-Forum/' + forum.getId(),
+          forum.toJson()
+        )
+        .subscribe(async (forum: any) => {
+          (await this.forums)
+            .find((t) => t.getId() === forum.getId())!
+            .getLikes();
+          (await this.forums)
+            .find((t) => t.getId() === forum.getId())!
+            .getDislikes();
+          (await this.forums)
+            .find((t) => t.getId() === forum.getId())!
+            .getFeedbacks();
+          this.snackbar.open('Forum disliked', 'Close', {
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            duration: 3000,
+          });
+        });
+    } catch (error) {}
     this.refreshPage();
   }
 

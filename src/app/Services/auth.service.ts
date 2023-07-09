@@ -6,12 +6,9 @@ import { User } from '../Models/User/user';
 })
 export class AuthService {
   public user!: User;
+  notifications: Notification[] = [];
 
   constructor() {}
-
-  getNotifCount(): number {
-    return 0;
-  }
 
   public isAuthenticated(): boolean {
     return !!localStorage.getItem('token');

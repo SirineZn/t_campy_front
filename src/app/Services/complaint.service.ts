@@ -46,16 +46,16 @@ export class ComplaintService {
 
   public async fetchComplaintsFromServer(): Promise<Complaint[]> {
     try {
-      return (this.complaints = await this.http
+      await this.http
         .get<Complaint[]>(
           'http://localhost:8089/Complaint/retrieve-all-Complaints'
         )
-        .toPromise()
-        .then((complaints: any) => {
-          return complaints.map((complaint: any) => {
-            return Complaint.fromJson(complaint);
-          });
-        }));
+        .subscribe((complaints: any) => {
+          this.complaints = complaints.map((complaint: any) =>
+            Complaint.fromJson(complaint)
+          );
+        });
+      return this.complaints;
     } catch (error) {
       console.log('Error:', error);
       this.snackbar.open('Error while fetching Complaints', 'Close', {
@@ -131,14 +131,14 @@ export class ComplaintService {
 
   public async fetchComplaintFromServer(id: number): Promise<Complaint> {
     try {
-      return (this.complaint = await this.http
+      await this.http
         .get<Complaint>(
           'http://localhost:8089/Complaint/retrieve-Complaint/' + id
         )
-        .toPromise()
-        .then((complaint: any) => {
-          return Complaint.fromJson(complaint);
-        }));
+        .subscribe((complaint: any) => {
+          this.complaint = Complaint.fromJson(complaint);
+        });
+      return this.complaint;
     } catch (error) {
       console.log(error);
       this.snackbar.open('Error while fetching Complaint', 'Close', {
