@@ -85,6 +85,7 @@ export class ComplaintService {
         duration: 3000,
       });
     }
+    this.refreshPage();
   }
 
   public async deleteComplaintFromServer(id: number) {
@@ -104,6 +105,7 @@ export class ComplaintService {
         duration: 3000,
       });
     }
+    this.refreshPage();
   }
 
   public async updateComplaintFromServer(complaint: Complaint) {
@@ -124,6 +126,7 @@ export class ComplaintService {
         duration: 3000,
       });
     }
+    this.refreshPage();
   }
 
   public async fetchComplaintFromServer(id: number): Promise<Complaint> {
@@ -145,5 +148,9 @@ export class ComplaintService {
       });
       return Complaint.empty();
     }
+  }
+
+  refreshPage() {
+    window.location.reload();
   }
 }
