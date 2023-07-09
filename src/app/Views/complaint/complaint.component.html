@@ -30,10 +30,16 @@
       <div class="d-flex align-items-center flex-row justify-content-between">
         <p class="h5 fw-bold">Reply:</p>
       </div>
-      <div class="card-body" *ngIf="complaint.reponse == '' || complaint.reponse == null">
+      <div
+        class="card-body"
+        *ngIf="complaint.reponse == '' || complaint.reponse == null"
+      >
         <p>No replies yet</p>
       </div>
-      <div class="align-items-center w-100 p-3 border rounded bg-white" *ngIf="complaint.reponse != ''">
+      <div
+        class="align-items-center w-100 p-3 border rounded bg-white"
+        *ngIf="complaint.reponse != ''"
+      >
         <div class="d-flex align-items-center flex-row justify-content-between">
           <div class="d-flex align-items-center justify-content-center">
             <div class="d-flex flex-column align-items-center">
@@ -50,7 +56,8 @@
           </div>
         </div>
       </div>
-      <div *ngIf="user.isAdmin()"
+      <div
+        *ngIf="user.isAdmin()"
         class="d-flex align-items-center flex-row justify-content-between my-1"
       >
         <input

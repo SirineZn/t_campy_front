@@ -111,7 +111,7 @@ export class ForumService {
 
   public async updateForumOnServer(Forum: Forum): Promise<void> {
     try {
-      this.http
+      await this.http
         .put<Forum>(
           'http://localhost:8089/forum/update-forum/' + Forum.getId(),
           Forum.toJson()
@@ -181,7 +181,7 @@ export class ForumService {
 
   public async deleteForumFromServer(forum: Forum) {
     try {
-      this.http
+      await this.http
         .delete<Forum>(
           'http://localhost:8089/forum/delete-forum/' + forum.getId()
         )
@@ -207,7 +207,7 @@ export class ForumService {
 
   public async addCommentToForumOnServer(forum: Forum, comment: Comment) {
     try {
-      this.http
+      await this.http
         .post<Forum>(
           'http://localhost:8089/Feedback/add-Feedback/' + forum.getId(),
           comment.toJson()
@@ -234,7 +234,7 @@ export class ForumService {
 
   public async updateCommentOnServer(Forum: Forum, comment: Comment) {
     try {
-      this.http
+      await this.http
         .put<Forum>(
           'http://localhost:8089/Feedback/update-Feedback/' +
             Forum.getId() +
@@ -322,7 +322,7 @@ export class ForumService {
 
   public async deleteCommentFromServer(forum: Forum, comment: Comment) {
     try {
-      this.http
+      await this.http
         .delete<Forum>(
           'http://localhost:8089/Feedback/delete-Feedback/' +
             forum.getId() +

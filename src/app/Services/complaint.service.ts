@@ -69,7 +69,7 @@ export class ComplaintService {
 
   public async addComplaintToServer(complaint: Complaint) {
     try {
-      this.http
+      await this.http
         .post(
           'http://localhost:8089/Complaint/add-Complaint',
           complaint.toJson()
@@ -90,7 +90,7 @@ export class ComplaintService {
 
   public async deleteComplaintFromServer(id: number) {
     try {
-      this.http
+      await this.http
         .delete('http://localhost:8089/Complaint/delete-Complaint/' + id)
         .subscribe((data) => {
           this.fetchComplaintsFromServer().then((complaints) => {
@@ -110,7 +110,7 @@ export class ComplaintService {
 
   public async updateComplaintFromServer(complaint: Complaint) {
     try {
-      this.http
+      await this.http
         .put(
           'http://localhost:8089/Complaint/update-Complaint/' + complaint.id,
           complaint.toJson()
