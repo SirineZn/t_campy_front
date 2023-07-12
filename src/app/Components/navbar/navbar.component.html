@@ -21,21 +21,13 @@
       <button
         matBadge="{{ notifications.length }}"
         matBadgeColor="warn"
-<<<<<<< HEAD
-        matBadgeHidden="{{ hidden }}"
-        (click)="toggleBadgeVisibility()"
-        class="p-1 fw-bold text-dark btn"
-=======
-        matBadgeHidden="false"
+        matBadgeHidden="true"
         matBadgeSize="small"
         class="p-1 fw-bold text-dark nav-link"
-        routerLink=""
->>>>>>> 1f68c4b90e63cacc5bd9dd13bba014c299f5dc8c
       >
         <i class="bi bi-bell-fill"></i>
       </button>
     </div>
-    <!-- The Authentication block: TODO -->
     <div *ngIf="!isLogged" class="d-flex mx-2">
       <a
         class="p-1 btn btn-custom-blue custom-blue fw-bold mx-1"
