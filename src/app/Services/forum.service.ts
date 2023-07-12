@@ -96,12 +96,10 @@ export class ForumService {
   }
 
   public async addForumToServer(forum: Forum): Promise<void> {
-    console.log(forum.toJson());
     try {
       await this.http
         .post<Forum>('http://localhost:8089/forum/add-forum', forum.toJson())
-        .toPromise()
-        .then((forum: any) => {
+        .subscribe((forum: any) => {
           this.forums.push(Forum.fromJson(forum));
         });
     } catch (error) {

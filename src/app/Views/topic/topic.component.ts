@@ -45,6 +45,9 @@ export class TopicComponent implements OnInit {
       // this.forum = this.forumService.getForum(this.id);
     });
     this.user = this.authService.getUser();
+    this.title = this.forum.getTitle();
+    this.description = this.forum.getDescription();
+    this.category = this.forum.getCategory();
   }
 
   public deleteForumFromServer() {
