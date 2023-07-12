@@ -47,7 +47,9 @@
       </div>
     </div>
     <div class="card-body">
-      <p class="p-2">{{ forum.getDescription() }}</p>
+      <p class="py-2 text-secondary lh-1">
+        <span class="fw-bold">Description:</span> {{ forum.getDescription() }}
+      </p>
       <p class="text-secondary lh-1">
         <span class="fw-bold">Created on:</span>
         {{ forum.getDate() }}
@@ -67,9 +69,8 @@
       </div>
     </div>
     <div class="card-footer">
-      <div class="d-flex align-items-center flex-row justify-content-between">
-        <p class="h5 fw-bold">Comments:</p>
-        <p>{{ forum.getFeedbacks().length }}</p>
+      <div class="d-flex align-items-center flex-row">
+        <p class="h5 fw-bold"><span *ngIf="forum.getFeedbacks().length != 0">{{ forum.getFeedbacks().length }}</span> Comments:</p>
       </div>
       <div class="card-body" *ngIf="forum.getFeedbacks().length == 0">
         <p>No comments yet</p>

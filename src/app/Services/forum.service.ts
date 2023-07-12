@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class ForumService {
   public forums!: Forum[];
   Forum!: Forum;
+  public tags!: string[];
 
   public Categories: string[] = [
     'Camping',
@@ -35,8 +36,12 @@ export class ForumService {
       (forums) => (this.forums = forums ? forums : [])
     );
     // this.getForums();
+    this.tags = ['Camping', 'Product Reviews', 'Places to Visit'];
   }
 
+  getTags(): string[] {
+    return this.tags;
+  }
   public async fetchForumsFromServer(): Promise<Forum[]> {
     try {
       return (this.forums = await this.http
