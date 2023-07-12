@@ -81,7 +81,7 @@ export class TopicComponent implements OnInit {
       return;
     }
     let newComment = new Comment(
-      this.forum.getFeedbacks().length,
+      this.forum.getFeedbacks().length + 1,
       comment,
       'neutral',
       1,
