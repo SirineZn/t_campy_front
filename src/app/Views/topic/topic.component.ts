@@ -22,6 +22,8 @@ export class TopicComponent implements OnInit {
   @ViewChild('popup') popup!: ElementRef;
 
   public comment!: string;
+  public comments!: Comment[];
+  public commentsCount!: number;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -64,7 +66,9 @@ export class TopicComponent implements OnInit {
   }
 
   public getFeedbacks() {
-    return this.forum.getFeedbacks();
+    return this.forum.getFeedbacks().filter((feedback) => {
+      return feedback.getCreatedAt() <= new Date().toUTCString();
+    });
   }
 
   public getForum() {
@@ -77,11 +81,15 @@ export class TopicComponent implements OnInit {
 
   public addComment(comment: string) {
     comment = comment.trim();
+
     if (!comment) {
       return;
     }
+    this.forumService.getFeedbacksCountFromServer().then((id) => {
+      this.commentsCount = id;
+    });
     let newComment = new Comment(
-      this.forum.getFeedbacks().length + 1,
+      this.commentsCount + 1,
       comment,
       'neutral',
       1,

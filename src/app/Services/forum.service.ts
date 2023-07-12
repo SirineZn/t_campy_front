@@ -14,6 +14,7 @@ export class ForumService {
   public forums!: Forum[];
   Forum!: Forum;
   public tags!: string[];
+  public comments!: Comment[];
 
   public Categories: string[] = [
     'Camping',
@@ -359,21 +360,25 @@ export class ForumService {
 
   public async getRecentForums(): Promise<Forum[]> {
     return (await this.forums).sort((a, b) => {
-      return b.getCreationDate().getTime() - a.getCreationDate().getTime() ?? 0;
+      return (
+        new Date(b.getCreationDate()).getTime() -
+        new Date(a.getCreationDate()).getTime()
+      );
     });
   }
 
   public async getPopularForums(): Promise<Forum[]> {
     return (await this.forums).sort((a, b) => {
-      return b.getLikes() - a.getLikes() ?? 0;
+      return b.getLikes() - a.getLikes();
     });
   }
 
   public async getUnansweredForums(): Promise<Forum[]> {
-    return (
-      (await this.forums).filter(
-        (forum) => forum.getFeedbacks().length === 0
-      ) ?? []
+    this.fetchForumsFromServer().then((forums) => {
+      this.forums = forums;
+    });
+    return (await this.forums).filter(
+      (forum) => forum.getFeedbacks().length === 0
     );
   }
 
@@ -385,5 +390,48 @@ export class ForumService {
 
   refreshPage() {
     window.location.reload();
+  }
+
+  public async getFeedbacksFromServer(): Promise<Comment[]> {
+    try {
+      await this.http
+        .get<Comment[]>('http://localhost:8089/Feedback/retrieve-all-feedbacks')
+        .subscribe((comments: any) => {
+          this.comments = comments;
+        });
+      return this.comments;
+    } catch (error) {
+      console.log(error);
+      this.snackbar.open('Error while fetching Comments', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return [];
+    }
+  }
+
+  public async getFeedbacksCountFromServer(): Promise<number> {
+    let commentsCount = 0;
+    try {
+      await this.http
+        .get<number>(
+          'http://localhost:8089/Feedback/retrieve-all-feedbacks-count'
+        )
+        .subscribe((comments: any) => {
+          for (let i = 0; i < Comment.fromJsonArray(comments).length; i++) {
+            commentsCount++;
+          }
+        });
+      return commentsCount;
+    } catch (error) {
+      console.log(error);
+      this.snackbar.open('Error while fetching Comments', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return 0;
+    }
   }
 }
