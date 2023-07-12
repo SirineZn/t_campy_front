@@ -434,4 +434,28 @@ export class ForumService {
       return 0;
     }
   }
+
+  public async editForumOnServer(forum: Forum) {
+    try {
+      await this.http
+        .put<Forum>(
+          'http://localhost:8089/forum/update-forum/' + forum.getId(),
+          forum.toJson()
+        )
+        .subscribe(async (forum: any) => {
+          (await this.forums).splice(
+            (await this.forums).findIndex((t) => t.getId() === forum.getId()),
+            1,
+            Forum.fromJson(forum)
+          );
+        });
+    } catch (error) {
+      console.log(error);
+      this.snackbar.open('Error while updating Forum', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+    }
+  }
 }
